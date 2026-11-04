@@ -394,7 +394,7 @@ The `.glass` class is defined in `globals.css` — `background: rgba(255,255,255
 
 Vercel deploys production from **`main`**: a push to `main` is a release, live in about
 90 seconds. Settled on 2026-10-15 from GitHub's deployment records (`gh api
-repos/andreazignoli/pyoxynet-website/deployments`), where every production deployment is a
+repos/oxynet-cpet/pyoxynet-website/deployments`), where every production deployment is a
 `main` commit; `579ba5b` went live that way. The project was originally wired to `next`,
 which is stale and deploys nothing.
 

@@ -54,7 +54,7 @@ export const LINKS = {
   dataAgreement: '/data-agreement',
   pypi: 'https://pypi.org/project/pyoxynet/',
   pyoxynetDocs: 'https://pyoxynet.readthedocs.io/en/latest/index.html',
-  pyoxynetRepo: 'https://github.com/andreazignoli/pyoxynet',
+  pyoxynetRepo: 'https://github.com/oxynet-cpet/pyoxynet',
 } as const
 
 /**

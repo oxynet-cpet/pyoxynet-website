@@ -40,7 +40,7 @@ export function Footer() {
                 { label: 'Agent guide (llms.txt)', href: 'https://app.oxynet.net/llms.txt' },
                 { label: 'Python package (PyPI)', href: 'https://pypi.org/project/pyoxynet/' },
                 { label: 'pyoxynet docs', href: 'https://pyoxynet.readthedocs.io/en/latest/index.html' },
-                { label: 'GitHub repository', href: 'https://github.com/andreazignoli/pyoxynet' },
+                { label: 'GitHub repository', href: 'https://github.com/oxynet-cpet/pyoxynet' },
               ].map((link) => (
                 <li key={link.label}>
                   <a

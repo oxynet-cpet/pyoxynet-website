@@ -148,7 +148,7 @@ export default function PythonPage() {
             ['Python', `${PYOXYNET.python}; Windows, Linux, macOS (Apple silicon)`],
             ['Models', 'CNN (default, evaluated in Keir et al., Sports Medicine 2026) and LSTM; frozen'],
             ['Licence', PYOXYNET.license],
-            ['Source', <a key="s" href={LINKS.pyoxynetRepo} className="text-accent hover:underline">github.com/andreazignoli/pyoxynet</a>],
+            ['Source', <a key="s" href={LINKS.pyoxynetRepo} className="text-accent hover:underline">github.com/oxynet-cpet/pyoxynet</a>],
             ['Documentation', <a key="d" href={LINKS.pyoxynetDocs} className="text-accent hover:underline">pyoxynet.readthedocs.io</a>],
           ]}
         />

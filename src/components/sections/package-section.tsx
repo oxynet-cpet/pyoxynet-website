@@ -132,7 +132,7 @@ export async function PackageSection() {
             </Button>
             <Button size="lg" variant="outline" asChild>
               <a
-                href="https://github.com/andreazignoli/pyoxynet"
+                href="https://github.com/oxynet-cpet/pyoxynet"
                 target="_blank"
                 rel="noopener noreferrer"
               >
