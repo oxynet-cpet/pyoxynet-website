@@ -9,7 +9,7 @@ export const CODE_EXAMPLES = {
   install_git: {
     lang: 'sh',
     filename: 'terminal',
-    code: 'pip install git+https://github.com/andreazignoli/pyoxynet.git#subdirectory=pyoxynet',
+    code: 'pip install git+https://github.com/oxynet-cpet/pyoxynet.git#subdirectory=pyoxynet',
   },
   basic_usage: {
     lang: 'python',
