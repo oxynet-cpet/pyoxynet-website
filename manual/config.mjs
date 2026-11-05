@@ -15,8 +15,8 @@
 import { groupedPublications } from './publications.mjs'
 import { VENDOR_FORMATS } from './generated/registry.mjs'
 
-export const VERSION = '2.2'
-export const DATE = 'October 2026'
+export const VERSION = '2.2.1'
+export const DATE = 'November 2026'
 
 export const ENGINE = {
   api: 'v1',
@@ -72,6 +72,8 @@ export const OUTPUT = {
 }
 
 export const CHANGELOG = [
+  ['2.2.1', 'November 2026',
+    'The caption on the substrate page cited Jeukendrup and Wallis as 2001; the paper is 2005 (Int J Sports Med 26 Suppl 1:S28-S37). The publications page follows the site and now dates the European Journal of Sport Science paper by its issue, 2022, as the site has since 29 October. No other change.'],
   ['2.2', 'October 2026',
     'The assistant tools now run one analysis each: analyze_vt, analyze_eov and analyze_substrate replace analyze_cpet, which took a list, so the lifecycle code and the agent transcript name them. The REST API is unchanged. No other change.'],
   ['2.1', 'September 2026',

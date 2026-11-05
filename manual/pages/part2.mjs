@@ -303,7 +303,7 @@ export function substrateRight() {
       <p style="font-size:14px;line-height:1.6;margin:0">Gross efficiency was refused outright. It is mechanical work over metabolic energy and this export carries no work rate. Watts could be back-calculated from oxygen uptake, but only by assuming the efficiency the calculation is meant to measure, so the engine declines instead of returning a circular number.</p>
     </div>
     <div style="margin-top:14px">${callout(`One more caveat rides in the response and belongs in any report built on it: these windows are clock bins on a ramp, not steady-state stages. Nothing settled, so FATMAX reads high and is not comparable with a value from a graded test. Every window in the response is marked <span class="mono" style="font-size:11.5px">settled: false</span>, and the summary metric reports the same thing as <span class="mono" style="font-size:11.5px">steady_state</span>, so the caveat travels with the number.`)}</div>
-    <p class="cap" style="margin-top:12px">Method: fat and carbohydrate rates from Frayn (1983) and Jeukendrup and Wallis (2001), assuming negligible protein oxidation; energy at 9.75 and 4.18 kcal per gram. FATMAX is the peak of a cubic through the origin fitted after Achten and Jeukendrup, a fitted turning point that carries no confidence.</p>
+    <p class="cap" style="margin-top:12px">Method: fat and carbohydrate rates from Frayn (1983) and Jeukendrup and Wallis (2005), assuming negligible protein oxidation; energy at 9.75 and 4.18 kcal per gram. FATMAX is the peak of a cubic through the origin fitted after Achten and Jeukendrup, a fitted turning point that carries no confidence.</p>
     `
 
   return page({ id: 'p20', body: rh('2.5 Substrate use and FATMAX') + wide(main) + folio('20') })

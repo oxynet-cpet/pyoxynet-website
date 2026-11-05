@@ -51,7 +51,7 @@ export const CAPABILITIES: Capability[] = [
     what: 'Fat and carbohydrate oxidation by indirect calorimetry, FATMAX, the crossover to carbohydrate, and gross efficiency.',
     inputs: 'V̇O₂ and V̇CO₂. A work-rate channel adds a wattage axis and gross efficiency; without one it runs against %V̇O₂peak.',
     output: 'Windowed oxidation rates, FATMAX (a fitted turning point, not a measured sample), crossover, efficiency, and flags.',
-    evidence: 'Standard stoichiometry (Frayn 1983; Jeukendrup and Wallis 2001), with the equations returned in the response.',
+    evidence: 'Standard stoichiometry (Frayn 1983; Jeukendrup and Wallis 2005), with the equations returned in the response.',
     limits: 'Above RER 1.0 the fat rate is an upper bound, not a measurement. A ramp never reaches steady state, so FATMAX reads high and is not comparable with a graded test. Both are flagged.',
     call: 'POST /v1/cpet/{id}/analyze  {"analyses": ["substrate"]}  (or the substrate_summary metric)',
   },
