@@ -5,6 +5,7 @@
     "source_file": "public/test_data.json, de-identified (id, file, path and user fields removed)",
     "cohort": "Exercise Threshold App (lab_11)",
     "taken": "2026-09-04",
+    "substrate_rechecked": "2026-11-05 on v77: the same file gives the same substrate numbers; the citation in substrate.method now reads 2005, as the API returns it. The rest of the recording stands as taken.",
     "how_to_refresh": "See manual/README.md. Upload data/reference-test.json through create_upload, then analyze_cpet and compute_metrics, and paste the responses back here. Do not hand-edit the numbers.",
     "note": "The thresholds stored in the source export (LT 1540, RCP 1940 mL/min) were set by the clinician who ran the test and were not shown to the model."
   },
@@ -132,7 +133,7 @@
       { "code": "rer_above_one", "severity": "warning", "detail": "6 of 12 windows sit above RER 1.0, where exhaled CO2 includes a non-metabolic part from buffering the metabolic acidosis. The stoichiometry does not hold there, so the fat rate at those intensities is an upper bound that reads low and can read negative, not a measurement." }
     ],
     "method": [
-      "Fat (g/min) = 1.695 × VO2 − 1.701 × VCO2, carbohydrate (g/min) = 4.585 × VCO2 − 3.226 × VO2, both with the gases in L/min (Frayn 1983; Jeukendrup and Wallis 2001), assuming protein oxidation is negligible.",
+      "Fat (g/min) = 1.695 × VO2 − 1.701 × VCO2, carbohydrate (g/min) = 4.585 × VCO2 − 3.226 × VO2, both with the gases in L/min (Frayn 1983; Jeukendrup and Wallis 2005), assuming protein oxidation is negligible.",
       "Energy from each: 9.75 kcal per gram of fat and 4.18 kcal per gram of carbohydrate.",
       "FATMAX is the peak of a cubic through the origin fitted to the fat rate against the axis shown (Achten and Jeukendrup). It is a fitted turning point, not a measured sample, and it carries no confidence."
     ],
