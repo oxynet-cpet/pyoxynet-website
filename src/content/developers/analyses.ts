@@ -98,10 +98,10 @@ export const CAPABILITIES: Capability[] = [
   {
     name: 'Alternative threshold engine',
     status: 'research',
-    what: 'A second threshold model offered as a second opinion.',
+    what: 'A second threshold model that first asks whether each threshold is in the test at all, offered as a second opinion.',
     inputs: 'As for thresholds.',
-    output: 'VT1 and VT2.',
-    evidence: 'Built and checked on a single group of 100 clinical tests.',
+    output: 'VT1 and VT2, each detectable, equivocal or not detectable, with a position unless it is not detectable.',
+    evidence: 'Built and checked on clinical tests from a single centre, most of them stopped for symptoms.',
     limits: 'Not tested anywhere else. Deliberately not on the API or MCP.',
     where: 'In the web application only, marked beta.',
   },
