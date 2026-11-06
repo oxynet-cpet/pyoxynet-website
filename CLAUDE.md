@@ -206,6 +206,12 @@ CLIP_WIDTH=1080 CLIP_MS=48000 npm run clip
 - `/demo` is the link to send someone. It carries its own OpenGraph card at
   `public/og-agent-demo.png`, so pasting the URL into LinkedIn or an email
   unfurls with the chart rather than with the site's default hero.
+- `/desktop-preview` is Oxynet Desktop for people given the link: unlisted on purpose while the
+  application is tested with a few people. Nothing links to it, it is out of the sitemap and
+  `/llms.txt`, and it is `noindex` rather than in `robots.txt`, which is public and would stop a
+  crawler seeing the `noindex`. A licence, not the address, is what controls use. Everything about
+  a release comes from `latest.json` in the `oxynet-downloads` bucket (`content/desktop.ts`), which
+  `tools/publish_installers.py` in oxynet-desktop writes, so a release needs no change here.
 - `/demo/clip` is the recording stage: no navbar, no page ground, no disclosure
   line, the window pinned to a fixed height and rendered at 2x. Nobody should
   land on it, hence `robots: noindex`.
