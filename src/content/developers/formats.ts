@@ -26,8 +26,9 @@ export type FormatId = (typeof FORMATS)[number]['id']
  * - unconfirmed: core itself marks the vendor as unconfirmed.
  * - lab: a laboratory export whose metabolimeter is not recorded. Named by its layout.
  * - oxynet: one of Oxynet's own file shapes, not a vendor's.
+ * - reader: not a format; how a table no format matches is read.
  */
-export type VendorEvidence = 'named' | 'unconfirmed' | 'lab' | 'oxynet'
+export type VendorEvidence = 'named' | 'unconfirmed' | 'lab' | 'oxynet' | 'reader'
 
 export interface PublicFormat {
   vendor: string
@@ -166,6 +167,13 @@ export const FORMAT_INFO = {
     description: 'An Oxynet-derived research file: one subject per file, breath by breath, with a phase column.',
     evidence: 'oxynet',
   },
+  generic_table: {
+    vendor: 'Any',
+    description:
+      'Any other table whose columns carry standard channel names (time, VO2, VCO2, VE and more, in common languages and notations). Each column is identified by its header and checked against the recording itself; a file that does not hold together is refused, with the reason.',
+    evidence: 'reader',
+    note: 'Not a vendor format, so not in the count above. The detected columns and their units are listed in the parse flags.',
+  },
 } as const satisfies Record<FormatId, PublicFormat>
 
 export const EVIDENCE_LABEL: Record<VendorEvidence, string> = {
@@ -173,6 +181,7 @@ export const EVIDENCE_LABEL: Record<VendorEvidence, string> = {
   unconfirmed: 'Vendor unconfirmed',
   lab: 'Lab export',
   oxynet: 'Oxynet format',
+  reader: 'Read by channel names',
 }
 
 /** The fallback shape, from core's CANONICAL_JSON_SHAPE and CANONICAL_JSON_UNITS. */
@@ -187,7 +196,7 @@ export const CANONICAL_UNITS: [string, string][] = [
   ['HR', 'bpm (optional)'],
 ]
 
-const EVIDENCE_ORDER: VendorEvidence[] = ['named', 'unconfirmed', 'lab', 'oxynet']
+const EVIDENCE_ORDER: VendorEvidence[] = ['named', 'unconfirmed', 'lab', 'oxynet', 'reader']
 
 /** Grouped the way a partner scans: named vendors first, then by vendor, then by id. */
 export const PUBLIC_FORMATS = FORMATS.map((f) => ({ id: f.id, ...(FORMAT_INFO[f.id] as PublicFormat) })).sort(
