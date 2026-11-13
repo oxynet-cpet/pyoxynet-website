@@ -8,7 +8,7 @@ export interface FormatRow {
   vendor: string
   description: string
   container?: string
-  evidence: 'named' | 'unconfirmed' | 'lab' | 'oxynet'
+  evidence: 'named' | 'unconfirmed' | 'lab' | 'oxynet' | 'reader'
   evidenceLabel: string
   note?: string
 }
@@ -18,6 +18,7 @@ const EVIDENCE_CLASS: Record<FormatRow['evidence'], string> = {
   unconfirmed: 'text-warn border-warn/40 bg-warn/10',
   lab: 'text-ink-body border-hairline bg-surface',
   oxynet: 'text-sky-500 border-sky-500/40 bg-sky-500/10',
+  reader: 'text-sky-500 border-sky-500/40 bg-sky-500/10',
 }
 
 /** Filters on everything a partner might type: a vendor, an id, a word from the description, an extension. */

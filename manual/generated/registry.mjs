@@ -44,6 +44,7 @@ export const FORMATS = [
   { id: "csv_time_load", label: "CSV opening with Time and Load, a units row, V'E/V'O2/V'CO2 channels" },
   { id: "csv_work_third_column", label: "CSV with 'Work' as the third column header - no recording to verify against" },
   { id: "generated_pyoxynet", label: "Oxynet-generated synthetic recording" },
+  { id: "generic_table", label: "A table read by its channel names: no known export matched, so each column was identified from its header and checked against the recording's own arithmetic" },
   { id: "oxynet_phase_csv", label: "Oxynet per-subject breath-by-breath CSV with a phase column" },
   { id: "pnoe_csv", label: "PNOE export, semicolon-delimited, clock in seconds" },
   { id: "sectioned_bxb", label: "Tab-delimited text, stacked named tables (5s AVERAGED / BP / BREATH x BREATH), V'E-notation channels, gases in kPa - vendor unconfirmed" },
@@ -52,7 +53,7 @@ export const FORMATS = [
   { id: "xlsx_marker_rows", label: "Breath-by-breath workbook with a units row and phase marker rows; missing clock rebuilt from breathing rate" },
 ]
 
-/** The count /llms.txt and /v1/formats state. */
+/** The metabolimeter formats /llms.txt counts: every id but the channel-name reader. */
 export const VENDOR_FORMATS = 23
 
 /** The tools app.oxynet.net/oxynet-mcp serves, in declaration order. */

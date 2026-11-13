@@ -34,8 +34,9 @@ export default function FormatsPage() {
           <p>
             {VENDOR_FORMATS} format ids, detected from the file&apos;s content. {VENDOR_FORMATS - oxynetOwn} are
             exports from metabolimeter software or from a laboratory&apos;s own profile of it;{' '}
-            {oxynetOwn} are Oxynet&apos;s own file shapes. This list is generated from the parser that
-            runs in production, so it cannot say more than the parser does.
+            {oxynetOwn} are Oxynet&apos;s own file shapes. Any other table whose columns carry standard
+            channel names is read by those names, or refused with the reason. This list is generated
+            from the parser that runs in production, so it cannot say more than the parser does.
           </p>
         }
       />
