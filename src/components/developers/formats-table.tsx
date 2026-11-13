@@ -49,7 +49,7 @@ export function FormatsTable({ rows }: { rows: FormatRow[] }) {
         />
       </label>
       <p className="text-xs text-ink-faint font-mono mb-3" aria-live="polite">
-        {shown.length} of {rows.length} format ids
+        {shown.length} of {rows.length} shown
       </p>
 
       <div className="overflow-x-auto rounded-xl border border-hairline">
