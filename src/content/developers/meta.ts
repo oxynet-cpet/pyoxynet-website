@@ -28,7 +28,7 @@ export const RECORDED = {
 
 /** pyoxynet on PyPI. Checked by hand against pypi.org on the date above. */
 export const PYOXYNET = {
-  version: '1.0.2',
+  version: '1.1.0',
   python: '3.10 to 3.14',
   license: 'MIT',
 } as const
