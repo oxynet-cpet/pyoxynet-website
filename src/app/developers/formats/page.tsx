@@ -77,7 +77,7 @@ export default function FormatsPage() {
           <p>
             The refusal (<code>UNSUPPORTED_FORMAT</code>) returns the shape to convert into, and
             that is the one case where converting a file yourself is correct. It is Oxynet&apos;s
-            canonical JSON (format id <code>exercise_threshold_app</code>), the same shape as the{' '}
+            canonical JSON (format id <code>canonical_json</code>), the same shape as the{' '}
             <Link href="/developers/downloads#samples">synthetic samples</Link>. At least 40 rows,
             and <code>t</code>, <code>VO2</code>, <code>VCO2</code>, <code>VE</code> are required.
           </p>

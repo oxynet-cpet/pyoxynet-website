@@ -11,7 +11,7 @@
   },
 
   "upload": {
-    "format": "exercise_threshold_app",
+    "format": "canonical_json",
     "format_confidence": "detected",
     "bytes": 57514,
     "sampling": {
@@ -25,7 +25,7 @@
     "channels_present": ["VO2", "VCO2", "VE", "HR", "RF", "PetO2", "PetCO2"],
     "load": {
       "available": false,
-      "reason": "the exercise_threshold_app export carries no work-rate or speed column, so this test has no external load. Nothing is inferred from VO2: back-calculating watts from oxygen uptake assumes the efficiency that a load channel would be used to measure"
+      "reason": "the canonical_json export carries no work-rate or speed column, so this test has no external load. Nothing is inferred from VO2: back-calculating watts from oxygen uptake assumes the efficiency that a load channel would be used to measure"
     }
   },
 
