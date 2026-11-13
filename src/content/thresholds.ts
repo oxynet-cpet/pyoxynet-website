@@ -17,7 +17,7 @@
  * the three gets a page until a real file proves it.
  *
  * `handles` is restated from the comments in core's loaders
- * (oxynet/data/parser.py: _load_cosmed, _load_brescia and the _load_cortex*
+ * (oxynet/data/parser.py: _load_cosmed, _load_cosmed_no_subject_block and the _load_cortex*
  * family). Public wording omits cohort codes and institution names, as
  * content/developers/formats.ts does.
  */

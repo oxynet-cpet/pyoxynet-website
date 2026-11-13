@@ -177,7 +177,7 @@ export function mcp() {
   const transcript =
     turn('You', L.faint, `<span style="font-size:14.5px;line-height:1.55;color:${L.strong};font-weight:500">Analyse the test in ~/exports/R5-T3.json. Is there oscillatory ventilation?</span>`) +
     tool('create_upload() &nbsp;→&nbsp; $ curl -F "file=@R5-T3.json"',
-      'cpet_id: cpet_7485262aa3f7 · exercise_threshold_app (detected)\n353 breaths · 969 s · Work: absent, and nothing is inferred from V̇O₂') +
+      'cpet_id: cpet_7485262aa3f7 · canonical_json (detected)\n353 breaths · 969 s · Work: absent, and nothing is inferred from V̇O₂') +
     tool('analyze_vt(cpet_id) · analyze_eov(cpet_id)',
       'vt  → VT1 619 s / 1605 mL/min · VT2 763 s / 2029 mL/min · quality good\neov → grade "none" · 1 event flagged, not graded · gas quality confirmed') +
     turn('Agent', L.faint,
