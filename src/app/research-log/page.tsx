@@ -1,16 +1,19 @@
 import type { Metadata } from 'next'
+import { ChevronRight } from 'lucide-react'
 import { Callout, Section } from '@/components/developers/doc'
 import { Footer } from '@/components/layout/footer'
 import {
   GATES_PASSED,
-  TOPIC_LABEL,
-  TOPIC_ORDER,
+  TASK_LABEL,
+  TASK_ORDER,
   getResearchLog,
   onDay,
+  type Benchmarks,
   type Finding,
   type Grade,
 } from '@/content/research'
 import { cn } from '@/lib/utils'
+import { AccuracyChart, Legend, MARK_LABEL, NumbersTable, TransportChart } from './charts'
 
 /**
  * What Oxynet's research loop has learned, for people who have been given the link.
@@ -18,8 +21,9 @@ import { cn } from '@/lib/utils'
  * Unlisted on purpose, like /desktop-preview: nothing links here, it is out of the sitemap and
  * /llms.txt, and it is noindex rather than in robots.txt (a crawler told not to fetch a page never
  * sees its noindex). Everything it shows comes from content/research/latest.json, written by the
- * research loop under the founder's rules: generic findings only, no names, no lab ids, no costs,
- * no confidence figures, and the production model unnamed.
+ * research loop under the founder's rules: generic findings only, each naming the task it solved;
+ * no names, no lab ids, no costs, no confidence figures; the production model unnamed. Items are
+ * collapsed to their titles so the page stays short as the log grows.
  */
 export const metadata: Metadata = {
   title: 'Research log',
@@ -33,7 +37,6 @@ const GRADE_LABEL: Record<Grade, string> = {
   confirmed: 'Confirmed',
 }
 
-/** The three checks a finding climbs, in order. A finding's grade is how many it has passed. */
 const GATES = [
   {
     name: 'Unseen labs',
@@ -52,14 +55,24 @@ const GATES = [
   },
 ]
 
-function Rungs({ passed, className }: { passed: number; className?: string }) {
+const SUMMARY =
+  'flex w-full cursor-pointer list-none items-center gap-3 rounded py-4 text-left [&::-webkit-details-marker]:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background'
+
+function Chevron() {
   return (
-    <span className={cn('flex gap-1', className)} aria-hidden>
+    <ChevronRight
+      className="h-4 w-4 shrink-0 text-ink-subtle transition-transform duration-200 ease-out group-open:rotate-90"
+      strokeWidth={1.75}
+      aria-hidden
+    />
+  )
+}
+
+function Rungs({ passed }: { passed: number }) {
+  return (
+    <span className="flex gap-1" aria-hidden>
       {GATES.map((g, i) => (
-        <span
-          key={g.name}
-          className={cn('h-1.5 w-6 rounded-full', i < passed ? 'bg-accent' : 'bg-hairline')}
-        />
+        <span key={g.name} className={cn('h-1.5 w-5 rounded-full', i < passed ? 'bg-accent' : 'bg-hairline')} />
       ))}
     </span>
   )
@@ -68,139 +81,312 @@ function Rungs({ passed, className }: { passed: number; className?: string }) {
 function Ladder({ grade }: { grade: Grade }) {
   const passed = GATES_PASSED[grade]
   return (
-    <span className="inline-flex items-center gap-2.5 shrink-0" title={`Passed ${passed} of 3 checks`}>
+    <span className="inline-flex shrink-0 items-center gap-2" title={`Passed ${passed} of 3 checks`}>
       <Rungs passed={passed} />
-      <span className={cn('text-xs font-medium', passed === 3 ? 'text-accent' : 'text-ink-body')}>
+      <span className={cn('hidden w-[5.5rem] text-xs font-medium sm:inline', passed === 3 ? 'text-accent' : 'text-ink-body')}>
         {GRADE_LABEL[grade]}
       </span>
     </span>
   )
 }
 
-function Entry({ finding }: { finding: Finding }) {
+function FindingRow({ finding }: { finding: Finding }) {
   return (
-    <li className="grid gap-x-10 gap-y-2 py-8 border-t border-hairline sm:grid-cols-[6.5rem_1fr]">
-      <time dateTime={finding.date} className="pt-1.5 font-mono text-xs tabular-nums text-ink-subtle">
-        {onDay(finding.date)}
-      </time>
-      <div>
-        <div className="flex flex-wrap items-start justify-between gap-x-8 gap-y-3">
-          <h3 className="max-w-[34ch] text-lg sm:text-xl font-semibold leading-snug text-ink-strong text-balance">
+    <li className="border-t border-hairline">
+      <details className="group">
+        <summary className={SUMMARY}>
+          <Chevron />
+          <span className="min-w-0 flex-1 text-[15px] font-medium leading-snug text-ink-strong group-hover:text-foreground">
             {finding.title}
-          </h3>
-          <span className="pt-1.5">
-            <Ladder grade={finding.grade} />
           </span>
+          <Ladder grade={finding.grade} />
+        </summary>
+        <div className="pb-6 pl-7">
+          <p className="max-w-[65ch] text-[15px] leading-relaxed text-ink-body">{finding.summary}</p>
+          <dl className="mt-4 grid max-w-[65ch] gap-x-6 gap-y-2 text-[13px] sm:grid-cols-[8rem_1fr]">
+            <dt className="text-ink-subtle">Task</dt>
+            <dd className="text-ink-body">{TASK_LABEL[finding.task]}</dd>
+            <dt className="text-ink-subtle">Found</dt>
+            <dd className="tabular-nums text-ink-body">{onDay(finding.date)}</dd>
+            <dt className="text-ink-subtle">Grade</dt>
+            <dd className="text-ink-body">
+              {GRADE_LABEL[finding.grade]}, {GATES_PASSED[finding.grade]} of 3 checks passed
+            </dd>
+            {finding.scope.length > 0 && (
+              <>
+                <dt className="text-ink-subtle">Holds for</dt>
+                <dd className="text-ink-body">{finding.scope.join(', ')}</dd>
+              </>
+            )}
+            <dt className="text-ink-subtle">How it was tested</dt>
+            <dd className="leading-relaxed text-ink-body">{finding.method}</dd>
+          </dl>
         </div>
-        <p className="mt-3 max-w-[65ch] text-[15px] leading-relaxed text-ink-body">{finding.summary}</p>
-        {finding.scope.length > 0 && (
-          <p className="mt-4 text-[13px] text-ink-subtle">{finding.scope.join('  ·  ')}</p>
-        )}
-        <details className="group mt-3">
-          <summary className="w-fit cursor-pointer rounded text-[13px] font-medium text-ink-body transition-colors hover:text-ink-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background">
-            How it was tested
-          </summary>
-          <p className="mt-2 max-w-[65ch] text-[13px] leading-relaxed text-ink-body">{finding.method}</p>
-        </details>
-      </div>
+      </details>
     </li>
+  )
+}
+
+function Pending({ note }: { note?: string }) {
+  return (
+    <Callout tone="todo" title="Not measured yet">
+      <p>{note ?? 'This benchmark is in the queue.'}</p>
+    </Callout>
+  )
+}
+
+function Panel({ id, title, task, children }: { id: string; title: string; task: string; children: React.ReactNode }) {
+  return (
+    <section id={id} className="scroll-mt-24 border-t border-hairline py-10 first:border-t-0 first:pt-2">
+      <h3 className="text-lg font-semibold text-ink-strong">{title}</h3>
+      <p className="mt-1 mb-6 max-w-[65ch] text-[13px] leading-relaxed text-ink-subtle">{task}</p>
+      {children}
+    </section>
+  )
+}
+
+function BenchmarkPanels({ b }: { b: Benchmarks }) {
+  const th = b.thresholds
+  const tr = b.transport
+  return (
+    <div>
+      <Panel
+        id="bench-phases"
+        title={TASK_LABEL.phases}
+        task="Finding where rest, warm-up, exercise and recovery begin, against boundaries marked in the file. Error in seconds."
+      >
+        {b.phases.status === 'measured' && b.phases.results?.length ? (
+          <NumbersTable
+            head="Phase boundary error"
+            columns={['Method', 'Exercise start', 'Recovery start', 'Tests']}
+            rows={b.phases.results.map((r) => [r.method, `${r.exercise_start_mae_s} s`, `${r.recovery_start_mae_s} s`, r.n])}
+          />
+        ) : (
+          <Pending note={b.phases.note} />
+        )}
+      </Panel>
+
+      <Panel
+        id="bench-thresholds"
+        title={TASK_LABEL.thresholds}
+        task={`Placing VT1 and VT2 where experts marked them, on ${th.heads.VT1.n_labs} labs each held out in turn. Average distance from the expert, in mL/min of VO2. Lower is better.`}
+      >
+        <div className="grid gap-10 lg:grid-cols-2 lg:gap-12">
+          <AccuracyChart head="VT1" data={th.heads.VT1} />
+          <AccuracyChart head="VT2" data={th.heads.VT2} />
+        </div>
+        {th.history.length > 1 ? (
+          <p className="mt-6 text-[13px] text-ink-body">
+            Best research model over time:{' '}
+            {th.history.map((h) => `${onDay(h.date)} VT1 ${h.VT1}, VT2 ${h.VT2}`).join('; ')} (mL/min).
+          </p>
+        ) : null}
+        <details className="group mt-6">
+          <summary className={cn(SUMMARY, 'w-fit py-1 text-[13px] text-ink-body hover:text-ink-strong')}>
+            <Chevron />
+            Show the numbers
+          </summary>
+          <div className="mt-3 max-w-2xl">
+            <NumbersTable
+              head="Threshold error by method"
+              columns={['Method', 'VT1 (mL/min)', 'VT2 (mL/min)']}
+              rows={[
+                ...(['guess', 'breakpoints', 'production', 'research'] as const).map((m) => [
+                  MARK_LABEL[m],
+                  th.heads.VT1[m] ?? 'not yet',
+                  th.heads.VT2[m] ?? 'not yet',
+                ]),
+                ["Experts' floor", th.heads.VT1.floor ?? 'not yet', th.heads.VT2.floor ?? 'not yet'],
+                ['Tests scored', th.heads.VT1.n_tests.toLocaleString('en-GB'), th.heads.VT2.n_tests.toLocaleString('en-GB')],
+              ]}
+            />
+          </div>
+        </details>
+      </Panel>
+
+      <Panel
+        id="bench-transport"
+        title={TASK_LABEL.transport}
+        task="The same threshold error, split by how each test was run and by fitness, to see whether a model carries to tests unlike the ones it learned from."
+      >
+        {tr.status === 'measured' && tr.heads ? (
+          <>
+            <Legend marks={['guess', 'production', 'research']} />
+            <div className="mt-6 grid gap-10 lg:grid-cols-2 lg:gap-12">
+              <TransportChart head="VT1" groups={tr.heads.VT1.groups} />
+              <TransportChart head="VT2" groups={tr.heads.VT2.groups} />
+            </div>
+            {tr.heads.VT1.labs_research_beats_guess !== null && (
+              <p className="mt-6 max-w-[65ch] text-[13px] leading-relaxed text-ink-body">
+                Lab by lab, the best research model beats the cohort-typical guess in{' '}
+                {tr.heads.VT1.labs_research_beats_guess} of {tr.heads.VT1.labs_held_out} held-out labs on VT1 and{' '}
+                {tr.heads.VT2.labs_research_beats_guess} of {tr.heads.VT2.labs_held_out} on VT2. Fitness thirds are
+                thirds of VO2 peak across all tests; &ldquo;not recorded&rdquo; means the file carried no ergometer
+                channel.
+              </p>
+            )}
+            <details className="group mt-6">
+              <summary className={cn(SUMMARY, 'w-fit py-1 text-[13px] text-ink-body hover:text-ink-strong')}>
+                <Chevron />
+                Show the numbers
+              </summary>
+              <div className="mt-3 max-w-3xl overflow-x-auto">
+                <NumbersTable
+                  head="Threshold error by kind of test"
+                  columns={['Group', 'Tests', 'VT1 guess', 'VT1 production', 'VT1 research', 'VT2 guess', 'VT2 production', 'VT2 research']}
+                  rows={tr.heads.VT1.groups.map((g, i) => {
+                    const g2 = tr.heads!.VT2.groups[i]
+                    return [`${g.axis}: ${g.label}`, g.n, g.guess, g.production, g.research ?? '', g2?.guess ?? '', g2?.production ?? '', g2?.research ?? '']
+                  })}
+                />
+              </div>
+            </details>
+          </>
+        ) : (
+          <Pending note={tr.note} />
+        )}
+      </Panel>
+
+      <Panel
+        id="bench-efficiency"
+        title={TASK_LABEL.efficiency}
+        task="The aim is the cheapest model that learns a task from the fewest labelled tests: each model placed by its error against its size, its training compute and how many labelled tests it needed."
+      >
+        {b.efficiency.status === 'measured' && b.efficiency.models?.length ? (
+          <NumbersTable
+            head="Model size, compute and data"
+            columns={['Model', 'Size', 'Training compute', 'Labelled tests', 'VT1', 'VT2']}
+            rows={b.efficiency.models.map((m) => [
+              m.kind,
+              `${m.model_kb} kB`,
+              `${m.train_cpu_min} CPU-min`,
+              m.n_train.toLocaleString('en-GB'),
+              `${m.VT1} mL/min`,
+              `${m.VT2} mL/min`,
+            ])}
+          />
+        ) : (
+          <Pending note={b.efficiency.note} />
+        )}
+      </Panel>
+    </div>
   )
 }
 
 export default function ResearchLogPage() {
   const log = getResearchLog()
-  const byTopic = TOPIC_ORDER.map((topic) => ({
-    topic,
-    findings: (log?.findings ?? [])
-      .filter((f) => f.topic === topic)
-      .sort((a, b) => b.date.localeCompare(a.date)),
+  const byTask = TASK_ORDER.map((task) => ({
+    task,
+    findings: (log?.findings ?? []).filter((f) => f.task === task).sort((a, b) => b.date.localeCompare(a.date)),
   })).filter((g) => g.findings.length > 0)
 
   return (
     <>
       <main className="pt-24 sm:pt-28 selection:bg-accent/25 selection:text-ink-strong">
-        <article className="max-w-4xl mx-auto px-6 pb-24">
+        <article className="mx-auto max-w-4xl px-6 pb-24">
           <header className="mb-16">
-            <h1 className="max-w-[16ch] text-4xl sm:text-6xl font-bold leading-[1.02] tracking-tight text-foreground text-balance">
+            <h1 className="max-w-[16ch] text-4xl font-bold leading-[1.02] tracking-tight text-foreground text-balance sm:text-6xl">
               What the research is learning
             </h1>
             <p className="mt-7 max-w-[60ch] text-lg leading-relaxed text-ink-body">
               Oxynet runs a research loop that does not stop. Every idea is tested on recordings from labs the
               model never trained on, against what experts marked by hand. Only what holds there is written
-              here, with its date and how it was tested.
+              here, with the task it solved, its date and how it was tested.
             </p>
             {log && (
               <p className="mt-6 text-sm tabular-nums text-ink-subtle">
-                {log.counts.experiments} experiments on {log.counts.recordings.toLocaleString('en-GB')}{' '}
-                recordings from {log.counts.labs} labs so far. Updated {onDay(log.updated)}.
+                {log.counts.experiments} experiments on {log.counts.recordings.toLocaleString('en-GB')} recordings
+                from {log.counts.labs} labs so far. Updated {onDay(log.updated)}.
               </p>
             )}
           </header>
 
-          <Section id="how" title="How a finding earns its place">
-            <p className="max-w-[65ch] text-[15px] leading-relaxed text-ink-body">
-              The question and what would count as success are written down before any result exists. Every
-              result then sits beside a cohort-typical guess, the current production model, and the gap between
-              two experts reading the same test, which marks roughly the best the labels can show. A finding
-              climbs three checks:
-            </p>
-            <ol className="mt-8 grid gap-8 sm:grid-cols-3 sm:gap-6">
-              {GATES.map((gate, i) => (
-                <li key={gate.name}>
-                  <Rungs passed={i + 1} />
-                  <p className="mt-4 text-[15px] font-semibold text-ink-strong">{gate.name}</p>
-                  <p className="mt-1.5 text-[13px] leading-relaxed text-ink-body">{gate.text}</p>
-                  <p className="mt-2 text-xs font-medium text-accent">{gate.grade}</p>
-                </li>
-              ))}
-            </ol>
-          </Section>
-
           {log ? (
             <>
-              {byTopic.map(({ topic, findings }) => (
-                <Section key={topic} id={topic} title={TOPIC_LABEL[topic]}>
-                  <ol className="border-b border-hairline">
-                    {findings.map((f) => (
-                      <Entry key={f.id} finding={f} />
-                    ))}
-                  </ol>
+              {log.benchmarks && (
+                <Section id="benchmarks" title="Benchmarks, by task">
+                  <BenchmarkPanels b={log.benchmarks} />
                 </Section>
-              ))}
+              )}
 
-              <Section id="experiments" title="Experiments, newest first">
-                <ol className="border-b border-hairline">
+              <Section id="findings" title="Findings">
+                {byTask.map(({ task, findings }) => (
+                  <div key={task} id={task} className="mb-10 scroll-mt-24 last:mb-0">
+                    <h3 className="mb-1 text-[13px] font-medium text-ink-subtle">{TASK_LABEL[task]}</h3>
+                    <ol className="border-b border-hairline">
+                      {findings.map((f) => (
+                        <FindingRow key={f.id} finding={f} />
+                      ))}
+                    </ol>
+                  </div>
+                ))}
+              </Section>
+
+              <Section id="experiments" title="Timeline of experiments">
+                <ol className="relative ml-1.5 border-l border-hairline">
                   {log.timeline.map((step, i) => (
-                    <li
-                      key={`${step.date}-${i}`}
-                      className="grid gap-x-10 gap-y-1 py-4 border-t border-hairline sm:grid-cols-[6.5rem_1fr]"
-                    >
-                      <time dateTime={step.date} className="font-mono text-xs tabular-nums text-ink-subtle sm:pt-0.5">
-                        {onDay(step.date)}
-                      </time>
-                      <p className="text-[15px] leading-relaxed text-ink-body">
-                        <span className="font-medium text-ink-strong">{step.title}.</span> {step.outcome}
-                      </p>
+                    <li key={`${step.date}-${i}`} className="relative pl-6">
+                      <span
+                        className={cn('absolute -left-[5px] top-[1.375rem] h-2.5 w-2.5 rounded-full ring-4 ring-background', i === 0 ? 'bg-accent' : 'bg-ink-faint')}
+                        aria-hidden
+                      />
+                      <details className="group">
+                        <summary className={cn(SUMMARY, 'items-baseline py-3.5')}>
+                          <time dateTime={step.date} className="w-24 shrink-0 font-mono text-xs tabular-nums text-ink-subtle">
+                            {onDay(step.date)}
+                          </time>
+                          <span className="min-w-0 flex-1 text-[15px] leading-snug text-ink-strong">{step.title}</span>
+                          <Chevron />
+                        </summary>
+                        <p className="max-w-[65ch] pb-4 text-[14px] leading-relaxed text-ink-body sm:pl-[6.75rem]">{step.outcome}</p>
+                      </details>
                     </li>
                   ))}
                 </ol>
               </Section>
 
+              <Section id="how" title="How a finding earns its place">
+                <details className="group">
+                  <summary className={cn(SUMMARY, 'w-fit py-1 text-[15px] text-ink-body hover:text-ink-strong')}>
+                    <Chevron />
+                    Written down first, then three checks
+                  </summary>
+                  <p className="mt-3 max-w-[65ch] text-[15px] leading-relaxed text-ink-body">
+                    The question and what would count as success are written down before any result exists. Every
+                    result then sits beside a cohort-typical guess, the current production model, and the gap between
+                    two experts reading the same test, which marks roughly the best the labels can show. A finding
+                    climbs three checks:
+                  </p>
+                  <ol className="mt-6 grid gap-8 sm:grid-cols-3 sm:gap-6">
+                    {GATES.map((gate, i) => (
+                      <li key={gate.name}>
+                        <Rungs passed={i + 1} />
+                        <p className="mt-4 text-[15px] font-semibold text-ink-strong">{gate.name}</p>
+                        <p className="mt-1.5 text-[13px] leading-relaxed text-ink-body">{gate.text}</p>
+                        <p className="mt-2 text-xs font-medium text-accent">{gate.grade}</p>
+                      </li>
+                    ))}
+                  </ol>
+                </details>
+              </Section>
+
               {log.corrections.length > 0 && (
                 <Section id="corrections" title="What we got wrong">
-                  <p className="max-w-[65ch] text-[15px] leading-relaxed text-ink-body">
-                    A result that does not survive checking is withdrawn here, not quietly removed.
-                  </p>
-                  <ol className="mt-6 border-b border-hairline">
+                  <ol className="border-b border-hairline">
                     {log.corrections.map((c, i) => (
-                      <li
-                        key={`${c.date}-${i}`}
-                        className="grid gap-x-10 gap-y-1 py-4 border-t border-hairline sm:grid-cols-[6.5rem_1fr]"
-                      >
-                        <time dateTime={c.date} className="font-mono text-xs tabular-nums text-ink-subtle sm:pt-0.5">
-                          {onDay(c.date)}
-                        </time>
-                        <p className="max-w-[65ch] text-[15px] leading-relaxed text-ink-body">{c.text}</p>
+                      <li key={`${c.date}-${i}`} className="border-t border-hairline">
+                        <details className="group">
+                          <summary className={cn(SUMMARY, 'items-baseline')}>
+                            <time dateTime={c.date} className="w-24 shrink-0 font-mono text-xs tabular-nums text-ink-subtle">
+                              {onDay(c.date)}
+                            </time>
+                            <span className="min-w-0 flex-1 text-[15px] leading-snug text-ink-strong">
+                              {c.text.split('. ')[0]}.
+                            </span>
+                            <Chevron />
+                          </summary>
+                          <p className="max-w-[65ch] pb-4 text-[14px] leading-relaxed text-ink-body sm:pl-[6.75rem]">{c.text}</p>
+                        </details>
                       </li>
                     ))}
                   </ol>
@@ -214,8 +400,8 @@ export default function ResearchLogPage() {
           )}
 
           <p className="mt-4 max-w-[65ch] border-t border-hairline pt-6 text-[13px] leading-relaxed text-ink-subtle">
-            This is research. Nothing here changes what Oxynet serves until it has passed every check above and
-            been released.
+            This is research. Nothing here changes what Oxynet serves until it has passed every check above and been
+            released.
           </p>
         </article>
       </main>
