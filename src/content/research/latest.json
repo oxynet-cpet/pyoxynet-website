@@ -10,7 +10,6 @@
   {
    "id": "2026-11-16-transfer",
    "date": "2026-11-16",
-   "topic": "models",
    "grade": "robust",
    "scope": [
     "Across labs",
@@ -21,55 +20,69 @@
    ],
    "title": "A model trained on other labs carries to a new one",
    "summary": "A simple model trained only on other labs, given each test's ventilation and gas-exchange signals on a common intensity axis, places VT1 about 40 mL/min and VT2 about 20 mL/min closer to the experts than a cohort-typical guess, on labs it never saw. It holds in 10 or 11 of the 12 labs, cycling and running, clinical and athletic, and matches the current production model without having seen any of those labs.",
-   "method": "Gradient-boosted trees; each lab held out in turn; three random seeds, which agree within 2 mL/min; the gain's uncertainty range stays clear of zero on both thresholds."
+   "method": "Gradient-boosted trees; each lab held out in turn; three random seeds, which agree within 2 mL/min; the gain's uncertainty range stays clear of zero on both thresholds.",
+   "task": "transport"
+  },
+  {
+   "id": "2026-11-16-treadmill",
+   "date": "2026-11-16",
+   "task": "transport",
+   "grade": "exploratory",
+   "scope": [
+    "Running",
+    "Treadmill"
+   ],
+   "title": "On treadmill tests, the research model halves the production model's VT1 error",
+   "summary": "Split by how a test was run, the research model's VT1 error on treadmill tests is about 170 mL/min, against about 330 for the current production model and 470 for a cohort-typical guess. On cycle ergometers the two models are level. It is a split looked at after the fact, on few treadmill tests, so it is a lead to test on its own, not yet a result.",
+   "method": "Errors from the held-out predictions of the three-seed model, grouped by the ergometer recorded in each test's load channel."
   },
   {
    "id": "2026-11-16-experts",
    "date": "2026-11-16",
-   "topic": "labelling",
    "grade": "robust",
    "scope": [
     "Across labs"
    ],
    "title": "Experts disagree, and how much depends on the lab",
    "summary": "When two experts mark the same test, their VT1 readings sit about 90 to 340 mL/min apart depending on the lab, and their VT2 readings about 70 to 220. A model that found the true threshold would still sit roughly 0.7 times that gap from each expert, so that floor, not zero, is what a model is judged against.",
-   "method": "Tests read independently by several experts, in six labs: the mean gap between two readings of the same test."
+   "method": "Tests read independently by several experts, in six labs: the mean gap between two readings of the same test.",
+   "task": "labelling"
   },
   {
    "id": "2026-11-16-breakpoints",
    "date": "2026-11-16",
-   "topic": "physiology",
    "grade": "robust",
    "scope": [
     "Across labs"
    ],
    "title": "Textbook breakpoints corroborate; they do not detect",
    "summary": "Run automatically over the exercise phase, the classical V-slope and ventilatory-equivalent breakpoints place both thresholds further from the experts than a cohort-typical guess. They are worth showing beside a result, as evidence to inspect, not as the answer.",
-   "method": "No tuning; scored on the same tests and in the same way as the models."
+   "method": "No tuning; scored on the same tests and in the same way as the models.",
+   "task": "thresholds"
   },
   {
    "id": "2026-11-16-input",
    "date": "2026-11-16",
-   "topic": "method",
    "grade": "robust",
    "scope": [
     "Across labs"
    ],
    "title": "A model is only as good as the signal it is handed",
    "summary": "Given breath-by-breath rows instead of the one-second series it was built on, the current production model placed VT2 about 40 mL/min further from the experts. The service already resamples every upload, so users were never affected. Every model is now measured exactly as production feeds it.",
-   "method": "The same model and tests, scored through both inputs."
+   "method": "The same model and tests, scored through both inputs.",
+   "task": "thresholds"
   },
   {
    "id": "2026-11-16-benchmark",
    "date": "2026-11-16",
-   "topic": "method",
    "grade": "robust",
    "scope": [
     "Across labs"
    ],
    "title": "One benchmark for every idea",
    "summary": "Every result is measured the same way: on labs a model never trained on, against a cohort-typical guess, the current production model and the gap between experts. The benchmark reproduces our earlier reference figures exactly, so old and new numbers compare.",
-   "method": "Twelve labs, each held out in turn; two more sealed for final checks; uncertainty from resampling whole recordings within each lab."
+   "method": "Twelve labs, each held out in turn; two more sealed for final checks; uncertainty from resampling whole recordings within each lab.",
+   "task": "method"
   }
  ],
  "timeline": [
@@ -99,5 +112,210 @@
    "date": "2026-11-16",
    "text": "An early run reported the production model as worse than a cohort-typical guess on VT2. The benchmark had handed it the wrong input. Re-measured the same day, it is better, and the claim was withdrawn before anyone relied on it."
   }
- ]
+ ],
+ "benchmarks": {
+  "schema": 1,
+  "computed": "2026-11-16",
+  "thresholds": {
+   "status": "measured",
+   "unit": "mL/min",
+   "heads": {
+    "VT1": {
+     "guess": 265,
+     "breakpoints": 498,
+     "production": 230,
+     "research": 221,
+     "floor": 192,
+     "n_tests": 2317,
+     "n_labs": 12
+    },
+    "VT2": {
+     "guess": 155,
+     "breakpoints": 208,
+     "production": 138,
+     "research": 135,
+     "floor": 122,
+     "n_tests": 2099,
+     "n_labs": 12
+    }
+   },
+   "history": [
+    {
+     "date": "2026-11-16",
+     "VT1": 221,
+     "VT2": 135
+    }
+   ]
+  },
+  "transport": {
+   "status": "measured",
+   "unit": "mL/min",
+   "heads": {
+    "VT1": {
+     "groups": [
+      {
+       "axis": "Modality",
+       "label": "Cycling",
+       "n": 758,
+       "guess": 201,
+       "production": 173,
+       "research": 171
+      },
+      {
+       "axis": "Modality",
+       "label": "Running",
+       "n": 37,
+       "guess": 467,
+       "production": 334,
+       "research": 170
+      },
+      {
+       "axis": "Modality",
+       "label": "Not recorded",
+       "n": 1522,
+       "guess": 292,
+       "production": 255,
+       "research": 247
+      },
+      {
+       "axis": "Protocol",
+       "label": "Ramp",
+       "n": 393,
+       "guess": 224,
+       "production": 178,
+       "research": 158
+      },
+      {
+       "axis": "Protocol",
+       "label": "Step",
+       "n": 396,
+       "guess": 204,
+       "production": 184,
+       "research": 184
+      },
+      {
+       "axis": "Protocol",
+       "label": "Not recorded",
+       "n": 1528,
+       "guess": 291,
+       "production": 255,
+       "research": 247
+      },
+      {
+       "axis": "Fitness (VO2 peak)",
+       "label": "Lower third",
+       "n": 773,
+       "guess": 140,
+       "production": 117,
+       "research": 117
+      },
+      {
+       "axis": "Fitness (VO2 peak)",
+       "label": "Middle third",
+       "n": 778,
+       "guess": 265,
+       "production": 237,
+       "research": 236
+      },
+      {
+       "axis": "Fitness (VO2 peak)",
+       "label": "Upper third",
+       "n": 766,
+       "guess": 391,
+       "production": 335,
+       "research": 311
+      }
+     ],
+     "labs_held_out": 12,
+     "labs_research_beats_guess": 10
+    },
+    "VT2": {
+     "groups": [
+      {
+       "axis": "Modality",
+       "label": "Cycling",
+       "n": 631,
+       "guess": 136,
+       "production": 119,
+       "research": 119
+      },
+      {
+       "axis": "Modality",
+       "label": "Running",
+       "n": 37,
+       "guess": 234,
+       "production": 185,
+       "research": 128
+      },
+      {
+       "axis": "Modality",
+       "label": "Not recorded",
+       "n": 1431,
+       "guess": 161,
+       "production": 144,
+       "research": 142
+      },
+      {
+       "axis": "Protocol",
+       "label": "Ramp",
+       "n": 318,
+       "guess": 146,
+       "production": 117,
+       "research": 111
+      },
+      {
+       "axis": "Protocol",
+       "label": "Step",
+       "n": 345,
+       "guess": 138,
+       "production": 128,
+       "research": 128
+      },
+      {
+       "axis": "Protocol",
+       "label": "Not recorded",
+       "n": 1436,
+       "guess": 161,
+       "production": 144,
+       "research": 142
+      },
+      {
+       "axis": "Fitness (VO2 peak)",
+       "label": "Lower third",
+       "n": 702,
+       "guess": 106,
+       "production": 98,
+       "research": 93
+      },
+      {
+       "axis": "Fitness (VO2 peak)",
+       "label": "Middle third",
+       "n": 697,
+       "guess": 162,
+       "production": 149,
+       "research": 145
+      },
+      {
+       "axis": "Fitness (VO2 peak)",
+       "label": "Upper third",
+       "n": 700,
+       "guess": 197,
+       "production": 166,
+       "research": 167
+      }
+     ],
+     "labs_held_out": 12,
+     "labs_research_beats_guess": 11
+    }
+   }
+  },
+  "phases": {
+   "status": "pending",
+   "note": "The first phase benchmark is next in the queue."
+  },
+  "efficiency": {
+   "status": "pending",
+   "note": "From now on every experiment records model size, training compute and how many labelled tests it learned from."
+  }
+ }
 }
