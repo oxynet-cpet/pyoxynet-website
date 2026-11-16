@@ -2,11 +2,23 @@
  "schema": 1,
  "updated": "2026-11-16",
  "counts": {
-  "experiments": 4,
+  "experiments": 6,
   "labs": 12,
   "recordings": 1770
  },
  "findings": [
+  {
+   "id": "2026-11-16-paired",
+   "date": "2026-11-16",
+   "grade": "robust",
+   "scope": [
+    "Across labs"
+   ],
+   "title": "On VT1, a simple model from other labs beats the current production model",
+   "summary": "Compared test by test, the research model places VT1 about 10 mL/min closer to the experts than the current production model, and is better in 7 of 12 labs, although it never saw any of them and the production model had seen most. On VT2 the two are level. Averaging the two models' answers brought VT2 a few mL/min closer than either alone, a lead still to test on models that never saw the test's lab.",
+   "method": "The same held-out tests scored by both models, each lab held out in turn; the uncertainty range of the per-test difference, from resampling whole recordings within each lab, stays below zero on VT1 and crosses zero on VT2.",
+   "task": "thresholds"
+  },
   {
    "id": "2026-11-16-transfer",
    "date": "2026-11-16",
@@ -88,6 +100,16 @@
  "timeline": [
   {
    "date": "2026-11-16",
+   "title": "Research and production models averaged",
+   "outcome": "A small VT2 gain, kept as a lead: half of the average had seen the test labs."
+  },
+  {
+   "date": "2026-11-16",
+   "title": "Research model against production, test by test",
+   "outcome": "Better on VT1, level on VT2."
+  },
+  {
+   "date": "2026-11-16",
    "title": "Tree model, three seeds",
    "outcome": "Held under resampling: the transfer result became robust."
   },
@@ -124,7 +146,7 @@
      "guess": 265,
      "breakpoints": 498,
      "production": 230,
-     "research": 221,
+     "research": 219,
      "floor": 192,
      "n_tests": 2317,
      "n_labs": 12
@@ -133,7 +155,7 @@
      "guess": 155,
      "breakpoints": 208,
      "production": 138,
-     "research": 135,
+     "research": 131,
      "floor": 122,
      "n_tests": 2099,
      "n_labs": 12
@@ -142,8 +164,8 @@
    "history": [
     {
      "date": "2026-11-16",
-     "VT1": 221,
-     "VT2": 135
+     "VT1": 219,
+     "VT2": 131
     }
    ]
   },
@@ -159,7 +181,7 @@
        "n": 758,
        "guess": 201,
        "production": 173,
-       "research": 171
+       "research": 167
       },
       {
        "axis": "Modality",
@@ -167,7 +189,7 @@
        "n": 37,
        "guess": 467,
        "production": 334,
-       "research": 170
+       "research": 237
       },
       {
        "axis": "Modality",
@@ -175,7 +197,7 @@
        "n": 1522,
        "guess": 292,
        "production": 255,
-       "research": 247
+       "research": 244
       },
       {
        "axis": "Protocol",
@@ -183,7 +205,7 @@
        "n": 393,
        "guess": 224,
        "production": 178,
-       "research": 158
+       "research": 163
       },
       {
        "axis": "Protocol",
@@ -191,7 +213,7 @@
        "n": 396,
        "guess": 204,
        "production": 184,
-       "research": 184
+       "research": 177
       },
       {
        "axis": "Protocol",
@@ -199,7 +221,7 @@
        "n": 1528,
        "guess": 291,
        "production": 255,
-       "research": 247
+       "research": 244
       },
       {
        "axis": "Fitness (VO2 peak)",
@@ -207,7 +229,7 @@
        "n": 773,
        "guess": 140,
        "production": 117,
-       "research": 117
+       "research": 115
       },
       {
        "axis": "Fitness (VO2 peak)",
@@ -215,7 +237,7 @@
        "n": 778,
        "guess": 265,
        "production": 237,
-       "research": 236
+       "research": 232
       },
       {
        "axis": "Fitness (VO2 peak)",
@@ -223,11 +245,11 @@
        "n": 766,
        "guess": 391,
        "production": 335,
-       "research": 311
+       "research": 310
       }
      ],
      "labs_held_out": 12,
-     "labs_research_beats_guess": 10
+     "labs_research_beats_guess": 11
     },
     "VT2": {
      "groups": [
@@ -237,7 +259,7 @@
        "n": 631,
        "guess": 136,
        "production": 119,
-       "research": 119
+       "research": 116
       },
       {
        "axis": "Modality",
@@ -245,7 +267,7 @@
        "n": 37,
        "guess": 234,
        "production": 185,
-       "research": 128
+       "research": 136
       },
       {
        "axis": "Modality",
@@ -253,7 +275,7 @@
        "n": 1431,
        "guess": 161,
        "production": 144,
-       "research": 142
+       "research": 138
       },
       {
        "axis": "Protocol",
@@ -261,7 +283,7 @@
        "n": 318,
        "guess": 146,
        "production": 117,
-       "research": 111
+       "research": 108
       },
       {
        "axis": "Protocol",
@@ -269,7 +291,7 @@
        "n": 345,
        "guess": 138,
        "production": 128,
-       "research": 128
+       "research": 125
       },
       {
        "axis": "Protocol",
@@ -277,7 +299,7 @@
        "n": 1436,
        "guess": 161,
        "production": 144,
-       "research": 142
+       "research": 137
       },
       {
        "axis": "Fitness (VO2 peak)",
@@ -285,7 +307,7 @@
        "n": 702,
        "guess": 106,
        "production": 98,
-       "research": 93
+       "research": 92
       },
       {
        "axis": "Fitness (VO2 peak)",
@@ -293,7 +315,7 @@
        "n": 697,
        "guess": 162,
        "production": 149,
-       "research": 145
+       "research": 143
       },
       {
        "axis": "Fitness (VO2 peak)",
@@ -301,11 +323,11 @@
        "n": 700,
        "guess": 197,
        "production": 166,
-       "research": 167
+       "research": 158
       }
      ],
      "labs_held_out": 12,
-     "labs_research_beats_guess": 11
+     "labs_research_beats_guess": 10
     }
    }
   },
