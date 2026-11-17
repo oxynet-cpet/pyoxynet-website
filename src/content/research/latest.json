@@ -8,6 +8,18 @@
  },
  "findings": [
   {
+   "id": "2026-11-17-phase-smoothing",
+   "date": "2026-11-17",
+   "grade": "exploratory",
+   "scope": [
+    "One lab"
+   ],
+   "title": "Smoothing the signals more or less does not place exercise start better",
+   "summary": "The current production rule smooths the signals before it looks for the start of exercise and of recovery. Making that smoothing three times shorter, twice or four times longer did not place either boundary closer to the expert's mark; longer smoothing put recovery start later than it should, by 4 to 9 seconds. The rare large misses at exercise start come from somewhere else.",
+   "method": "Four smoothing settings compared recording by recording with the default on 45 recordings whose start of exercise and recovery an expert marked; tuned and scored on the same recordings.",
+   "task": "phases"
+  },
+  {
    "id": "2026-11-17-label-saturation",
    "date": "2026-11-17",
    "grade": "robust",
@@ -15,8 +27,8 @@
     "Across labs"
    ],
    "title": "More labels of the same kind stop helping VT2 at about 1,500 tests",
-   "summary": "A simple model stops improving on VT2 somewhere between 1,200 and 1,600 expert-labelled tests: beyond that, adding more tests of the same kind changes nothing measurable. VT1 still gains a little, by 3 to 5 mL/min, at 1,600. Further progress has to come from what the model sees, or from the many recordings nobody labelled, not from more labels.",
-   "method": "Gradient-boosted trees trained on 1,200 and 1,600 tests picked at random, each lab held out in turn, compared test by test with the same model trained on all tests; two independent random picks agree.",
+   "summary": "A simple model stops improving on VT2 somewhere between 1,200 and 1,600 expert-labelled tests: beyond that, adding more tests of the same kind changes nothing measurable. VT1 is at or just short of the same point by 1,600, with a few mL/min left at most. Below about 1,200 tests, which tests are labelled matters almost as much as how many. Further progress has to come from what the model sees, or from the many recordings nobody labelled, not from more labels.",
+   "method": "Gradient-boosted trees trained on 1,200 and 1,600 tests picked at random, each lab held out in turn, compared test by test with the same model trained on all tests; three independent random picks agree.",
    "task": "efficiency"
   },
   {
@@ -506,6 +518,33 @@
      "n_train": 1598,
      "VT1": 224,
      "VT2": 134
+    },
+    {
+     "date": "2026-11-17",
+     "kind": "Gradient-boosted trees",
+     "model_kb": 3777,
+     "train_cpu_min": 0.2,
+     "n_train": 1200,
+     "VT1": 228,
+     "VT2": 135
+    },
+    {
+     "date": "2026-11-17",
+     "kind": "Gradient-boosted trees",
+     "model_kb": 3786,
+     "train_cpu_min": 0.2,
+     "n_train": 1598,
+     "VT1": 223,
+     "VT2": 135
+    },
+    {
+     "date": "2026-11-17",
+     "kind": "Gradient-boosted trees",
+     "model_kb": 3747,
+     "train_cpu_min": 0.1,
+     "n_train": 800,
+     "VT1": 229,
+     "VT2": 138
     }
    ]
   }
