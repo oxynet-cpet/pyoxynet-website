@@ -1,12 +1,24 @@
 {
  "schema": 1,
- "updated": "2026-11-16",
+ "updated": "2026-11-17",
  "counts": {
-  "experiments": 6,
+  "experiments": 7,
   "labs": 12,
   "recordings": 1770
  },
  "findings": [
+  {
+   "id": "2026-11-17-learning-curve",
+   "date": "2026-11-17",
+   "grade": "robust",
+   "scope": [
+    "Across labs"
+   ],
+   "title": "A few hundred labelled tests are enough to beat a cohort-typical guess",
+   "summary": "Trained on a random 100 to 200 expert-labelled tests from other labs, a simple model already places VT1 closer to the experts than a cohort-typical guess on labs it never saw; VT2 needs about 200 to 400. With 800 labelled tests it matches the current production model on VT1. It keeps improving up to the full corpus of about 2,000 tests, by a few mL/min, so more labels of the same kind still help.",
+   "method": "Gradient-boosted trees trained on 50 to 800 tests picked at random, each lab held out in turn, compared test by test with the same model trained on all tests; two independent random picks agree on both thresholds.",
+   "task": "efficiency"
+  },
   {
    "id": "2026-11-16-paired",
    "date": "2026-11-16",
@@ -137,7 +149,7 @@
  ],
  "benchmarks": {
   "schema": 1,
-  "computed": "2026-11-16",
+  "computed": "2026-11-17",
   "thresholds": {
    "status": "measured",
    "unit": "mL/min",
@@ -164,6 +176,11 @@
    "history": [
     {
      "date": "2026-11-16",
+     "VT1": 219,
+     "VT2": 131
+    },
+    {
+     "date": "2026-11-17",
      "VT1": 219,
      "VT2": 131
     }
@@ -336,8 +353,99 @@
    "note": "The first phase benchmark is next in the queue."
   },
   "efficiency": {
-   "status": "pending",
-   "note": "From now on every experiment records model size, training compute and how many labelled tests it learned from."
+   "status": "measured",
+   "models": [
+    {
+     "date": "2026-11-17",
+     "kind": "Gradient-boosted trees",
+     "model_kb": 1279,
+     "train_cpu_min": 0.0,
+     "n_train": 100,
+     "VT1": 276,
+     "VT2": 160
+    },
+    {
+     "date": "2026-11-17",
+     "kind": "Gradient-boosted trees",
+     "model_kb": 1266,
+     "train_cpu_min": 0.0,
+     "n_train": 100,
+     "VT1": 254,
+     "VT2": 156
+    },
+    {
+     "date": "2026-11-17",
+     "kind": "Gradient-boosted trees",
+     "model_kb": 2397,
+     "train_cpu_min": 0.0,
+     "n_train": 200,
+     "VT1": 244,
+     "VT2": 143
+    },
+    {
+     "date": "2026-11-17",
+     "kind": "Gradient-boosted trees",
+     "model_kb": 2383,
+     "train_cpu_min": 0.0,
+     "n_train": 200,
+     "VT1": 241,
+     "VT2": 159
+    },
+    {
+     "date": "2026-11-17",
+     "kind": "Gradient-boosted trees",
+     "model_kb": 3668,
+     "train_cpu_min": 0.1,
+     "n_train": 400,
+     "VT1": 229,
+     "VT2": 147
+    },
+    {
+     "date": "2026-11-17",
+     "kind": "Gradient-boosted trees",
+     "model_kb": 3668,
+     "train_cpu_min": 0.1,
+     "n_train": 400,
+     "VT1": 232,
+     "VT2": 143
+    },
+    {
+     "date": "2026-11-17",
+     "kind": "Gradient-boosted trees",
+     "model_kb": 706,
+     "train_cpu_min": 0.0,
+     "n_train": 50,
+     "VT1": 275,
+     "VT2": 172
+    },
+    {
+     "date": "2026-11-17",
+     "kind": "Gradient-boosted trees",
+     "model_kb": 695,
+     "train_cpu_min": 0.0,
+     "n_train": 50,
+     "VT1": 289,
+     "VT2": 171
+    },
+    {
+     "date": "2026-11-17",
+     "kind": "Gradient-boosted trees",
+     "model_kb": 3747,
+     "train_cpu_min": 0.1,
+     "n_train": 800,
+     "VT1": 228,
+     "VT2": 140
+    },
+    {
+     "date": "2026-11-17",
+     "kind": "Gradient-boosted trees",
+     "model_kb": 3745,
+     "train_cpu_min": 0.1,
+     "n_train": 800,
+     "VT1": 226,
+     "VT2": 139
+    }
+   ]
   }
  }
 }
