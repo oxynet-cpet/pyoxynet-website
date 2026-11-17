@@ -8,6 +8,18 @@
  },
  "findings": [
   {
+   "id": "2026-11-17-channel-ablation",
+   "date": "2026-11-17",
+   "grade": "exploratory",
+   "scope": [
+    "Across labs"
+   ],
+   "title": "No single signal carries either threshold",
+   "summary": "Removing any one of the thirteen signals a simple model reads moves its VT1 error by at most about 6 mL/min and its VT2 error by at most about 2. Only one signal is clearly needed for VT1, and none for VT2. The model spreads what it uses across signals that can stand in for each other, so a smaller set of signals may do as well; that is being tested next.",
+   "method": "Gradient-boosted trees retrained thirteen times, each time without one signal, each lab held out in turn, compared test by test with the same model on all signals.",
+   "task": "thresholds"
+  },
+  {
    "id": "2026-11-17-phase-smoothing",
    "date": "2026-11-17",
    "grade": "exploratory",
@@ -173,7 +185,7 @@
  ],
  "benchmarks": {
   "schema": 1,
-  "computed": "2026-11-17",
+  "computed": "2026-11-18",
   "thresholds": {
    "status": "measured",
    "unit": "mL/min",
@@ -182,7 +194,7 @@
      "guess": 265,
      "breakpoints": 498,
      "production": 230,
-     "research": 219,
+     "research": 218,
      "floor": 192,
      "n_tests": 2317,
      "n_labs": 12
@@ -204,8 +216,8 @@
      "VT2": 131
     },
     {
-     "date": "2026-11-17",
-     "VT1": 219,
+     "date": "2026-11-18",
+     "VT1": 218,
      "VT2": 131
     }
    ]
@@ -222,7 +234,7 @@
        "n": 758,
        "guess": 201,
        "production": 173,
-       "research": 167
+       "research": 171
       },
       {
        "axis": "Modality",
@@ -230,7 +242,7 @@
        "n": 37,
        "guess": 467,
        "production": 334,
-       "research": 237
+       "research": 161
       },
       {
        "axis": "Modality",
@@ -238,7 +250,7 @@
        "n": 1522,
        "guess": 292,
        "production": 255,
-       "research": 244
+       "research": 242
       },
       {
        "axis": "Protocol",
@@ -246,7 +258,7 @@
        "n": 393,
        "guess": 224,
        "production": 178,
-       "research": 163
+       "research": 158
       },
       {
        "axis": "Protocol",
@@ -254,7 +266,7 @@
        "n": 396,
        "guess": 204,
        "production": 184,
-       "research": 177
+       "research": 184
       },
       {
        "axis": "Protocol",
@@ -262,7 +274,7 @@
        "n": 1528,
        "guess": 291,
        "production": 255,
-       "research": 244
+       "research": 242
       },
       {
        "axis": "Fitness (VO2 peak)",
@@ -270,7 +282,7 @@
        "n": 773,
        "guess": 140,
        "production": 117,
-       "research": 115
+       "research": 119
       },
       {
        "axis": "Fitness (VO2 peak)",
@@ -278,7 +290,7 @@
        "n": 778,
        "guess": 265,
        "production": 237,
-       "research": 232
+       "research": 234
       },
       {
        "axis": "Fitness (VO2 peak)",
@@ -286,11 +298,11 @@
        "n": 766,
        "guess": 391,
        "production": 335,
-       "research": 310
+       "research": 300
       }
      ],
      "labs_held_out": 12,
-     "labs_research_beats_guess": 11
+     "labs_research_beats_guess": 10
     },
     "VT2": {
      "groups": [
@@ -394,7 +406,7 @@
    "status": "measured",
    "models": [
     {
-     "date": "2026-11-17",
+     "date": "2026-11-18",
      "kind": "Gradient-boosted trees",
      "model_kb": 1279,
      "train_cpu_min": 0.0,
@@ -403,7 +415,7 @@
      "VT2": 160
     },
     {
-     "date": "2026-11-17",
+     "date": "2026-11-18",
      "kind": "Gradient-boosted trees",
      "model_kb": 1266,
      "train_cpu_min": 0.0,
@@ -412,7 +424,7 @@
      "VT2": 156
     },
     {
-     "date": "2026-11-17",
+     "date": "2026-11-18",
      "kind": "Gradient-boosted trees",
      "model_kb": 2397,
      "train_cpu_min": 0.0,
@@ -421,7 +433,7 @@
      "VT2": 143
     },
     {
-     "date": "2026-11-17",
+     "date": "2026-11-18",
      "kind": "Gradient-boosted trees",
      "model_kb": 2383,
      "train_cpu_min": 0.0,
@@ -430,7 +442,7 @@
      "VT2": 159
     },
     {
-     "date": "2026-11-17",
+     "date": "2026-11-18",
      "kind": "Gradient-boosted trees",
      "model_kb": 3668,
      "train_cpu_min": 0.1,
@@ -439,7 +451,7 @@
      "VT2": 147
     },
     {
-     "date": "2026-11-17",
+     "date": "2026-11-18",
      "kind": "Gradient-boosted trees",
      "model_kb": 3668,
      "train_cpu_min": 0.1,
@@ -448,7 +460,7 @@
      "VT2": 143
     },
     {
-     "date": "2026-11-17",
+     "date": "2026-11-18",
      "kind": "Gradient-boosted trees",
      "model_kb": 706,
      "train_cpu_min": 0.0,
@@ -457,7 +469,7 @@
      "VT2": 172
     },
     {
-     "date": "2026-11-17",
+     "date": "2026-11-18",
      "kind": "Gradient-boosted trees",
      "model_kb": 695,
      "train_cpu_min": 0.0,
@@ -466,7 +478,7 @@
      "VT2": 171
     },
     {
-     "date": "2026-11-17",
+     "date": "2026-11-18",
      "kind": "Gradient-boosted trees",
      "model_kb": 3747,
      "train_cpu_min": 0.1,
@@ -475,7 +487,7 @@
      "VT2": 140
     },
     {
-     "date": "2026-11-17",
+     "date": "2026-11-18",
      "kind": "Gradient-boosted trees",
      "model_kb": 3745,
      "train_cpu_min": 0.1,
@@ -484,7 +496,7 @@
      "VT2": 139
     },
     {
-     "date": "2026-11-17",
+     "date": "2026-11-18",
      "kind": "Gradient-boosted trees",
      "model_kb": 3777,
      "train_cpu_min": 0.2,
@@ -493,7 +505,7 @@
      "VT2": 133
     },
     {
-     "date": "2026-11-17",
+     "date": "2026-11-18",
      "kind": "Gradient-boosted trees",
      "model_kb": 3778,
      "train_cpu_min": 0.2,
@@ -502,7 +514,7 @@
      "VT2": 138
     },
     {
-     "date": "2026-11-17",
+     "date": "2026-11-18",
      "kind": "Gradient-boosted trees",
      "model_kb": 3786,
      "train_cpu_min": 0.2,
@@ -511,7 +523,7 @@
      "VT2": 136
     },
     {
-     "date": "2026-11-17",
+     "date": "2026-11-18",
      "kind": "Gradient-boosted trees",
      "model_kb": 3786,
      "train_cpu_min": 0.2,
@@ -520,7 +532,7 @@
      "VT2": 134
     },
     {
-     "date": "2026-11-17",
+     "date": "2026-11-18",
      "kind": "Gradient-boosted trees",
      "model_kb": 3777,
      "train_cpu_min": 0.2,
@@ -529,7 +541,7 @@
      "VT2": 135
     },
     {
-     "date": "2026-11-17",
+     "date": "2026-11-18",
      "kind": "Gradient-boosted trees",
      "model_kb": 3786,
      "train_cpu_min": 0.2,
@@ -538,13 +550,130 @@
      "VT2": 135
     },
     {
-     "date": "2026-11-17",
+     "date": "2026-11-18",
      "kind": "Gradient-boosted trees",
      "model_kb": 3747,
      "train_cpu_min": 0.1,
      "n_train": 800,
      "VT1": 229,
      "VT2": 138
+    },
+    {
+     "date": "2026-11-18",
+     "kind": "Gradient-boosted trees",
+     "model_kb": 3587,
+     "train_cpu_min": 0.2,
+     "n_train": 2034,
+     "VT1": 223,
+     "VT2": 136
+    },
+    {
+     "date": "2026-11-18",
+     "kind": "Gradient-boosted trees",
+     "model_kb": 3587,
+     "train_cpu_min": 0.2,
+     "n_train": 2034,
+     "VT1": 220,
+     "VT2": 136
+    },
+    {
+     "date": "2026-11-18",
+     "kind": "Gradient-boosted trees",
+     "model_kb": 3588,
+     "train_cpu_min": 0.2,
+     "n_train": 2034,
+     "VT1": 220,
+     "VT2": 136
+    },
+    {
+     "date": "2026-11-18",
+     "kind": "Gradient-boosted trees",
+     "model_kb": 3783,
+     "train_cpu_min": 0.2,
+     "n_train": 2034,
+     "VT1": 221,
+     "VT2": 134
+    },
+    {
+     "date": "2026-11-18",
+     "kind": "Gradient-boosted trees",
+     "model_kb": 3783,
+     "train_cpu_min": 0.2,
+     "n_train": 2034,
+     "VT1": 224,
+     "VT2": 134
+    },
+    {
+     "date": "2026-11-18",
+     "kind": "Gradient-boosted trees",
+     "model_kb": 3587,
+     "train_cpu_min": 0.2,
+     "n_train": 2034,
+     "VT1": 221,
+     "VT2": 137
+    },
+    {
+     "date": "2026-11-18",
+     "kind": "Gradient-boosted trees",
+     "model_kb": 3587,
+     "train_cpu_min": 0.2,
+     "n_train": 2034,
+     "VT1": 222,
+     "VT2": 137
+    },
+    {
+     "date": "2026-11-18",
+     "kind": "Gradient-boosted trees",
+     "model_kb": 3587,
+     "train_cpu_min": 0.2,
+     "n_train": 2034,
+     "VT1": 218,
+     "VT2": 135
+    },
+    {
+     "date": "2026-11-18",
+     "kind": "Gradient-boosted trees",
+     "model_kb": 3587,
+     "train_cpu_min": 0.2,
+     "n_train": 2034,
+     "VT1": 222,
+     "VT2": 135
+    },
+    {
+     "date": "2026-11-18",
+     "kind": "Gradient-boosted trees",
+     "model_kb": 3587,
+     "train_cpu_min": 0.2,
+     "n_train": 2034,
+     "VT1": 219,
+     "VT2": 136
+    },
+    {
+     "date": "2026-11-18",
+     "kind": "Gradient-boosted trees",
+     "model_kb": 3587,
+     "train_cpu_min": 0.2,
+     "n_train": 2034,
+     "VT1": 227,
+     "VT2": 137
+    },
+    {
+     "date": "2026-11-18",
+     "kind": "Gradient-boosted trees",
+     "model_kb": 3587,
+     "train_cpu_min": 0.2,
+     "n_train": 2034,
+     "VT1": 220,
+     "VT2": 136
+    },
+    {
+     "date": "2026-11-18",
+     "kind": "Gradient-boosted trees",
+     "model_kb": 3587,
+     "train_cpu_min": 0.2,
+     "n_train": 2034,
+     "VT1": 222,
+     "VT2": 136
     }
    ]
   }
