@@ -8,6 +8,18 @@
  },
  "findings": [
   {
+   "id": "2026-11-18-dense-localisation",
+   "date": "2026-11-18",
+   "grade": "exploratory",
+   "scope": [
+    "Across labs"
+   ],
+   "title": "Asking each point of the test whether the threshold is passed does worse than reading the whole test",
+   "summary": "A model that judged every point along the VO2 axis, through a short window of every signal, as before or after the threshold, and placed the threshold where its answer turned, was about 20 mL/min worse on VT1 and 15 on VT2 than the tree model that reads the whole test at once. It still beat a cohort-typical guess, and in four of the labs where experts disagree most it beat the current production model on VT1, but in two labs it was off by hundreds. It did not help with only 400 labelled tests, and it did better with 400 than with all of them, a sign that its read-out is unstable: one early false 'passed' locks in. Next is a small network that reads the shape of the curves anywhere along the test.",
+   "method": "Gradient-boosted classifier on every point of each test, each lab held out in turn, one random seed on all data and two random samples of 400 labelled tests, compared with the tree model and the production model on the same tests.",
+   "task": "thresholds"
+  },
+  {
    "id": "2026-11-18-model-size",
    "date": "2026-11-18",
    "grade": "exploratory",
@@ -845,6 +857,33 @@
      "n_train": 2034,
      "VT1": 249,
      "VT2": 142
+    },
+    {
+     "date": "2026-11-18",
+     "kind": "Gradient-boosted trees, per-bin (dense localisation)",
+     "model_kb": 1275,
+     "train_cpu_min": 0.3,
+     "n_train": 2034,
+     "VT1": 240,
+     "VT2": 150
+    },
+    {
+     "date": "2026-11-18",
+     "kind": "Gradient-boosted trees, per-bin (dense localisation)",
+     "model_kb": 1275,
+     "train_cpu_min": 0.1,
+     "n_train": 400,
+     "VT1": 227,
+     "VT2": 150
+    },
+    {
+     "date": "2026-11-18",
+     "kind": "Gradient-boosted trees, per-bin (dense localisation)",
+     "model_kb": 1275,
+     "train_cpu_min": 0.1,
+     "n_train": 400,
+     "VT1": 238,
+     "VT2": 151
     }
    ]
   }
