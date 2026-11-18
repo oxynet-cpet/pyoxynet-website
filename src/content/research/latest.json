@@ -8,6 +8,18 @@
  },
  "findings": [
   {
+   "id": "2026-11-18-model-size",
+   "date": "2026-11-18",
+   "grade": "exploratory",
+   "scope": [
+    "Across labs"
+   ],
+   "title": "The tree model is already the size its labels support",
+   "summary": "A model six times larger was level with the usual one on VT1 and about 5 mL/min worse on VT2, at five times the training time. A sixth of the size lost about 10 mL/min on VT1, and a twentieth lost about 30 on VT1 and 7 on VT2, though both still beat a cohort-typical guess. With only 400 labelled tests the smaller model was about 2 mL/min better on VT2 in both random samples of tests, but on VT1 it was level in one sample and slightly worse in the other. More capacity buys nothing without more or different information, so the next gains must come from a different method or different inputs, not a bigger or smaller version of this one.",
+   "method": "Gradient-boosted trees at three sizes, each lab held out in turn, compared test by test with the usual size over the same random seeds, and at 400 labelled tests sampled twice.",
+   "task": "efficiency"
+  },
+  {
    "id": "2026-11-18-four-signals",
    "date": "2026-11-18",
    "grade": "exploratory",
@@ -244,6 +256,11 @@
      "VT2": 131
     },
     {
+     "date": "2026-11-17",
+     "VT1": 218,
+     "VT2": 131
+    },
+    {
      "date": "2026-11-18",
      "VT1": 218,
      "VT2": 131
@@ -434,7 +451,7 @@
    "status": "measured",
    "models": [
     {
-     "date": "2026-11-18",
+     "date": "2026-11-16",
      "kind": "Gradient-boosted trees",
      "model_kb": 1279,
      "train_cpu_min": 0.0,
@@ -443,7 +460,7 @@
      "VT2": 160
     },
     {
-     "date": "2026-11-18",
+     "date": "2026-11-16",
      "kind": "Gradient-boosted trees",
      "model_kb": 1266,
      "train_cpu_min": 0.0,
@@ -452,7 +469,7 @@
      "VT2": 156
     },
     {
-     "date": "2026-11-18",
+     "date": "2026-11-16",
      "kind": "Gradient-boosted trees",
      "model_kb": 2397,
      "train_cpu_min": 0.0,
@@ -461,7 +478,7 @@
      "VT2": 143
     },
     {
-     "date": "2026-11-18",
+     "date": "2026-11-16",
      "kind": "Gradient-boosted trees",
      "model_kb": 2383,
      "train_cpu_min": 0.0,
@@ -470,7 +487,7 @@
      "VT2": 159
     },
     {
-     "date": "2026-11-18",
+     "date": "2026-11-16",
      "kind": "Gradient-boosted trees",
      "model_kb": 3668,
      "train_cpu_min": 0.1,
@@ -479,7 +496,7 @@
      "VT2": 147
     },
     {
-     "date": "2026-11-18",
+     "date": "2026-11-16",
      "kind": "Gradient-boosted trees",
      "model_kb": 3668,
      "train_cpu_min": 0.1,
@@ -488,7 +505,7 @@
      "VT2": 143
     },
     {
-     "date": "2026-11-18",
+     "date": "2026-11-16",
      "kind": "Gradient-boosted trees",
      "model_kb": 706,
      "train_cpu_min": 0.0,
@@ -497,7 +514,7 @@
      "VT2": 172
     },
     {
-     "date": "2026-11-18",
+     "date": "2026-11-16",
      "kind": "Gradient-boosted trees",
      "model_kb": 695,
      "train_cpu_min": 0.0,
@@ -506,7 +523,7 @@
      "VT2": 171
     },
     {
-     "date": "2026-11-18",
+     "date": "2026-11-16",
      "kind": "Gradient-boosted trees",
      "model_kb": 3747,
      "train_cpu_min": 0.1,
@@ -515,7 +532,7 @@
      "VT2": 140
     },
     {
-     "date": "2026-11-18",
+     "date": "2026-11-16",
      "kind": "Gradient-boosted trees",
      "model_kb": 3745,
      "train_cpu_min": 0.1,
@@ -524,7 +541,7 @@
      "VT2": 139
     },
     {
-     "date": "2026-11-18",
+     "date": "2026-11-17",
      "kind": "Gradient-boosted trees",
      "model_kb": 3777,
      "train_cpu_min": 0.2,
@@ -533,7 +550,7 @@
      "VT2": 133
     },
     {
-     "date": "2026-11-18",
+     "date": "2026-11-17",
      "kind": "Gradient-boosted trees",
      "model_kb": 3778,
      "train_cpu_min": 0.2,
@@ -542,7 +559,7 @@
      "VT2": 138
     },
     {
-     "date": "2026-11-18",
+     "date": "2026-11-17",
      "kind": "Gradient-boosted trees",
      "model_kb": 3786,
      "train_cpu_min": 0.2,
@@ -551,7 +568,7 @@
      "VT2": 136
     },
     {
-     "date": "2026-11-18",
+     "date": "2026-11-17",
      "kind": "Gradient-boosted trees",
      "model_kb": 3786,
      "train_cpu_min": 0.2,
@@ -560,7 +577,7 @@
      "VT2": 134
     },
     {
-     "date": "2026-11-18",
+     "date": "2026-11-17",
      "kind": "Gradient-boosted trees",
      "model_kb": 3777,
      "train_cpu_min": 0.2,
@@ -569,7 +586,7 @@
      "VT2": 135
     },
     {
-     "date": "2026-11-18",
+     "date": "2026-11-17",
      "kind": "Gradient-boosted trees",
      "model_kb": 3786,
      "train_cpu_min": 0.2,
@@ -578,7 +595,7 @@
      "VT2": 135
     },
     {
-     "date": "2026-11-18",
+     "date": "2026-11-17",
      "kind": "Gradient-boosted trees",
      "model_kb": 3747,
      "train_cpu_min": 0.1,
@@ -587,7 +604,7 @@
      "VT2": 138
     },
     {
-     "date": "2026-11-18",
+     "date": "2026-11-17",
      "kind": "Gradient-boosted trees",
      "model_kb": 3587,
      "train_cpu_min": 0.2,
@@ -596,7 +613,7 @@
      "VT2": 136
     },
     {
-     "date": "2026-11-18",
+     "date": "2026-11-17",
      "kind": "Gradient-boosted trees",
      "model_kb": 3587,
      "train_cpu_min": 0.2,
@@ -605,7 +622,7 @@
      "VT2": 136
     },
     {
-     "date": "2026-11-18",
+     "date": "2026-11-17",
      "kind": "Gradient-boosted trees",
      "model_kb": 3588,
      "train_cpu_min": 0.2,
@@ -614,7 +631,7 @@
      "VT2": 136
     },
     {
-     "date": "2026-11-18",
+     "date": "2026-11-17",
      "kind": "Gradient-boosted trees",
      "model_kb": 3783,
      "train_cpu_min": 0.2,
@@ -623,7 +640,7 @@
      "VT2": 134
     },
     {
-     "date": "2026-11-18",
+     "date": "2026-11-17",
      "kind": "Gradient-boosted trees",
      "model_kb": 3783,
      "train_cpu_min": 0.2,
@@ -632,7 +649,7 @@
      "VT2": 134
     },
     {
-     "date": "2026-11-18",
+     "date": "2026-11-17",
      "kind": "Gradient-boosted trees",
      "model_kb": 3587,
      "train_cpu_min": 0.2,
@@ -641,7 +658,7 @@
      "VT2": 137
     },
     {
-     "date": "2026-11-18",
+     "date": "2026-11-17",
      "kind": "Gradient-boosted trees",
      "model_kb": 3587,
      "train_cpu_min": 0.2,
@@ -650,7 +667,7 @@
      "VT2": 137
     },
     {
-     "date": "2026-11-18",
+     "date": "2026-11-17",
      "kind": "Gradient-boosted trees",
      "model_kb": 3587,
      "train_cpu_min": 0.2,
@@ -659,7 +676,7 @@
      "VT2": 135
     },
     {
-     "date": "2026-11-18",
+     "date": "2026-11-17",
      "kind": "Gradient-boosted trees",
      "model_kb": 3587,
      "train_cpu_min": 0.2,
@@ -668,7 +685,7 @@
      "VT2": 135
     },
     {
-     "date": "2026-11-18",
+     "date": "2026-11-17",
      "kind": "Gradient-boosted trees",
      "model_kb": 3587,
      "train_cpu_min": 0.2,
@@ -677,7 +694,7 @@
      "VT2": 136
     },
     {
-     "date": "2026-11-18",
+     "date": "2026-11-17",
      "kind": "Gradient-boosted trees",
      "model_kb": 3587,
      "train_cpu_min": 0.2,
@@ -686,7 +703,7 @@
      "VT2": 137
     },
     {
-     "date": "2026-11-18",
+     "date": "2026-11-17",
      "kind": "Gradient-boosted trees",
      "model_kb": 3587,
      "train_cpu_min": 0.2,
@@ -695,7 +712,7 @@
      "VT2": 136
     },
     {
-     "date": "2026-11-18",
+     "date": "2026-11-17",
      "kind": "Gradient-boosted trees",
      "model_kb": 3587,
      "train_cpu_min": 0.2,
@@ -704,7 +721,7 @@
      "VT2": 136
     },
     {
-     "date": "2026-11-18",
+     "date": "2026-11-17",
      "kind": "Gradient-boosted trees",
      "model_kb": 3183,
      "train_cpu_min": 0.1,
@@ -713,7 +730,7 @@
      "VT2": 140
     },
     {
-     "date": "2026-11-18",
+     "date": "2026-11-17",
      "kind": "Gradient-boosted trees",
      "model_kb": 2183,
      "train_cpu_min": 0.1,
@@ -722,7 +739,7 @@
      "VT2": 136
     },
     {
-     "date": "2026-11-18",
+     "date": "2026-11-17",
      "kind": "Gradient-boosted trees",
      "model_kb": 1779,
      "train_cpu_min": 0.0,
@@ -782,6 +799,51 @@
      "train_cpu_min": 0.1,
      "n_train": 800,
      "VT1": 230,
+     "VT2": 142
+    },
+    {
+     "date": "2026-11-18",
+     "kind": "Gradient-boosted trees",
+     "model_kb": 11605,
+     "train_cpu_min": 0.9,
+     "n_train": 2034,
+     "VT1": 221,
+     "VT2": 140
+    },
+    {
+     "date": "2026-11-18",
+     "kind": "Gradient-boosted trees",
+     "model_kb": 2494,
+     "train_cpu_min": 0.0,
+     "n_train": 2034,
+     "VT1": 231,
+     "VT2": 138
+    },
+    {
+     "date": "2026-11-18",
+     "kind": "Gradient-boosted trees",
+     "model_kb": 2381,
+     "train_cpu_min": 0.0,
+     "n_train": 400,
+     "VT1": 229,
+     "VT2": 145
+    },
+    {
+     "date": "2026-11-18",
+     "kind": "Gradient-boosted trees",
+     "model_kb": 2382,
+     "train_cpu_min": 0.0,
+     "n_train": 400,
+     "VT1": 235,
+     "VT2": 141
+    },
+    {
+     "date": "2026-11-18",
+     "kind": "Gradient-boosted trees",
+     "model_kb": 2318,
+     "train_cpu_min": 0.0,
+     "n_train": 2034,
+     "VT1": 249,
      "VT2": 142
     }
    ]
