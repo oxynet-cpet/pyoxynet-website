@@ -1,12 +1,24 @@
 {
  "schema": 1,
- "updated": "2026-11-17",
+ "updated": "2026-11-18",
  "counts": {
   "experiments": 7,
   "labs": 12,
   "recordings": 1770
  },
  "findings": [
+  {
+   "id": "2026-11-18-channel-groups",
+   "date": "2026-11-18",
+   "grade": "exploratory",
+   "scope": [
+    "Across labs"
+   ],
+   "title": "VT1 rests on a small group of signals; VT2 is spread wider",
+   "summary": "Removing four signals together raises the VT1 error by about 14 mL/min and the VT2 error by about 5, although removing any one of them alone changed little. A model that reads only those four signals, a third of the input, comes within about 1 mL/min of the full model on both thresholds, but the uncertainty on VT1 is still slightly too wide to call it as good; a repeat with fresh random seeds is running. One signal alone is clearly worse, yet still better than a cohort-typical guess.",
+   "method": "Gradient-boosted trees retrained on three groups of signals, each lab held out in turn, compared test by test with the same model on all signals; the four signals were chosen from the previous single-signal experiment.",
+   "task": "efficiency"
+  },
   {
    "id": "2026-11-17-channel-ablation",
    "date": "2026-11-17",
@@ -15,7 +27,7 @@
     "Across labs"
    ],
    "title": "No single signal carries either threshold",
-   "summary": "Removing any one of the thirteen signals a simple model reads moves its VT1 error by at most about 6 mL/min and its VT2 error by at most about 2. Only one signal is clearly needed for VT1, and none for VT2. The model spreads what it uses across signals that can stand in for each other, so a smaller set of signals may do as well; that is being tested next.",
+   "summary": "Removing any one of the thirteen signals a simple model reads moves its VT1 error by at most about 6 mL/min and its VT2 error by at most about 2. Only one signal is clearly needed for VT1, and none for VT2. Removing signals one at a time hides what they do together: see the finding on groups of signals.",
    "method": "Gradient-boosted trees retrained thirteen times, each time without one signal, each lab held out in turn, compared test by test with the same model on all signals.",
    "task": "thresholds"
   },
@@ -178,6 +190,10 @@
   }
  ],
  "corrections": [
+  {
+   "date": "2026-11-18",
+   "text": "After removing signals one at a time, we wrote that the model spreads what it uses across signals that stand in for each other. For VT1 that overstated it: removing four signals together raises the VT1 error by about 14 mL/min. The finding now says VT1 rests on a small group of signals."
+  },
   {
    "date": "2026-11-16",
    "text": "An early run reported the production model as worse than a cohort-typical guess on VT2. The benchmark had handed it the wrong input. Re-measured the same day, it is better, and the claim was withdrawn before anyone relied on it."
@@ -674,6 +690,33 @@
      "n_train": 2034,
      "VT1": 222,
      "VT2": 136
+    },
+    {
+     "date": "2026-11-18",
+     "kind": "Gradient-boosted trees",
+     "model_kb": 3183,
+     "train_cpu_min": 0.1,
+     "n_train": 2034,
+     "VT1": 235,
+     "VT2": 140
+    },
+    {
+     "date": "2026-11-18",
+     "kind": "Gradient-boosted trees",
+     "model_kb": 2183,
+     "train_cpu_min": 0.1,
+     "n_train": 2034,
+     "VT1": 222,
+     "VT2": 136
+    },
+    {
+     "date": "2026-11-18",
+     "kind": "Gradient-boosted trees",
+     "model_kb": 1779,
+     "train_cpu_min": 0.0,
+     "n_train": 2034,
+     "VT1": 240,
+     "VT2": 148
     }
    ]
   }
