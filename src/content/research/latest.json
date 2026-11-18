@@ -8,6 +8,18 @@
  },
  "findings": [
   {
+   "id": "2026-11-18-four-signals",
+   "date": "2026-11-18",
+   "grade": "exploratory",
+   "scope": [
+    "Across labs"
+   ],
+   "title": "A four-signal model is nearly as good, but not shown equal, and needs no fewer labels",
+   "summary": "Repeated with fresh random seeds, the model that reads only four signals stayed within about 2 mL/min of the full model on both thresholds, at a third of the input and about half the training time. In each repeat one threshold's uncertainty still reached just past the margin fixed in advance, so it is not called as good. With 400 labelled tests it was level with the full model, and with 800 it fell behind on VT1 by about 5 mL/min: fewer signals do not let the model learn from fewer labels. The lead is closed.",
+   "method": "Gradient-boosted trees, each lab held out in turn, compared test by test with the same model on all signals, over two sets of random seeds and at two smaller numbers of labelled tests drawn twice each.",
+   "task": "efficiency"
+  },
+  {
    "id": "2026-11-18-channel-groups",
    "date": "2026-11-18",
    "grade": "exploratory",
@@ -15,7 +27,7 @@
     "Across labs"
    ],
    "title": "VT1 rests on a small group of signals; VT2 is spread wider",
-   "summary": "Removing four signals together raises the VT1 error by about 14 mL/min and the VT2 error by about 5, although removing any one of them alone changed little. A model that reads only those four signals, a third of the input, comes within about 1 mL/min of the full model on both thresholds, but the uncertainty on VT1 is still slightly too wide to call it as good; a repeat with fresh random seeds is running. One signal alone is clearly worse, yet still better than a cohort-typical guess.",
+   "summary": "Removing four signals together raises the VT1 error by about 14 mL/min and the VT2 error by about 5, although removing any one of them alone changed little. A model that reads only those four signals, a third of the input, comes within about 1 mL/min of the full model on both thresholds, but the uncertainty on VT1 is still slightly too wide to call it as good. One signal alone is clearly worse, yet still better than a cohort-typical guess.",
    "method": "Gradient-boosted trees retrained on three groups of signals, each lab held out in turn, compared test by test with the same model on all signals; the four signals were chosen from the previous single-signal experiment.",
    "task": "efficiency"
   },
@@ -717,6 +729,60 @@
      "n_train": 2034,
      "VT1": 240,
      "VT2": 148
+    },
+    {
+     "date": "2026-11-18",
+     "kind": "Gradient-boosted trees",
+     "model_kb": 3787,
+     "train_cpu_min": 0.2,
+     "n_train": 2034,
+     "VT1": 221,
+     "VT2": 135
+    },
+    {
+     "date": "2026-11-18",
+     "kind": "Gradient-boosted trees",
+     "model_kb": 2183,
+     "train_cpu_min": 0.1,
+     "n_train": 2034,
+     "VT1": 220,
+     "VT2": 137
+    },
+    {
+     "date": "2026-11-18",
+     "kind": "Gradient-boosted trees",
+     "model_kb": 2175,
+     "train_cpu_min": 0.0,
+     "n_train": 400,
+     "VT1": 225,
+     "VT2": 147
+    },
+    {
+     "date": "2026-11-18",
+     "kind": "Gradient-boosted trees",
+     "model_kb": 2175,
+     "train_cpu_min": 0.0,
+     "n_train": 400,
+     "VT1": 232,
+     "VT2": 146
+    },
+    {
+     "date": "2026-11-18",
+     "kind": "Gradient-boosted trees",
+     "model_kb": 2183,
+     "train_cpu_min": 0.1,
+     "n_train": 800,
+     "VT1": 234,
+     "VT2": 141
+    },
+    {
+     "date": "2026-11-18",
+     "kind": "Gradient-boosted trees",
+     "model_kb": 2183,
+     "train_cpu_min": 0.1,
+     "n_train": 800,
+     "VT1": 230,
+     "VT2": 142
     }
    ]
   }
