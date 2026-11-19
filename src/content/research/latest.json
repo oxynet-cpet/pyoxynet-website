@@ -8,6 +8,18 @@
  },
  "findings": [
   {
+   "id": "2026-11-19-network-trees-blend",
+   "date": "2026-11-19",
+   "grade": "robust",
+   "scope": [
+    "Across labs"
+   ],
+   "title": "Averaging a shape-reading network with the tree model places VT1 better than the current production model, most of all with few labels",
+   "summary": "Averaging the answers of the small network that reads the curves' shape and of the tree model placed VT1 about 15 mL/min closer to the experts than the current production model, in three separate sets of random seeds, although neither model had seen the test's lab and the production model had seen most of them. VT2 was level. Against the tree model alone the average was better by 4 to 8 mL/min in every set, but not clearly in all of them, so that part stays a lead. With only 400 labelled tests the average beat the tree model trained on the same tests by about 10 mL/min on VT1 and 5 on VT2, which matters for a product that must learn from few labelled tests. A network with half the filters did just as well.",
+   "method": "Convolutional network and gradient-boosted trees on every signal along the test's VO2 axis, each lab held out in turn, three random seeds averaged per network, two fresh sets of seeds at all data, two random samples of 400 labelled tests and one of 800, and a narrower network; averaged with equal weight, fixed in advance, and compared test by test with the tree model and the production model.",
+   "task": "thresholds"
+  },
+  {
    "id": "2026-11-19-span-crops",
    "date": "2026-11-19",
    "grade": "exploratory",
@@ -274,7 +286,7 @@
      "guess": 265,
      "breakpoints": 498,
      "production": 230,
-     "research": 214,
+     "research": 213,
      "floor": 192,
      "n_tests": 2317,
      "n_labs": 12
@@ -304,6 +316,11 @@
      "date": "2026-11-18",
      "VT1": 214,
      "VT2": 131
+    },
+    {
+     "date": "2026-11-19",
+     "VT1": 213,
+     "VT2": 131
     }
    ]
   },
@@ -319,7 +336,7 @@
        "n": 758,
        "guess": 201,
        "production": 173,
-       "research": 169
+       "research": 172
       },
       {
        "axis": "Modality",
@@ -327,7 +344,7 @@
        "n": 37,
        "guess": 467,
        "production": 334,
-       "research": 163
+       "research": 154
       },
       {
        "axis": "Modality",
@@ -335,7 +352,7 @@
        "n": 1522,
        "guess": 292,
        "production": 255,
-       "research": 237
+       "research": 234
       },
       {
        "axis": "Protocol",
@@ -351,7 +368,7 @@
        "n": 396,
        "guess": 204,
        "production": 184,
-       "research": 180
+       "research": 182
       },
       {
        "axis": "Protocol",
@@ -359,7 +376,7 @@
        "n": 1528,
        "guess": 291,
        "production": 255,
-       "research": 237
+       "research": 234
       },
       {
        "axis": "Fitness (VO2 peak)",
@@ -367,7 +384,7 @@
        "n": 773,
        "guess": 140,
        "production": 117,
-       "research": 122
+       "research": 121
       },
       {
        "axis": "Fitness (VO2 peak)",
@@ -375,7 +392,7 @@
        "n": 778,
        "guess": 265,
        "production": 237,
-       "research": 234
+       "research": 230
       },
       {
        "axis": "Fitness (VO2 peak)",
@@ -383,7 +400,7 @@
        "n": 766,
        "guess": 391,
        "production": 335,
-       "research": 286
+       "research": 288
       }
      ],
      "labs_held_out": 12,
@@ -1011,6 +1028,60 @@
      "n_train": 2034,
      "VT1": 224,
      "VT2": 146
+    },
+    {
+     "date": "2026-11-19",
+     "kind": "Convolutional network, soft-argmax over bins",
+     "model_kb": 860,
+     "train_cpu_min": 4.3,
+     "n_train": 2034,
+     "VT1": 232,
+     "VT2": 147
+    },
+    {
+     "date": "2026-11-19",
+     "kind": "Convolutional network, soft-argmax over bins",
+     "model_kb": 860,
+     "train_cpu_min": 4.2,
+     "n_train": 2034,
+     "VT1": 222,
+     "VT2": 147
+    },
+    {
+     "date": "2026-11-19",
+     "kind": "Convolutional network, soft-argmax over bins",
+     "model_kb": 860,
+     "train_cpu_min": 1.0,
+     "n_train": 400,
+     "VT1": 226,
+     "VT2": 148
+    },
+    {
+     "date": "2026-11-19",
+     "kind": "Convolutional network, soft-argmax over bins",
+     "model_kb": 860,
+     "train_cpu_min": 1.0,
+     "n_train": 400,
+     "VT1": 232,
+     "VT2": 147
+    },
+    {
+     "date": "2026-11-19",
+     "kind": "Convolutional network, soft-argmax over bins",
+     "model_kb": 860,
+     "train_cpu_min": 1.8,
+     "n_train": 800,
+     "VT1": 225,
+     "VT2": 142
+    },
+    {
+     "date": "2026-11-19",
+     "kind": "Convolutional network, soft-argmax over bins",
+     "model_kb": 398,
+     "train_cpu_min": 2.2,
+     "n_train": 2034,
+     "VT1": 227,
+     "VT2": 154
     }
    ]
   }
