@@ -8,6 +8,31 @@
  },
  "findings": [
   {
+   "id": "2026-11-19-recovery-forgets",
+   "date": "2026-11-19",
+   "grade": "exploratory",
+   "scope": [
+    "Across labs"
+   ],
+   "title": "Recovery after the peak does not carry where the thresholds were",
+   "summary": "We asked whether the first five minutes after peak exercise remember where VT1 and VT2 sat on the ramp, which would make the thresholds a property of the whole response rather than of a moment. They do not. A tree model reading recovery alone placed VT1 about 15 mL/min further from the experts than a cohort-typical guess, and VT2 no better. Adding recovery to the ramp changed neither threshold by more than a few mL/min, in either direction. Only about a quarter of tests record two minutes of recovery, which weakens the test, but where recovery was present the model could use it and found nothing. The thresholds are read from the ramp.",
+   "method": "Gradient-boosted trees on six signals over the first five minutes after the peak, each divided by its value at the peak, alone and added to the ramp's signals; each lab held out in turn, three random seeds averaged; criteria fixed in advance, compared test by test with a cohort-typical guess and with the same trees on the ramp alone.",
+   "task": "thresholds"
+  },
+  {
+   "id": "2026-11-19-no-two-breathing-patterns",
+   "date": "2026-11-19",
+   "grade": "exploratory",
+   "scope": [
+    "Across labs",
+    "Breath by breath"
+   ],
+   "title": "Near VT1, breathing does not switch between two patterns",
+   "summary": "Breath-to-breath ventilation grows more variable around VT1. One reading was that people alternate between deep, slow breaths and shallow, fast ones as the threshold nears. We tested it on almost a thousand breath-by-breath tests: breathing is no more two-patterned at the experts' VT1 than elsewhere. It is most two-patterned about two minutes before VT1 and becomes steadily less so after. Used to place VT1 without labels, it did worse than a cohort-typical guess. The extra variability near VT1 is larger breaths, not switching.",
+   "method": "Per breath, tidal volume and breathing frequency relative to their running medians, projected on a deep-and-slow axis; a bimodality coefficient in moving windows, averaged on the experts' VT1 marks against marks placed at random, and read as a label-free detector scored with each lab held out; nothing fitted; criteria fixed in advance.",
+   "task": "thresholds"
+  },
+  {
    "id": "2026-11-19-masked-pretraining",
    "date": "2026-11-19",
    "grade": "exploratory",
@@ -27,8 +52,8 @@
     "Across labs"
    ],
    "title": "Averaging a shape-reading network with the tree model places VT1 better than the current production model, most of all with few labels",
-   "summary": "Averaging the answers of the small network that reads the curves' shape and of the tree model placed VT1 about 15 mL/min closer to the experts than the current production model, in three separate sets of random seeds, although neither model had seen the test's lab and the production model had seen most of them. VT2 was level. Against the tree model alone the average was better by 4 to 8 mL/min in every set, but not clearly in all of them, so that part stays a lead. With only 400 labelled tests the average beat the tree model trained on the same tests by about 10 mL/min on VT1 and 5 on VT2, which matters for a product that must learn from few labelled tests. A network with half the filters did just as well.",
-   "method": "Convolutional network and gradient-boosted trees on every signal along the test's VO2 axis, each lab held out in turn, three random seeds averaged per network, two fresh sets of seeds at all data, two random samples of 400 labelled tests and one of 800, and a narrower network; averaged with equal weight, fixed in advance, and compared test by test with the tree model and the production model.",
+   "summary": "Averaging the answers of the small network that reads the curves' shape and of the tree model placed VT1 about 15 mL/min closer to the experts than the current production model, in four separate sets of random seeds, although neither model had seen the test's lab and the production model had seen most of them. VT2 was level. Against the tree model alone the average was better by 4 to 8 mL/min in every set, and clearly so in two of the three fresh sets, which met the bar fixed in advance (checked again on 2026-11-19). The gain is small, and it held even when the network on its own was at its weakest, so it comes from the two models making different mistakes. With only 400 labelled tests the average beat the tree model trained on the same tests by about 10 mL/min on VT1 and 5 on VT2, which matters for a product that must learn from few labelled tests. A network with half the filters did just as well.",
+   "method": "Convolutional network and gradient-boosted trees on every signal along the test's VO2 axis, each lab held out in turn, three random seeds averaged per network, three fresh sets of seeds at all data, two random samples of 400 labelled tests and one of 800, and a narrower network; averaged with equal weight, fixed in advance, and compared test by test with the tree model and the production model.",
    "task": "thresholds"
   },
   {
@@ -289,7 +314,7 @@
  ],
  "benchmarks": {
   "schema": 1,
-  "computed": "2026-11-19",
+  "computed": "2026-11-20",
   "thresholds": {
    "status": "measured",
    "unit": "mL/min",
@@ -1130,6 +1155,42 @@
      "n_train": 400,
      "VT1": 238,
      "VT2": 148
+    },
+    {
+     "date": "2026-11-19",
+     "kind": "Label-free: peak bimodality of the deep-and-slow breathing axis",
+     "model_kb": 0,
+     "train_cpu_min": 0.0,
+     "n_train": 0,
+     "VT1": 324,
+     "VT2": 155
+    },
+    {
+     "date": "2026-11-19",
+     "kind": "Convolutional network, soft-argmax over bins",
+     "model_kb": 860,
+     "train_cpu_min": 4.0,
+     "n_train": 2034,
+     "VT1": 233,
+     "VT2": 145
+    },
+    {
+     "date": "2026-11-19",
+     "kind": "Gradient-boosted trees on the first 5 min of recovery plus the ramp",
+     "model_kb": 4650,
+     "train_cpu_min": 0.4,
+     "n_train": 2034,
+     "VT1": 219,
+     "VT2": 133
+    },
+    {
+     "date": "2026-11-19",
+     "kind": "Gradient-boosted trees on the first 5 min of recovery",
+     "model_kb": 2373,
+     "train_cpu_min": 0.1,
+     "n_train": 554,
+     "VT1": 278,
+     "VT2": 157
     }
    ]
   }
