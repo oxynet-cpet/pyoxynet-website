@@ -8,6 +8,18 @@
  },
  "findings": [
   {
+   "id": "2026-11-19-masked-pretraining",
+   "date": "2026-11-19",
+   "grade": "exploratory",
+   "scope": [
+    "Across labs"
+   ],
+   "title": "Teaching the network to fill in hidden stretches of the curves, without labels, makes it worse at placing VT1",
+   "summary": "Before learning from labels, the small network first learned to fill in hidden stretches of each test's curves from the rest. It then placed VT1 about 7 mL/min further from the experts than the same network without this step, did not help with only 400 labelled tests, and did not help the average with the tree model. Letting it also see the new lab's curves, never their labels, did not help either. Filling in gaps rewards the smooth trend of a test, which the tree model already reads, not the bends where a threshold sits. This kind of label-free learning is dropped on this data; the average of network and trees remains the best way found to place VT1.",
+   "method": "Convolutional network on every signal along the test's VO2 axis, first trained without labels to reconstruct three hidden stretches per test, then on labels; each lab held out in turn, three random seeds averaged, at all data and at two random samples of 400 labelled tests, once also pretrained on the held-out lab's unlabelled curves; criteria fixed in advance, compared test by test with the same network without pretraining.",
+   "task": "thresholds"
+  },
+  {
    "id": "2026-11-19-network-trees-blend",
    "date": "2026-11-19",
    "grade": "robust",
@@ -1082,6 +1094,42 @@
      "n_train": 2034,
      "VT1": 227,
      "VT2": 154
+    },
+    {
+     "date": "2026-11-19",
+     "kind": "Convolutional network, soft-argmax over bins, masked-reconstruction pretraining",
+     "model_kb": 860,
+     "train_cpu_min": 5.2,
+     "n_train": 2034,
+     "VT1": 231,
+     "VT2": 149
+    },
+    {
+     "date": "2026-11-19",
+     "kind": "Convolutional network, soft-argmax over bins, masked-reconstruction pretraining incl. held-out lab inputs",
+     "model_kb": 860,
+     "train_cpu_min": 5.1,
+     "n_train": 2034,
+     "VT1": 229,
+     "VT2": 153
+    },
+    {
+     "date": "2026-11-19",
+     "kind": "Convolutional network, soft-argmax over bins, masked-reconstruction pretraining",
+     "model_kb": 860,
+     "train_cpu_min": 1.9,
+     "n_train": 400,
+     "VT1": 231,
+     "VT2": 153
+    },
+    {
+     "date": "2026-11-19",
+     "kind": "Convolutional network, soft-argmax over bins, masked-reconstruction pretraining",
+     "model_kb": 860,
+     "train_cpu_min": 1.9,
+     "n_train": 400,
+     "VT1": 238,
+     "VT2": 148
     }
    ]
   }
