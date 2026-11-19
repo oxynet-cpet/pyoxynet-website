@@ -1,12 +1,24 @@
 {
  "schema": 1,
- "updated": "2026-11-18",
+ "updated": "2026-11-19",
  "counts": {
   "experiments": 7,
   "labs": 12,
   "recordings": 1770
  },
  "findings": [
+  {
+   "id": "2026-11-19-span-crops",
+   "date": "2026-11-19",
+   "grade": "exploratory",
+   "scope": [
+    "Across labs"
+   ],
+   "title": "Where a bend sits on the test matters: re-reading tests on cropped ranges makes the network worse",
+   "summary": "Showing the small network a fresh random crop of each test's VO2 range at every pass, with the threshold moved along, made it about 15 mL/min worse on VT1 and 10 on VT2 than the same network trained on whole tests, and it did not help with 400 or 800 labelled tests. A threshold is not only a bend in the curves wherever it happens: where along the test's range the bend falls carries information that cropping destroys. Averaged over three random seeds, the uncropped network is level with the tree model on VT1 and behind it on VT2. Averaging the network's and the tree model's answers placed VT1 closer to the experts than either alone, and closer than the current production model, though neither model saw the test's lab; this was noticed after the fact, so it is a lead now being repeated with fresh seeds, not yet a result.",
+   "method": "Convolutional network on every signal along the test's VO2 axis, each lab held out in turn, three random seeds averaged, with and without random crops, at all data and at 400 and 800 labelled tests; compared test by test with the tree model and the production model.",
+   "task": "thresholds"
+  },
   {
    "id": "2026-11-18-conv-network",
    "date": "2026-11-18",
@@ -239,6 +251,10 @@
  ],
  "corrections": [
   {
+   "date": "2026-11-19",
+   "text": "From one random seed we wrote that the small network was about 20 mL/min worse than the tree model on VT1 and did not beat a cohort-typical guess on VT2. Averaged over three seeds it is level with the trees on VT1 and does beat the guess on VT2, though it stays behind the trees there. One seed of this network is not enough to judge it."
+  },
+  {
    "date": "2026-11-18",
    "text": "After removing signals one at a time, we wrote that the model spreads what it uses across signals that stand in for each other. For VT1 that overstated it: removing four signals together raises the VT1 error by about 14 mL/min. The finding now says VT1 rests on a small group of signals."
   },
@@ -258,7 +274,7 @@
      "guess": 265,
      "breakpoints": 498,
      "production": 230,
-     "research": 218,
+     "research": 214,
      "floor": 192,
      "n_tests": 2317,
      "n_labs": 12
@@ -286,7 +302,7 @@
     },
     {
      "date": "2026-11-18",
-     "VT1": 218,
+     "VT1": 214,
      "VT2": 131
     }
    ]
@@ -303,7 +319,7 @@
        "n": 758,
        "guess": 201,
        "production": 173,
-       "research": 171
+       "research": 169
       },
       {
        "axis": "Modality",
@@ -311,7 +327,7 @@
        "n": 37,
        "guess": 467,
        "production": 334,
-       "research": 161
+       "research": 163
       },
       {
        "axis": "Modality",
@@ -319,7 +335,7 @@
        "n": 1522,
        "guess": 292,
        "production": 255,
-       "research": 242
+       "research": 237
       },
       {
        "axis": "Protocol",
@@ -327,7 +343,7 @@
        "n": 393,
        "guess": 224,
        "production": 178,
-       "research": 158
+       "research": 160
       },
       {
        "axis": "Protocol",
@@ -335,7 +351,7 @@
        "n": 396,
        "guess": 204,
        "production": 184,
-       "research": 184
+       "research": 180
       },
       {
        "axis": "Protocol",
@@ -343,7 +359,7 @@
        "n": 1528,
        "guess": 291,
        "production": 255,
-       "research": 242
+       "research": 237
       },
       {
        "axis": "Fitness (VO2 peak)",
@@ -351,7 +367,7 @@
        "n": 773,
        "guess": 140,
        "production": 117,
-       "research": 119
+       "research": 122
       },
       {
        "axis": "Fitness (VO2 peak)",
@@ -367,7 +383,7 @@
        "n": 766,
        "guess": 391,
        "production": 335,
-       "research": 300
+       "research": 286
       }
      ],
      "labs_held_out": 12,
@@ -941,6 +957,60 @@
      "n_train": 2034,
      "VT1": 233,
      "VT2": 162
+    },
+    {
+     "date": "2026-11-18",
+     "kind": "Convolutional network, soft-argmax over bins, random span crops",
+     "model_kb": 860,
+     "train_cpu_min": 4.5,
+     "n_train": 2034,
+     "VT1": 239,
+     "VT2": 156
+    },
+    {
+     "date": "2026-11-18",
+     "kind": "Convolutional network, soft-argmax over bins, random span crops",
+     "model_kb": 287,
+     "train_cpu_min": 0.4,
+     "n_train": 400,
+     "VT1": 245,
+     "VT2": 178
+    },
+    {
+     "date": "2026-11-18",
+     "kind": "Convolutional network, soft-argmax over bins, random span crops",
+     "model_kb": 287,
+     "train_cpu_min": 0.4,
+     "n_train": 400,
+     "VT1": 256,
+     "VT2": 162
+    },
+    {
+     "date": "2026-11-18",
+     "kind": "Convolutional network, soft-argmax over bins, random span crops",
+     "model_kb": 287,
+     "train_cpu_min": 0.6,
+     "n_train": 800,
+     "VT1": 243,
+     "VT2": 164
+    },
+    {
+     "date": "2026-11-18",
+     "kind": "Convolutional network, soft-argmax over bins, random span crops",
+     "model_kb": 398,
+     "train_cpu_min": 2.3,
+     "n_train": 2034,
+     "VT1": 238,
+     "VT2": 164
+    },
+    {
+     "date": "2026-11-18",
+     "kind": "Convolutional network, soft-argmax over bins",
+     "model_kb": 860,
+     "train_cpu_min": 4.2,
+     "n_train": 2034,
+     "VT1": 224,
+     "VT2": 146
     }
    ]
   }
