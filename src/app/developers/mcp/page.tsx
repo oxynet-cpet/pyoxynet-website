@@ -5,6 +5,7 @@ import { CodeBlock } from '@/components/shared/code-block'
 import { readExample } from '@/lib/examples'
 import { MCP_TOOLS, type McpToolName } from '@/generated/registry'
 import { LINKS } from '@/content/developers/meta'
+import { RETENTION_HOURS } from '@/content/facts'
 
 export const metadata: Metadata = {
   title: 'CPET for AI agents: the Oxynet MCP server',
@@ -109,7 +110,7 @@ export default function McpPage() {
               <li>Handles the files the user names, and only those</li>
               <li>Compares, ranks and tabulates structured results</li>
               <li>Explains them, passing on notes and refusals</li>
-              <li>Never attaches a confidence to a result that has none</li>
+              <li>Never turns the low or normal confidence category into a number</li>
             </ul>
           </Card>
         </div>
@@ -181,6 +182,12 @@ analyze_substrate(cpet_id)
 compute_metrics(cpet_id, ["gas_quality", "ve_vco2_slope"])
 delete_cpet(cpet_id)`}
         />
+        <p className="text-sm text-ink-body mt-4 max-w-3xl">
+          Or one call for everything: <code className="font-mono text-[13px]">assess_cpet(cpet_id)</code>{' '}
+          runs every analysis the key includes and the recording supports, with the derived metrics,
+          a headline and a plan saying what ran and why anything did not. It is billed one unit per
+          analysis that ran.
+        </p>
         <p className="text-xs text-ink-faint mt-3">Watch it end to end in the <Link href="/demo" className="text-accent hover:underline">simulated agent demo</Link>.</p>
       </Section>
 
@@ -197,15 +204,17 @@ delete_cpet(cpet_id)`}
           </p>
           <p>
             <strong>Data.</strong> The same rules as REST: bytes parsed and discarded, the parsed
-            record deleted after 24 hours or on <code>delete_cpet</code>, records partitioned per key.
+            record deleted after {RETENTION_HOURS} hours or on <code>delete_cpet</code>, records partitioned per key.
             See <Link href="/developers/data-handling">Data handling</Link>.
           </p>
         </Prose>
         <Callout tone="warn" className="mt-6">
           <p>
-            No result carries a confidence score and an agent must not invent one. <code>quality</code>{' '}
-            describes the recording. Oscillation analysis is research-stage, developed on a single
-            heart-failure cohort with transportability untested; an agent reporting it should say so.
+            No result carries a numeric confidence and an agent must not invent one.{' '}
+            <code>confidence</code> is a category, low or normal, set by stated rules: an agent passes
+            on a low one with its reason. <code>quality</code> describes the recording. Oscillation
+            analysis is beta, developed on a single heart-failure cohort with transportability
+            untested; an agent reporting it should say so.
           </p>
         </Callout>
       </Section>

@@ -107,7 +107,8 @@ export default function QuickStartPage() {
           </p>
           <p>
             Fetch it live, as in step 3, or <Link href="/developers/downloads#samples">download the saved copies</Link>,
-            including one with an oscillation for the research analysis.
+            including one with an oscillation for the oscillatory ventilation analysis (beta:
+            developed on one heart-failure cohort, transportability untested).
           </p>
         </Prose>
       </Section>
@@ -147,18 +148,22 @@ export default function QuickStartPage() {
         <CodeBlock code={JSON.stringify(vt, null, 2)} lang="json" filename={`analyze → results[0]  ·  analysis_version ${RECORDED.analysisVersion}`} copy />
         <Prose className="mt-3 mb-6">
           <p className="text-xs text-ink-faint">
-            As stored for the manual, which kept only these fields. A live response also carries{' '}
-            <code>analysis</code>, <code>notes</code>, and <code>schema_version</code> and{' '}
-            <code>computed_at</code> in provenance.
+            As stored for the manual, which kept only some fields. A live response also carries{' '}
+            <code>analysis</code>, <code>notes</code>, <code>confidence</code> and{' '}
+            <code>preprocessing</code>, and in provenance <code>schema_version</code>,{' '}
+            <code>computed_at</code> and, with no model named, <code>selection</code> (and{' '}
+            <code>members</code> when the committee answers).
           </p>
         </Prose>
         <Facts
           rows={[
             [<code key="s">status</code>, <>&quot;ok&quot;, or &quot;not_analysable&quot; with an error code and the reason. Other analyses in the same call still run.</>],
             [<code key="f">findings</code>, 'VT1 and VT2 in seconds from the start and in mL/min of oxygen uptake.'],
-            [<code key="q">quality</code>, 'good, acceptable or poor: how complete the RECORDING is. Not a confidence in the thresholds.'],
+            [<code key="q">quality</code>, 'good, acceptable or poor: how complete the RECORDING is, not how good the answer is.'],
+            [<code key="c">confidence</code>, 'low or normal: a category set by stated rules on the answer, never a number. Low names the rule that fired; nothing is calibrated against clinical outcomes.'],
             [<code key="n">notes</code>, 'Caveats that belong in any report built on these numbers.'],
-            [<code key="p">provenance</code>, 'Which model and version ran, the analysis version, when, and how long it took.'],
+            [<code key="p">provenance</code>, 'Which method and version answered, the analysis version, when, and how long it took. With no model named, selection says why that method answered.'],
+            [<code key="r">preprocessing</code>, 'What the analysis read, and which of the recording’s checks applied to it.'],
           ]}
         />
         <p className="mt-4 text-sm">

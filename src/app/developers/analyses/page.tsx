@@ -66,8 +66,9 @@ export default function AnalysesPage() {
       <Callout tone="warn" title="Read with every row" className="mb-12">
         <p>
           Nothing here is calibrated against clinical outcomes, and no output carries a confidence
-          score. What has been measured is agreement with expert labelling, which is a different
-          claim. Oxynet is research software, not a medical device, and its output is not a
+          score: the <code>confidence</code> field is a category, low or normal, set by stated rules
+          on the answer. What has been measured is agreement with expert labelling, which is a
+          different claim. Oxynet is research software, not a medical device, and its output is not a
           diagnosis.
         </p>
       </Callout>

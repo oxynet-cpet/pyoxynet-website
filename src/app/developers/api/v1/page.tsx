@@ -3,13 +3,13 @@ import Link from 'next/link'
 import { DocHeader, Section, Prose, Callout, Facts, NextSteps } from '@/components/developers/doc'
 import { CodeBlock } from '@/components/shared/code-block'
 import { loadOpenApi } from '@/lib/openapi'
-import { ENDPOINT_NOTES, OUTSIDE_SCHEMA, OPEN_ENDPOINTS, LIMITS, ERRORS, REFUSALS, ENVELOPE_FIELDS } from '@/content/developers/api-v1'
+import { ENDPOINT_NOTES, OUTSIDE_SCHEMA, OPEN_ENDPOINTS, LIMITS, ERRORS, REFUSALS, REFUSAL_MEANINGS, ENVELOPE_FIELDS } from '@/content/developers/api-v1'
 import { API_BASE, LINKS, MAILTO, RECORDED } from '@/content/developers/meta'
 
 export const metadata: Metadata = {
   title: 'CPET API reference (v1)',
   description:
-    'The Oxynet REST API for cardiopulmonary exercise testing: authentication, upload, analysis of ventilatory thresholds, substrate use and oscillatory ventilation, derived metrics, errors, limits, retention and versioning.',
+    'The Oxynet REST API for cardiopulmonary exercise testing: authentication, upload, analysis of ventilatory thresholds, substrate use and oscillatory ventilation (beta), derived metrics, errors, limits, retention and versioning.',
   alternates: { canonical: '/developers/api/v1' },
 }
 
@@ -66,8 +66,9 @@ export default async function ApiV1Page() {
         <ol className="mt-5 space-y-2 max-w-3xl font-mono text-[13px]">
           {[
             ['GET', '/v1/capabilities', 'what may this key do'],
-            ['POST', '/v1/cpet', 'upload → cpet_id'],
-            ['POST', '/v1/cpet/{id}/analyze', 'thresholds, substrate, oscillation'],
+            ['POST', '/v1/cpet', 'upload → cpet_id, and the checks'],
+            ['POST', '/v1/cpet/{id}/assess', 'everything that applies, in one call'],
+            ['POST', '/v1/cpet/{id}/analyze', 'or one by one: thresholds, substrate, oscillation (beta)'],
             ['POST', '/v1/cpet/{id}/compute', 'derived quantities, input checks'],
             ['DELETE', '/v1/cpet/{id}', 'or let it expire'],
           ].map(([m, p, what], i) => (
@@ -84,8 +85,9 @@ export default async function ApiV1Page() {
       <Section id="auth" title="Authentication">
         <Prose className="mb-5">
           <p>
-            An API key in the <code>X-API-Key</code> header on every request. Keys are issued by
-            Oxynet (<a href={MAILTO.key}>request one</a>). Each key carries a tier, which governs the
+            An API key in the <code>X-API-Key</code> header on every request. A free key comes from{' '}
+            <a href={LINKS.signup}>signing up</a>; Oxynet issues keys with higher limits to
+            organisations (<a href={MAILTO.key}>request one</a>). Each key carries a tier, which governs the
             models it can reach, and a set of products, which governs the analyses it can run, plus
             an optional monthly limit and expiry. Records are partitioned per key: one key cannot
             read another&apos;s uploads.
@@ -158,7 +160,14 @@ export default async function ApiV1Page() {
             evidence for detection. <code>POST /v1/uploads</code> returns a one-shot URL for a file
             on disk, so an agent never holds the bytes. Every route returns the upload summary:
             detected format, each channel with its coverage and, if absent, the reason; the sampling
-            the file arrived at; the external load; parser flags.
+            the file arrived at; the external load; parser flags; and a <code>preprocessing</code>{' '}
+            block, the one pass every analysis then reads.
+          </p>
+          <p>
+            Read <code>preprocessing.checks</code> before analysing. Each check carries a code, a
+            message and its effect on each analysis, <code>refused</code> or{' '}
+            <code>caution</code>: a check that refuses thresholds will refuse them, with the same
+            message, so the caller can say so at once instead of spending an analysis to find out.
           </p>
           <p>
             Detection reads the content and refuses when no candidate is clearly best. If nothing
@@ -178,12 +187,31 @@ export default async function ApiV1Page() {
             An analysis the recording cannot support comes back as <code>not_analysable</code> inside
             the 200, with the reason, and the others still run. <code>&quot;signal&quot;</code> is
             not an analysis name: signal processing is read from <code>GET /v1/cpet/{'{id}'}</code>{' '}
-            and the input-quality metrics.
+            and the input-quality metrics. Oscillatory ventilation (<code>eov</code>) is beta:
+            developed on one heart-failure cohort, transportability untested.
+          </p>
+          <p>
+            With no <code>model</code> named, the thresholds come from the method with the best
+            measured record on that kind of test, the same routed answer the browser and MCP give.
+            First in that order is a committee, <code>fellowship</code>: gradient-boosted trees
+            (treebeard, which needs only VO2, VCO2 and VE) and the networks gandalf, pippin and
+            rosie, combined. It answers
+            when every member can run on the recording; otherwise a single method answers, treebeard
+            first, so a file without end-tidal gases is still analysed. <code>provenance.selection</code>{' '}
+            says which method answered and why.
+          </p>
+          <p>
+            <code>POST /v1/cpet/{'{id}'}/assess</code> (MCP: <code>assess_cpet</code>) runs every
+            analysis the key includes and the recording supports in one call, and adds the derived
+            metrics, a <code>headline</code> and a <code>plan</code> saying what ran and why anything
+            did not. It is billed one unit per analysis that ran; the metrics are included.
           </p>
         </Prose>
         <Facts rows={ENVELOPE_FIELDS.map(([k, v]) => [<code key={k}>{k}</code>, v])} />
         <h3 className="text-sm font-semibold text-ink-strong mt-8 mb-3">Refusal codes inside a 200</h3>
         <Facts rows={REFUSALS.map(([k, v]) => [<code key={k}>{k}</code>, <span key={k} className="font-mono text-xs">{v}</span>])} />
+        <p className="mt-4 mb-3 text-sm text-ink-body">The codes that need a word of explanation. The first four are about the recording itself, and the upload&apos;s checks announce them before any analysis runs. Refusals are never billed.</p>
+        <Facts rows={REFUSAL_MEANINGS.map(([k, v]) => [<code key={k}>{k}</code>, v])} />
         <p className="mt-4 text-sm"><Link href="/developers/analyses" className="text-accent hover:underline">What each analysis measures, and its evidence status →</Link></p>
       </Section>
 
@@ -235,7 +263,7 @@ export default async function ApiV1Page() {
             ['API', <><code key="a">v1</code> in the path and in the schema&apos;s info.version. Breaking changes would ship as <code key="b">/v2</code> beside it, documented at <code key="c">/developers/api/v2</code>.</>],
             ['Analysis', <><code key="a">provenance.analysis_version</code>, currently {RECORDED.analysisVersion}.</>],
             ['Response schema', <><code key="a">provenance.schema_version</code> and the upload summary&apos;s <code key="b">schema_version</code>.</>],
-            ['Model', <><code key="a">provenance.model</code> and <code key="b">model_version</code>. Omit <code key="c">model</code> in requests to get the default, which is what the web application uses.</>],
+            ['Model', <><code key="a">provenance.model</code> and <code key="b">model_version</code>. Omit <code key="c">model</code> in requests to get the routed best method, the same answer the browser and MCP give; <code key="d">provenance.selection</code> says which method answered and why.</>],
             ['Determinism', 'The same recording returns the same numbers on the same model version.'],
             ['Request strictness', 'An unrecognised request field is a 422 naming it, so a typo cannot silently run on defaults.'],
           ]}
