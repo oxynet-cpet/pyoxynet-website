@@ -44,6 +44,7 @@ const TOOL_SUMMARIES = {
   create_upload: 'One-shot URL for a file on disk',
   upload_cpet: 'Upload contents already in hand',
   get_cpet: 'Format, channels, sampling, protocol',
+  assess_cpet: 'Everything that applies, in one call',
   list_metrics: 'The derived-quantity registry',
   compute_metrics: 'Phases, gas quality, sampling',
   analyze_vt: 'Ventilatory thresholds',

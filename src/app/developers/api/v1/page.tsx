@@ -194,8 +194,8 @@ export default async function ApiV1Page() {
             With no <code>model</code> named, the thresholds come from the method with the best
             measured record on that kind of test, the same routed answer the browser and MCP give.
             First in that order is a committee, <code>fellowship</code>: gradient-boosted trees
-            (treebeard, which needs only VO2, VCO2 and VE) and the networks gandalf, pippin and
-            rosie, combined. It answers
+            (treebeard, which needs only VO2, VCO2 and VE) and Oxynet&apos;s neural networks,
+            combined; <code>provenance.members</code> names them. It answers
             when every member can run on the recording; otherwise a single method answers, treebeard
             first, so a file without end-tidal gases is still analysed. <code>provenance.selection</code>{' '}
             says which method answered and why.

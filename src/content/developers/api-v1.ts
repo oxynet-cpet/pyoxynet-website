@@ -110,7 +110,7 @@ export const REFUSAL_MEANINGS: [string, string][] = [
   ['NOT_INCREMENTAL', 'A constant-load bout, or VO2 flat at an exercise level: a ventilatory threshold is read on a rising load.'],
   ['INCONSISTENT_THRESHOLDS', 'VT2 came out at or below VT1. A routed call tries another method first.'],
   ['NO_ELIGIBLE_MODEL', 'No method this key may run can read this recording; the message names each one passed over and why.'],
-  ['THIN_AXIS, UNBINNABLE', 'treebeard, named, cannot place this test on its VO2 axis (the range is too narrow). A routed call passes to another method instead.'],
+  ['THIN_AXIS, UNBINNABLE', 'treebeard, named, cannot place this test on its VO2 axis: the range it covers is too narrow (THIN_AXIS), or there are too few samples or VO2 does not rise (UNBINNABLE). A routed call passes to another method instead.'],
 ]
 
 /** The envelope, field by field, from v1.py and answer_checks.py. */

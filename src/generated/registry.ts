@@ -62,6 +62,7 @@ export const MCP_TOOLS = [
   "upload_cpet",
   "create_upload",
   "analyze_vt",
+  "assess_cpet",
   "analyze_eov",
   "analyze_substrate",
   "list_metrics",

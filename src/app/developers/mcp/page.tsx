@@ -26,13 +26,14 @@ const TOOL_SUMMARY = {
   create_upload: 'One-shot upload URLs (up to 200 at once), valid 5 minutes, so a file on disk goes straight to Oxynet.',
   upload_cpet: 'Upload contents the agent already holds, for example a file attached to the chat.',
   get_cpet: 'The signal view: detected format, channels and coverage, sampling, external load, parser flags.',
-  analyze_vt: 'Ventilatory thresholds VT1 and VT2, with quality, notes and provenance.',
+  assess_cpet: 'Everything that applies in one call: thresholds, oscillatory ventilation (beta) and substrate use, with the metrics, a headline and the plan of what ran. Billed per analysis that ran.',
+  analyze_vt: 'Ventilatory thresholds VT1 and VT2, with quality, confidence, notes and provenance.',
   analyze_eov: 'Oscillatory ventilation and the ventilatory control loop (beta).',
   analyze_substrate: 'Fat and carbohydrate oxidation, FATMAX, the crossover, gross efficiency.',
   list_metrics: 'Every derived quantity, with its unit, requirements and reading traps.',
   compute_metrics: 'Derived quantities and input checks: phases, gas_quality, substrate_summary, peaks, slope profile.',
   get_cpet_series: 'Downsampled signals, for drawing a picture only.',
-  delete_cpet: 'Remove a recording now rather than at the 24 h expiry.',
+  delete_cpet: `Remove a recording now rather than at the ${RETENTION_HOURS} h expiry.`,
 } satisfies Record<McpToolName, string>
 
 const DESKTOP = `Not in the directory list? Settings → Connectors → Add custom connector
