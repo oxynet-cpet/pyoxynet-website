@@ -36,7 +36,7 @@ export function mission() {
     ${caption(`Every point is one breath of one real test. On the left, the file as the cart exported it. In the middle, the same breaths placed into intensity domains with both thresholds located, ${api.vt.provenance.latency_ms.toFixed(0)} milliseconds of model time later. On the right, a ventilatory rhythm the file was never asked about.`, 'max-width:620px')}
     <div style="margin-top:18px;padding-top:16px;border-top:1px solid ${L.line};display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px">
       ${[
-        ['Deep learning', 'Convolutional networks over the breath series, with recurrent, temporal-convolutional and transformer variants benchmarked against them.'],
+        ['Machine learning', 'Gradient-boosted trees and convolutional networks over the breath series, combined, with recurrent and transformer variants benchmarked against them.'],
         ['Signal processing', 'Continuous wavelet analysis for the ventilatory rhythms, cross-channel coherence and phase for whether the trace can be believed.'],
         ['Learned representation', `Structure recovered without labels, and self-supervised pretraining in development. Named in full in ${xref('2.1')}.`],
       ].map(([h, b]) => `
@@ -77,8 +77,8 @@ export function today() {
     ${lead('Everything below answers on the live API now, and the note says what is behind each one.')}
     <table style="width:100%;border-collapse:collapse">
       <tr>${th('Capability')}${th('Status')}${th('Note')}</tr>
-      ${row('VT1 and VT2 detection', 'production', 'Convolutional network over the breath series. Time and V̇O₂ axes')}
-      ${row('Intensity domain per second', 'production', 'Three class probabilities per second, from the same network')}
+      ${row('VT1 and VT2 detection', 'production', 'Trees and networks combined. V̇O₂, V̇CO₂ and V̇E suffice')}
+      ${row('Intensity domains', 'production', 'Bounded by the thresholds, drawn breath by breath in the browser')}
       ${row('Signal integrity checks', 'production', 'Cross-channel coherence and phase, sampling and clock analysis')}
       ${row('Derived CPET quantities', 'production', 'Peaks, O₂ pulse, ventilatory equivalent slope profile')}
       ${row('Substrate use and FATMAX', 'production', 'Indirect calorimetry from gas exchange, load channel optional')}

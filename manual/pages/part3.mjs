@@ -34,7 +34,7 @@ export function rule() {
     ${code(`get_capabilities()             # what may this key do
 create_upload()                # -> a one-shot upload URL
 $ curl -F "file=@test.csv" URL # -> cpet_id
-analyze_vt(id), analyze_eov(id)
+assess_cpet(id)                # or analyze_vt(id), ...
 compute_metrics(id, ["vo2max"])
 get_cpet_series(id, ["VE"])    # only to draw a picture`)}`
 
@@ -132,7 +132,8 @@ export function rest() {
     ${stand('The surface a clinical system or a data pipeline integrates against. Authentication is an API key in a header; models and analyses are granted per key.', 'margin-bottom:10px')}
     ${ep('GET', '/v1/capabilities', 'What this key may do: licensed analyses, reachable models, the metric registry, limits and the retention policy.')}
     ${ep('POST', '/v1/cpet', 'Upload a recording. The format is detected; the response says what was parsed and which channels are absent, with a reason for each.')}
-    ${ep('POST', '/v1/cpet/{id}/analyze', 'Run models. One envelope per analysis, and one that cannot run does not stop the others.')}
+    ${ep('POST', '/v1/cpet/{id}/assess', 'Every analysis the key and the recording allow, in one call, with the metrics, a headline and a plan of what ran.')}
+    ${ep('POST', '/v1/cpet/{id}/analyze', 'Run models. With none named, the method with the best measured record answers and says why. One envelope per analysis; one that cannot run does not stop the others.')}
     ${ep('POST', '/v1/cpet/{id}/compute', 'Derived quantities from the metric registry: peaks, the slope profile, classical landmarks, input-quality checks.')}
     ${ep('GET', '/v1/cpet/{id}/series', 'A decimated slice of the signals, for plotting only. Never for computing.')}
     <div style="margin-top:12px">
@@ -141,18 +142,19 @@ export function rest() {
       ${code(`{
   "status":     "ok" | "not_analysable",
   "findings":   { ... } | null,
-  "quality":    "good" | "acceptable"
-                | "poor" | "unusable",
+  "quality":    "good" | "acceptable" | "poor",
+  "confidence": { "level", "reasons" },
   "notes":      [ "plain-language caveats" ],
   "provenance": { "model", "model_version",
-                  "analysis_version",
-                  "latency_ms" }
+                  "selection", "members",
+                  "analysis_version", "latency_ms" },
+  "preprocessing": { "read", "checks" }
 }`)}
     </div>`
 
   const rail =
-    railBlock('warn', 'Two fields to read carefully',
-      rp(`<span class="mono" style="font-size:11.5px">quality</span> describes the INPUT recording. It is not a confidence in the answer, and there is no field that is.`) +
+    railBlock('warn', 'Three fields to read carefully',
+      rp(`<span class="mono" style="font-size:11.5px">quality</span> describes the INPUT recording. <span class="mono" style="font-size:11.5px">confidence</span> is a category, low or normal, set by stated rules on the answer: never a number, since nothing is calibrated against outcomes.`) +
       rp(`<span class="mono" style="font-size:11.5px">notes</span> is not decoration. It carries the caveats that must travel with the numbers into any report built on them.`, true)) +
     railBlock('surface', 'Machine-readable',
       rp(`OpenAPI 3.0 at <b style="color:${L.strong}">${extlink(LINKS.openapi, '/v1/openapi.json')}</b>, importable into a client generator, an agent action or an integration platform.`) +
@@ -204,7 +206,7 @@ export function mcp() {
     railBlock('warn', 'Why this matters',
       rp('A general-purpose assistant given a CPET will tend to estimate a threshold from the numbers in its context. Through MCP it calls the model that was evaluated against expert labelling, and reports what came back.', true)) +
     railBlock('surface', 'When an analysis cannot run',
-      rp('Where a recording cannot support an analysis the API says so and says why, and the assistant is instructed to report it. It is also instructed not to attach a confidence to a result that has none.', true))
+      rp('Where a recording cannot support an analysis the API says so and says why, and the assistant is instructed to report it. It is also instructed never to turn the low or normal confidence category into a number.', true))
 
   return page({ id: 'p25', body: rh('3.4 MCP') + grid(main, rail) + folio('25') })
 }

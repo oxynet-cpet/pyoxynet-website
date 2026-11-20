@@ -54,8 +54,8 @@ export function technology() {
     <p style="font-size:19px;line-height:1.45;font-weight:500;color:${L.strong};margin:0 0 18px;max-width:600px">Signal processing, machine learning and deep learning, applied to a signal that has had comparatively little of it.</p>
     ${layer('Signal processing', 'Conditioning, spectral analysis, phase',
       'Sampling-aware per-channel smoothing, resampling to a common grid, continuous wavelet analysis over the oscillation band, cross-channel coherence and phase. Deterministic arithmetic, and where signal integrity is decided.')}
-    ${layer('Deep learning', 'Convolutional networks over the breath series',
-      'The promoted threshold models are CNNs over the detrended series, trained per cohort. Recurrent (LSTM and GRU), temporal-convolutional and transformer variants are trained and benchmarked against them; what ships is whatever clears the gate on a held-out cohort.')}
+    ${layer('Machine learning', 'Trees and networks, combined',
+      'With no model named, a committee answers: gradient-boosted trees, which need only V̇O₂, V̇CO₂ and V̇E, combined with CNNs over the breath series. Where it cannot run, one method answers and says why. Recurrent and transformer variants are benchmarked against them on held-out cohorts.')}
     ${layer('Representation learning', 'Structure without labels',
       'An unsupervised representation learned from the recordings themselves, in which the intensity domains appear as regions with width. A transition then has an extent that can be measured, instead of being treated as an instant.')}
     ${layer('Ablation', 'Not every channel, every time',
@@ -193,7 +193,7 @@ export function thresholdsRight() {
       <h3>A threshold that is not there</h3>
       <p style="font-size:14px;line-height:1.6;margin:0">In a symptom-limited clinical cohort a subject may stop before a threshold is crossed, and a model constrained to return two numbers will place them somewhere. The current generation answers the presence question separately from the location question. In a development cohort of 103 clinical tests, 22 had no threshold at all; reporting them as located would have been the more confident output and the wrong one.</p>
     </div>
-    <div style="margin-top:14px">${callout(`<b style="color:${L.strong}">No result carries a confidence score.</b> Nothing in Oxynet is calibrated against clinical outcomes, so a percentage would be a number without a meaning. The <span class="mono" style="font-size:11.5px">quality</span> field describes the recording, not the certainty of the answer.`)}</div>
+    <div style="margin-top:14px">${callout(`<b style="color:${L.strong}">No result carries a confidence score.</b> Nothing in Oxynet is calibrated against clinical outcomes, so a percentage would be a number without a meaning. Each answer is marked <span class="mono" style="font-size:11.5px">low</span> or <span class="mono" style="font-size:11.5px">normal</span> by stated rules instead, and <span class="mono" style="font-size:11.5px">quality</span> describes the recording.`)}</div>
 `
 
   return page({ id: 'p16', body: rh('2.3 Ventilatory thresholds') + wide(main) + folio('16') })
