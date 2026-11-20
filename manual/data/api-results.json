@@ -4,12 +4,11 @@
     "cpet_id": "cpet_7485262aa3f7",
     "source_file": "public/test_data.json, de-identified (id, file, path and user fields removed)",
     "cohort": "Exercise Threshold App (lab_11)",
-    "taken": "2026-09-04",
-    "substrate_rechecked": "2026-11-05 on v77: the same file gives the same substrate numbers; the citation in substrate.method now reads 2005, as the API returns it. The rest of the recording stands as taken.",
-    "how_to_refresh": "See manual/README.md. Upload data/reference-test.json through create_upload, then analyze_cpet and compute_metrics, and paste the responses back here. Do not hand-edit the numbers.",
-    "note": "The thresholds stored in the source export (LT 1540, RCP 1940 mL/min) were set by the clinician who ran the test and were not shown to the model."
+    "taken": "2026-11-20 on v86 for the thresholds; 2026-09-04 for the rest",
+    "how_to_refresh": "See manual/README.md. Upload data/reference-test.json, then analyze_vt, analyze_eov and analyze_substrate and compute_metrics, and paste the responses back here. Do not hand-edit the numbers.",
+    "note": "The thresholds stored in the source export (LT 1540, RCP 1940 mL/min) were set by the clinician who ran the test and were not shown to the model.",
+    "rechecked": "2026-11-20 on v86: the same file gives the same upload summary, metrics, oscillation and substrate numbers (to the rounding shown), so those sections stand as taken, with v86's provenance and the confidence each now carries. The thresholds were re-recorded: with no model named the API now answers with a committee, not gandalf alone. The key was shaped like a free sign-up key, so two members' own answers are withheld."
   },
-
   "upload": {
     "format": "canonical_json",
     "format_confidence": "detected",
@@ -22,33 +21,147 @@
       "n_resampled": 929,
       "duration_s": 969.0
     },
-    "channels_present": ["VO2", "VCO2", "VE", "HR", "RF", "PetO2", "PetCO2"],
+    "channels_present": [
+      "VO2",
+      "VCO2",
+      "VE",
+      "HR",
+      "RF",
+      "PetO2",
+      "PetCO2"
+    ],
     "load": {
       "available": false,
       "reason": "the canonical_json export carries no work-rate or speed column, so this test has no external load. Nothing is inferred from VO2: back-calculating watts from oxygen uptake assumes the efficiency that a load channel would be used to measure"
     }
   },
-
-  "stored_labels": { "vt1_vo2_ml_min": 1540, "vt2_vo2_ml_min": 1940 },
-
+  "stored_labels": {
+    "vt1_vo2_ml_min": 1540,
+    "vt2_vo2_ml_min": 1940
+  },
   "vt": {
     "status": "ok",
     "findings": {
-      "vt1_time_s": 619.0,
-      "vt2_time_s": 763.0,
-      "vt1_vo2_ml_min": 1605.2,
-      "vt2_vo2_ml_min": 2028.9
+      "vt1_time_s": 600.4,
+      "vt1_vo2_ml_min": 1522.5,
+      "vt2_time_s": 760.8,
+      "vt2_vo2_ml_min": 2021.9
     },
     "quality": "good",
+    "confidence": {
+      "level": "normal",
+      "reasons": []
+    },
+    "notes": [
+      "Thresholds combine 4 models (half trees, half networks: treebeard, gandalf, pippin, rosie); provenance.members lists each one, with its own answer where this key may name that model."
+    ],
     "provenance": {
-      "model": "gandalf",
-      "model_version": "v0.1.0",
+      "analysis_version": "2026.11",
+      "schema_version": "1.1",
+      "computed_at": "2026-11-20T15:06:38.487540+00:00",
+      "model": "fellowship",
+      "model_version": "2026-11-19",
       "model_tier": "free",
-      "analysis_version": "2026.08",
-      "latency_ms": 97.41
+      "latency_ms": 1288.64,
+      "members": [
+        {
+          "model": "treebeard",
+          "model_version": "v0.2.0",
+          "vt1_time_s": 600.3,
+          "vt2_time_s": 755.4,
+          "vt1_vo2_ml_min": 1522.0,
+          "vt2_vo2_ml_min": 1980.0
+        },
+        {
+          "model": "gandalf",
+          "model_version": "v0.1.0",
+          "vt1_time_s": 619.0,
+          "vt2_time_s": 763.0,
+          "vt1_vo2_ml_min": 1605.1981173732297,
+          "vt2_vo2_ml_min": 2028.8503991189048
+        },
+        {
+          "model": "pippin",
+          "model_version": "v0.1.0",
+          "withheld": "pippin's own answer needs the enterprise tier when named."
+        },
+        {
+          "model": "rosie",
+          "model_version": "v0.1.0",
+          "withheld": "rosie's own answer needs the pro tier when named."
+        }
+      ],
+      "selection": {
+        "mode": "auto",
+        "chosen": "fellowship",
+        "reason": "a test with no recorded load, 15.5 min of exercise, peak VO2 2271 mL/min, peak RER 1.21. A committee (half trees, half networks: treebeard, gandalf, pippin, rosie), with lower measured threshold error than its best member alone (1279 recordings).",
+        "test": {
+          "ergometer": "unknown",
+          "protocol": "unknown",
+          "sampling": "breath_by_breath",
+          "channels": [
+            "HR",
+            "PetCO2",
+            "PetO2",
+            "RF",
+            "VCO2",
+            "VE",
+            "VO2"
+          ],
+          "exercise_s": 928.0,
+          "vo2_peak_ml_min": 2270.8,
+          "rer_peak": 1.212,
+          "hr_peak_bpm": 153.0,
+          "duration_band": "long",
+          "effort": "maximal",
+          "capacity": "moderate"
+        },
+        "cell": "committee",
+        "considered": [
+          "treebeard",
+          "gandalf",
+          "pippin",
+          "rosie"
+        ],
+        "members": [
+          "treebeard",
+          "gandalf",
+          "pippin",
+          "rosie"
+        ],
+        "skipped": [],
+        "evidence": {
+          "paired_vs_default": {
+            "n": 1279,
+            "mean": -4.2,
+            "ci95": [
+              -6.5,
+              -2.0
+            ],
+            "labs_won": 7,
+            "labs_compared": 9,
+            "lab_weighted_mean": -3.3
+          },
+          "mae_ml_min": {
+            "n_items": 3123,
+            "n_recordings": 1279,
+            "n_labs": 9,
+            "committee": {
+              "VT1": 217.4,
+              "VT2": 127.9,
+              "mean": 172.7
+            },
+            "treebeard": {
+              "VT1": 221.0,
+              "VT2": 135.9,
+              "mean": 178.4
+            }
+          }
+        },
+        "table_version": "2026-11-19"
+      }
     }
   },
-
   "eov": {
     "status": "ok",
     "grade": "none",
@@ -85,9 +198,18 @@
     "notes": [
       "No external load was recorded, so the protocol is unknown and nothing here is read against a work rate."
     ],
-    "provenance": { "model": "oxynet-eob", "analysis_version": "2026.08", "latency_ms": 153.57 }
+    "provenance": {
+      "analysis_version": "2026.11",
+      "schema_version": "1.1",
+      "computed_at": "2026-11-20T15:06:39.802737+00:00",
+      "model": "oxynet-eob",
+      "latency_ms": 114.92
+    },
+    "confidence": {
+      "level": "normal",
+      "reasons": []
+    }
   },
-
   "substrate": {
     "status": "ok",
     "vo2peak": 2307.0,
@@ -95,18 +217,138 @@
     "window_s": 60.0,
     "n_windows": 12,
     "windows": [
-      { "t_start": 235, "vo2": 1.0031, "vco2": 0.8612, "rer": 0.859, "pct_vo2peak": 43.5, "fat_g_min": 0.2353, "cho_g_min": 0.7127, "pct_ee_fat": 43.5, "fat_valid": true },
-      { "t_start": 295, "vo2": 0.9542, "vco2": 0.8442, "rer": 0.885, "pct_vo2peak": 41.4, "fat_g_min": 0.1814, "cho_g_min": 0.7924, "pct_ee_fat": 34.8, "fat_valid": true },
-      { "t_start": 355, "vo2": 1.03, "vco2": 0.9365, "rer": 0.909, "pct_vo2peak": 44.6, "fat_g_min": 0.1529, "cho_g_min": 0.9709, "pct_ee_fat": 26.9, "fat_valid": true },
-      { "t_start": 415, "vo2": 1.18, "vco2": 1.0665, "rer": 0.904, "pct_vo2peak": 51.1, "fat_g_min": 0.186, "cho_g_min": 1.0831, "pct_ee_fat": 28.6, "fat_valid": true },
-      { "t_start": 475, "vo2": 1.1578, "vco2": 1.0744, "rer": 0.928, "pct_vo2peak": 50.2, "fat_g_min": 0.1348, "cho_g_min": 1.1913, "pct_ee_fat": 20.9, "fat_valid": true },
-      { "t_start": 535, "vo2": 1.3452, "vco2": 1.2757, "rer": 0.948, "pct_vo2peak": 58.3, "fat_g_min": 0.1102, "cho_g_min": 1.5094, "pct_ee_fat": 14.6, "fat_valid": true },
-      { "t_start": 595, "vo2": 1.6212, "vco2": 1.6484, "rer": 1.017, "pct_vo2peak": 70.3, "fat_g_min": -0.056, "cho_g_min": 2.3279, "pct_ee_fat": 0.0, "fat_valid": false },
-      { "t_start": 655, "vo2": 1.7559, "vco2": 1.8167, "rer": 1.035, "pct_vo2peak": 76.1, "fat_g_min": -0.1139, "cho_g_min": 2.6648, "pct_ee_fat": 0.0, "fat_valid": false },
-      { "t_start": 715, "vo2": 1.9269, "vco2": 2.0638, "rer": 1.071, "pct_vo2peak": 83.5, "fat_g_min": -0.2444, "cho_g_min": 3.2463, "pct_ee_fat": 0.0, "fat_valid": false },
-      { "t_start": 775, "vo2": 2.1686, "vco2": 2.5633, "rer": 1.182, "pct_vo2peak": 94.0, "fat_g_min": -0.6844, "cho_g_min": 4.7569, "pct_ee_fat": 0.0, "fat_valid": false },
-      { "t_start": 835, "vo2": 2.1927, "vco2": 2.5917, "rer": 1.182, "pct_vo2peak": 95.0, "fat_g_min": -0.6919, "cho_g_min": 4.8094, "pct_ee_fat": 0.0, "fat_valid": false },
-      { "t_start": 895, "vo2": 2.2727, "vco2": 2.7402, "rer": 1.206, "pct_vo2peak": 98.5, "fat_g_min": -0.8089, "cho_g_min": 5.2323, "pct_ee_fat": 0.0, "fat_valid": false }
+      {
+        "t_start": 235,
+        "vo2": 1.0031,
+        "vco2": 0.8612,
+        "rer": 0.859,
+        "pct_vo2peak": 43.5,
+        "fat_g_min": 0.2353,
+        "cho_g_min": 0.7127,
+        "pct_ee_fat": 43.5,
+        "fat_valid": true
+      },
+      {
+        "t_start": 295,
+        "vo2": 0.9542,
+        "vco2": 0.8442,
+        "rer": 0.885,
+        "pct_vo2peak": 41.4,
+        "fat_g_min": 0.1814,
+        "cho_g_min": 0.7924,
+        "pct_ee_fat": 34.8,
+        "fat_valid": true
+      },
+      {
+        "t_start": 355,
+        "vo2": 1.03,
+        "vco2": 0.9365,
+        "rer": 0.909,
+        "pct_vo2peak": 44.6,
+        "fat_g_min": 0.1529,
+        "cho_g_min": 0.9709,
+        "pct_ee_fat": 26.9,
+        "fat_valid": true
+      },
+      {
+        "t_start": 415,
+        "vo2": 1.18,
+        "vco2": 1.0665,
+        "rer": 0.904,
+        "pct_vo2peak": 51.1,
+        "fat_g_min": 0.186,
+        "cho_g_min": 1.0831,
+        "pct_ee_fat": 28.6,
+        "fat_valid": true
+      },
+      {
+        "t_start": 475,
+        "vo2": 1.1578,
+        "vco2": 1.0744,
+        "rer": 0.928,
+        "pct_vo2peak": 50.2,
+        "fat_g_min": 0.1348,
+        "cho_g_min": 1.1913,
+        "pct_ee_fat": 20.9,
+        "fat_valid": true
+      },
+      {
+        "t_start": 535,
+        "vo2": 1.3452,
+        "vco2": 1.2757,
+        "rer": 0.948,
+        "pct_vo2peak": 58.3,
+        "fat_g_min": 0.1102,
+        "cho_g_min": 1.5094,
+        "pct_ee_fat": 14.6,
+        "fat_valid": true
+      },
+      {
+        "t_start": 595,
+        "vo2": 1.6212,
+        "vco2": 1.6484,
+        "rer": 1.017,
+        "pct_vo2peak": 70.3,
+        "fat_g_min": -0.056,
+        "cho_g_min": 2.3279,
+        "pct_ee_fat": 0.0,
+        "fat_valid": false
+      },
+      {
+        "t_start": 655,
+        "vo2": 1.7559,
+        "vco2": 1.8167,
+        "rer": 1.035,
+        "pct_vo2peak": 76.1,
+        "fat_g_min": -0.1139,
+        "cho_g_min": 2.6648,
+        "pct_ee_fat": 0.0,
+        "fat_valid": false
+      },
+      {
+        "t_start": 715,
+        "vo2": 1.9269,
+        "vco2": 2.0638,
+        "rer": 1.071,
+        "pct_vo2peak": 83.5,
+        "fat_g_min": -0.2444,
+        "cho_g_min": 3.2463,
+        "pct_ee_fat": 0.0,
+        "fat_valid": false
+      },
+      {
+        "t_start": 775,
+        "vo2": 2.1686,
+        "vco2": 2.5633,
+        "rer": 1.182,
+        "pct_vo2peak": 94.0,
+        "fat_g_min": -0.6844,
+        "cho_g_min": 4.7569,
+        "pct_ee_fat": 0.0,
+        "fat_valid": false
+      },
+      {
+        "t_start": 835,
+        "vo2": 2.1927,
+        "vco2": 2.5917,
+        "rer": 1.182,
+        "pct_vo2peak": 95.0,
+        "fat_g_min": -0.6919,
+        "cho_g_min": 4.8094,
+        "pct_ee_fat": 0.0,
+        "fat_valid": false
+      },
+      {
+        "t_start": 895,
+        "vo2": 2.2727,
+        "vco2": 2.7402,
+        "rer": 1.206,
+        "pct_vo2peak": 98.5,
+        "fat_g_min": -0.8089,
+        "cho_g_min": 5.2323,
+        "pct_ee_fat": 0.0,
+        "fat_valid": false
+      }
     ],
     "fatmax": {
       "found": true,
@@ -128,18 +370,45 @@
       "reason": "Gross efficiency is mechanical work over metabolic energy, so it needs a work rate in watts. This test recorded no external load."
     },
     "flags": [
-      { "code": "trimmed_to_exercise", "severity": "info", "detail": "Rest and recovery are excluded: 37 resting samples were dropped before the windows were taken. Warm-up is kept: it is a real intensity and often the one FATMAX lands on." },
-      { "code": "no_load", "severity": "info", "detail": "This recording carries no external load, so substrate use is placed against %VO2peak only. FATMAX is reported as an intensity and cannot be given as a work rate, and gross efficiency needs mechanical power, so it is not computed." },
-      { "code": "rer_above_one", "severity": "warning", "detail": "6 of 12 windows sit above RER 1.0, where exhaled CO2 includes a non-metabolic part from buffering the metabolic acidosis. The stoichiometry does not hold there, so the fat rate at those intensities is an upper bound that reads low and can read negative, not a measurement." }
+      {
+        "code": "trimmed_to_exercise",
+        "severity": "info",
+        "detail": "Rest and recovery are excluded: 37 resting samples were dropped before the windows were taken. Warm-up is kept: it is a real intensity and often the one FATMAX lands on."
+      },
+      {
+        "code": "no_load",
+        "severity": "info",
+        "detail": "This recording carries no external load, so substrate use is placed against %VO2peak only. FATMAX is reported as an intensity and cannot be given as a work rate, and gross efficiency needs mechanical power, so it is not computed."
+      },
+      {
+        "code": "rer_above_one",
+        "severity": "warning",
+        "detail": "6 of 12 windows sit above RER 1.0, where exhaled CO2 includes a non-metabolic part from buffering the metabolic acidosis. The stoichiometry does not hold there, so the fat rate at those intensities is an upper bound that reads low and can read negative, not a measurement."
+      }
     ],
     "method": [
       "Fat (g/min) = 1.695 × VO2 − 1.701 × VCO2, carbohydrate (g/min) = 4.585 × VCO2 − 3.226 × VO2, both with the gases in L/min (Frayn 1983; Jeukendrup and Wallis 2005), assuming protein oxidation is negligible.",
       "Energy from each: 9.75 kcal per gram of fat and 4.18 kcal per gram of carbohydrate.",
       "FATMAX is the peak of a cubic through the origin fitted to the fat rate against the axis shown (Achten and Jeukendrup). It is a fitted turning point, not a measured sample, and it carries no confidence."
     ],
-    "provenance": { "model": "oxynet-substrate", "analysis_version": "2026.08", "latency_ms": 59.03 }
+    "provenance": {
+      "analysis_version": "2026.11",
+      "schema_version": "1.1",
+      "computed_at": "2026-11-20T15:06:40.122902+00:00",
+      "model": "oxynet-substrate",
+      "latency_ms": 32.14
+    },
+    "confidence": {
+      "level": "low",
+      "reasons": [
+        {
+          "code": "FATMAX_AT_EDGE",
+          "applies_to": "fatmax",
+          "message": "FATMAX sits at the lowest intensity this test measured (41% of peak VO2), with no measurement beyond it on that side, so the true maximum may lie outside the range tested."
+        }
+      ]
+    }
   },
-
   "metrics": {
     "vo2max": 2307.0,
     "vemax": 111.6,
@@ -172,30 +441,102 @@
       "note": "Clock is monotonic; no repair needed."
     },
     "ve_vco2_slope": [
-      { "label": "25%", "slope": 33.1, "ci_low": 24.4, "ci_high": 43.7, "n": 38 },
-      { "label": "50%", "slope": 32.6, "ci_low": 31.1, "ci_high": 34.3, "n": 96 },
-      { "label": "75%", "slope": 34.3, "ci_low": 33.5, "ci_high": 35.0, "n": 183 },
-      { "label": "100%", "slope": 37.9, "ci_low": 37.2, "ci_high": 38.3, "n": 323 }
+      {
+        "label": "25%",
+        "slope": 33.1,
+        "ci_low": 24.4,
+        "ci_high": 43.7,
+        "n": 38
+      },
+      {
+        "label": "50%",
+        "slope": 32.6,
+        "ci_low": 31.1,
+        "ci_high": 34.3,
+        "n": 96
+      },
+      {
+        "label": "75%",
+        "slope": 34.3,
+        "ci_low": 33.5,
+        "ci_high": 35.0,
+        "n": 183
+      },
+      {
+        "label": "100%",
+        "slope": 37.9,
+        "ci_low": 37.2,
+        "ci_high": 38.3,
+        "n": 323
+      }
     ],
     "landmarks": {
       "vo2peak": 2306.5,
       "vo2peak_window_s": 30.0,
       "points": {
-        "vo2peak_30s": { "t_s": 924.0, "vo2": 2307.7, "pct_vo2peak": 100.1 },
-        "v_slope_breakpoint": { "t_s": 787.0, "vo2": 2163.1, "pct_vo2peak": 93.8, "slope_before": 1.2997, "slope_after": 1.4175 },
-        "rcp_breakpoint": { "t_s": 848.0, "vo2": 2189.0, "pct_vo2peak": 94.9, "slope_before": 35.9035, "slope_after": 52.9992 },
-        "rer_crossing_1.0": { "t_s": 670.0, "vo2": 1796.2, "pct_vo2peak": 77.9 },
-        "ve_vco2_nadir": { "t_s": 508.0, "vo2": 1197.5, "pct_vo2peak": 51.9 },
-        "petco2_peak": { "t_s": 508.0, "vo2": 1197.5, "pct_vo2peak": 51.9 }
+        "vo2peak_30s": {
+          "t_s": 924.0,
+          "vo2": 2307.7,
+          "pct_vo2peak": 100.1
+        },
+        "v_slope_breakpoint": {
+          "t_s": 787.0,
+          "vo2": 2163.1,
+          "pct_vo2peak": 93.8,
+          "slope_before": 1.2997,
+          "slope_after": 1.4175
+        },
+        "rcp_breakpoint": {
+          "t_s": 848.0,
+          "vo2": 2189.0,
+          "pct_vo2peak": 94.9,
+          "slope_before": 35.9035,
+          "slope_after": 52.9992
+        },
+        "rer_crossing_1.0": {
+          "t_s": 670.0,
+          "vo2": 1796.2,
+          "pct_vo2peak": 77.9
+        },
+        "ve_vco2_nadir": {
+          "t_s": 508.0,
+          "vo2": 1197.5,
+          "pct_vo2peak": 51.9
+        },
+        "petco2_peak": {
+          "t_s": 508.0,
+          "vo2": 1197.5,
+          "pct_vo2peak": 51.9
+        }
       },
       "reading": "Corroboration only. These are classical criteria computed on the file's own signal; they are not calibrated against outcomes, they carry no confidence, and they never override a model's thresholds. A V-slope with S1 below 1 and S2 above it is the expected shape; slopes that barely differ mean no breakpoint was found."
     }
   },
-
   "capabilities": {
-    "limits": { "max_upload_bytes": 26214400, "retention_hours": 24, "max_retain_hours": 168 },
+    "limits": {
+      "max_upload_bytes": 26214400,
+      "monthly_limit": 20,
+      "retention_hours": 24,
+      "max_retain_hours": 168
+    },
     "retention": "Uploaded bytes are parsed and discarded, never stored. The parsed record is deleted after 24 h.",
-    "analyses": ["vt", "eov", "substrate"],
-    "metrics": ["clock_integrity", "gas_quality", "landmarks", "o2_pulse", "rermax", "sampling_adequacy", "substrate_summary", "ve_vco2_slope", "vemax", "vo2max"]
+    "analyses": [
+      "vt",
+      "eov",
+      "substrate"
+    ],
+    "metrics": [
+      "clock_integrity",
+      "gas_quality",
+      "landmarks",
+      "o2_pulse",
+      "phases",
+      "rermax",
+      "sampling_adequacy",
+      "substrate_summary",
+      "ve_vco2_slope",
+      "vemax",
+      "vo2max"
+    ]
   }
 }

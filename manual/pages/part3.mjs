@@ -130,15 +130,14 @@ export function rest() {
     ${eyebrow(`Part Three ${SEP} 3.3`)}
     ${h1('REST', 'margin-bottom:12px')}
     ${stand('The surface a clinical system or a data pipeline integrates against. Authentication is an API key in a header; models and analyses are granted per key.', 'margin-bottom:10px')}
-    ${ep('GET', '/v1/capabilities', 'What this key may do: licensed analyses, reachable models, the metric registry, limits and the retention policy.')}
-    ${ep('POST', '/v1/cpet', 'Upload a recording. The format is detected; the response says what was parsed and which channels are absent, with a reason for each.')}
-    ${ep('POST', '/v1/cpet/{id}/assess', 'Every analysis the key and the recording allow, in one call, with the metrics, a headline and a plan of what ran.')}
-    ${ep('POST', '/v1/cpet/{id}/analyze', 'Run models. With none named, the method with the best measured record answers and says why. One envelope per analysis; one that cannot run does not stop the others.')}
-    ${ep('POST', '/v1/cpet/{id}/compute', 'Derived quantities from the metric registry: peaks, the slope profile, classical landmarks, input-quality checks.')}
-    ${ep('GET', '/v1/cpet/{id}/series', 'A decimated slice of the signals, for plotting only. Never for computing.')}
+    ${ep('GET', '/v1/capabilities', 'What this key may do: analyses, models, metrics, limits and retention.')}
+    ${ep('POST', '/v1/cpet', 'Upload a recording. The format is detected; the response says what was parsed, which channels are absent and why.')}
+    ${ep('POST', '/v1/cpet/{id}/assess', 'Every analysis the key and recording allow, in one call, with a headline and the plan of what ran.')}
+    ${ep('POST', '/v1/cpet/{id}/analyze', 'Run models; with none named, the best-measured method answers and says why. One envelope per analysis.')}
+    ${ep('POST', '/v1/cpet/{id}/compute', 'Derived quantities: peaks, the slope profile, classical landmarks, input-quality checks.')}
+    ${ep('GET', '/v1/cpet/{id}/series', 'A decimated slice of the signals, for plotting only.')}
     <div style="margin-top:12px">
-      <h3>The envelope</h3>
-      <p style="font-size:13.5px;line-height:1.55;margin-bottom:9px">Every analysis returns the same shape, so a consumer writes one parser and not three.</p>
+      <h3 style="margin-bottom:8px">The envelope, the same for every analysis</h3>
       ${code(`{
   "status":     "ok" | "not_analysable",
   "findings":   { ... } | null,
@@ -154,8 +153,8 @@ export function rest() {
 
   const rail =
     railBlock('warn', 'Three fields to read carefully',
-      rp(`<span class="mono" style="font-size:11.5px">quality</span> describes the INPUT recording. <span class="mono" style="font-size:11.5px">confidence</span> is a category, low or normal, set by stated rules on the answer: never a number, since nothing is calibrated against outcomes.`) +
-      rp(`<span class="mono" style="font-size:11.5px">notes</span> is not decoration. It carries the caveats that must travel with the numbers into any report built on them.`, true)) +
+      rp(`<span class="mono" style="font-size:11.5px">quality</span> describes the INPUT recording. <span class="mono" style="font-size:11.5px">confidence</span> is low or normal by stated rules, never a number.`) +
+      rp(`<span class="mono" style="font-size:11.5px">notes</span> is not decoration. It carries the caveats that must travel with the numbers.`, true)) +
     railBlock('surface', 'Machine-readable',
       rp(`OpenAPI 3.0 at <b style="color:${L.strong}">${extlink(LINKS.openapi, '/v1/openapi.json')}</b>, importable into a client generator, an agent action or an integration platform.`) +
       rp(`Plain-text integration guide at <b style="color:${L.strong}">${extlink(LINKS.llms, '/llms.txt')}</b>, so an agent reads the documentation in one request.`, true)) +

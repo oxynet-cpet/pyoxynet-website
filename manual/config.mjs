@@ -15,14 +15,14 @@
 import { groupedPublications } from './publications.mjs'
 import { VENDOR_FORMATS } from './generated/registry.mjs'
 
-export const VERSION = '2.2.1'
+export const VERSION = '2.3'
 export const DATE = 'November 2026'
 
 export const ENGINE = {
   api: 'v1',
   host: 'app.oxynet.net',
-  analysisVersion: '2026.08',
-  models: ['bilbo v0.1.1', 'samwise v0.1.2', 'rosie v0.1.0', 'gandalf v0.1.0'],
+  analysisVersion: '2026.11',
+  models: ['fellowship (committee)', 'treebeard v0.2.0', 'gandalf v0.1.0', 'pippin v0.1.0', 'rosie v0.1.0', 'bilbo v0.1.1', 'samwise v0.1.2'],
 }
 
 export const CONTACT = {
@@ -72,6 +72,8 @@ export const OUTPUT = {
 }
 
 export const CHANGELOG = [
+  ['2.3', 'November 2026',
+    'The thresholds were re-recorded on v86: with no model named the API now answers with a committee of networks and gradient-boosted trees, so VT1 and VT2 moved, and the comparison with the stored labels is computed from the recorded responses rather than typed. Every result now carries confidence as a category (low or normal with the stated rule), never a number, and the substrate answer on the reference test comes back low because FATMAX sits at the lowest intensity measured. The envelope, the refusals and assess are described as v86 serves them. Oscillation, substrate and metrics were rechecked on v86 and stand as taken.'],
   ['2.2.1', 'November 2026',
     'The caption on the substrate page cited Jeukendrup and Wallis as 2001; the paper is 2005 (Int J Sports Med 26 Suppl 1:S28-S37). The publications page follows the site and now dates the European Journal of Sport Science paper by its issue, 2022, as the site has since 29 October. No other change.'],
   ['2.2', 'October 2026',
