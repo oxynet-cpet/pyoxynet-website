@@ -15,7 +15,7 @@
 import { PAGE, D, L, GREEN, ACCENT_TEXT, WARN, MONO } from '../manual/tokens.mjs'
 import { page, runhead, wide, SEP, extlink } from '../manual/lib.mjs'
 import { mark, field, gradientText } from '../manual/brand.mjs'
-import { VERSION, DATE, TITLE, RECIPIENT_CONTACT, HOSTING } from './config.mjs'
+import { VERSION, DATE, TITLE, RECIPIENT_CONTACT, HOSTING, SERVICE } from './config.mjs'
 import { box, blank, line, opt, item, clause, section } from './ui.mjs'
 import { TIERS, TIER_NAMES, TIER_SUMMARY, DEFAULTS } from './tiers.mjs'
 
@@ -159,7 +159,7 @@ export function parties() {
       ${opt('1.3', 'forprofit', 'For-profit', g('1.3'))}
       ${opt('1.3', 'public', 'Public body', g('1.3'))}`, { cols: 3 })}
     ${item('1.4', 'Recipient (on behalf of Oxynet)', 'one', `
-      ${opt('1.4', 'individual', `${RECIPIENT_CONTACT.name}, in a private capacity, as operator of Oxynet until an Oxynet legal entity is established (see 8.3)`, g('1.4'))}
+      ${opt('1.4', 'individual', `${RECIPIENT_CONTACT.name}, ${RECIPIENT_CONTACT.form} (VAT ${RECIPIENT_CONTACT.vat}, ${RECIPIENT_CONTACT.city}), as operator of Oxynet until an Oxynet legal entity is established (see 8.3)`, g('1.4'))}
       ${opt('1.4', 'university', 'University of Trento, department:', { ...g('1.4'), other: true, otherW: 200, note: 'For research collaborations run through the university.' })}
       ${opt('1.4', 'entity', 'Other legal entity:', { ...g('1.4'), other: true, otherW: 260 })}`)}
     ${item('1.5', 'Contact points', 'fill', `
@@ -190,7 +190,7 @@ export function purpose() {
       ${opt('2.1', 'feasibility', 'Feasibility: check that the Provider’s export format is read correctly and report what the analyses return')}
       ${opt('2.1', 'integration', 'Integration: develop and test a connection between the Provider’s systems and Oxynet')}
       ${opt('2.1', 'validation', 'Validation: compare Oxynet outputs with the Provider’s own labels or measurements')}
-      ${opt('2.1', 'research', 'Research collaboration: establish a new capability or its evidence (for example a second population for oscillation analysis)')}
+      ${opt('2.1', 'research', 'Research collaboration: establish a new capability or its evidence (for example a second population for oscillation analysis, which is beta)')}
       ${opt('2.1', 'development', 'Model development: train or evaluate models, on the terms chosen in Section 5')}
       ${opt('2.1', 'service', 'Service: routine analysis of the Provider’s recordings through the Oxynet service')}
       ${opt('2.1', 'other', 'Other:', { other: true, otherW: 420 })}`)}
@@ -202,7 +202,7 @@ export function purpose() {
     ${item('2.4', 'Uses that are excluded', 'fixed', `
       ${clause('The Recipient will not attempt to identify any individual in the Data, or link the Data with other information for that purpose.')}
       ${clause('This agreement does not authorise any clinical use of the Data, or of outputs derived from it, beyond the status and intended use set out in 9.1 or otherwise agreed in writing.')}
-      ${clause('The Data will not be sold, and will not be disclosed to third parties except as set out in 4.4.')}`)}`
+      ${clause('The Data will not be sold, and will not be disclosed to third parties except as set out in 4.5.')}`)}`
   return page({ id: 'd4', body: rh('2 Purpose') + wide(main) + folio(num(purpose)) })
 }
 
@@ -256,12 +256,12 @@ export function transfer() {
       ${opt('4.1', 'local', 'No transfer: Oxynet runs on the Provider\u2019s infrastructure')}`)}
     ${item('4.2', 'Where the Data is held, step by step', 'fixed', `
       ${clause('<b style="color:' + L.strong + '">A dataset shared by link or file transfer.</b> The Recipient downloads it to a workstation under the Recipient\u2019s control, then uploads it to Oxynet\u2019s storage, where the research corpus is held. Training runs read from that storage and write models and results back to it. The provider of that storage, its region and its security measures are in Annex C. The local copy on the workstation is deleted on the same timetable as the rest (4.6).')}
-      ${clause('<b style="color:' + L.strong + '">A recording sent to the hosted service for analysis.</b> The file is parsed in memory on the service and is never written to storage. What is stored is the parsed record, under the Provider\u2019s own API key, which no other key can read. It is deleted as set out in 4.6, and it does not reach the research corpus.')}`)}
+      ${clause('<b style="color:' + L.strong + '">A recording sent to the hosted service for analysis.</b> The file is written to a temporary file on the service instance, parsed and deleted; it never reaches storage. What is stored is the parsed record, under the Provider\u2019s own API key, which no other key can read. It is deleted as set out in 4.6, and it does not reach the research corpus.')}`)}
     ${item('4.3', 'Recordings sent to the service for analysis', 'one', `
       ${clause('Analysis itself changes no model: the models are fixed files, and a recording sent for analysis teaches them nothing. The choice here is only whether the recording is kept afterwards.')}
       ${opt('4.3', 'transient', 'Not kept. Each recording passes through: parsed, analysed, the result returned, the record deleted on the timetable in 4.6, and nothing of it is used for anything else', { ...g('4.3'), note: 'The default, and what the hosted service does today.' })}
-      ${opt('4.3', 'unlabelled', 'Kept without labels. The parsed recordings are retained, with no expert labels attached, and may be used as chosen in Section 5', g('4.3'))}
-      ${opt('4.3', 'labelled', 'Kept with any labels the Provider supplies, and may be used as chosen in Section 5', g('4.3'))}
+      ${opt('4.3', 'unlabelled', 'Kept without labels. The parsed recordings are retained with no expert labels attached (thresholds a cart wrote into its export stay in the record, unused), and may be used as chosen in Section 5', { ...g('4.3'), note: 'Tier 2 and 3.' })}
+      ${opt('4.3', 'labelled', 'Kept with any labels the Provider supplies, and may be used as chosen in Section 5', { ...g('4.3'), note: 'Tier 2 and 3.' })}
       <div style="margin-top:7px">${clause('This choice governs recordings sent to the service and prevails over Section 5. Where they are not kept, nothing in Section 5 applies to them, and Section 5 then governs only a dataset shared under 4.1.')}</div>`)}
 `
   return page({ id: 'd7', body: rh('4 Transfer, storage and use') + wide(main) + folio(num(transfer)) })
@@ -276,16 +276,16 @@ export function retention() {
       ${opt('4.4', 'list', 'The following named people:', { ...g('4.4'), other: true, otherW: 330 })}`)}
     ${item('4.5', 'Third parties', 'fixed', clause('The Data is disclosed to no one except the infrastructure providers listed in Annex C, used only to host the storage and the service.'))}
     ${item('4.6', 'How long the Recipient keeps the Data', 'one', `
-      ${opt('4.6', 'service', 'Only as long as the hosted service keeps a record: 24 hours after upload, or sooner on request. Nothing is kept beyond that', g('4.6'))}
+      ${opt('4.6', 'service', `Only as long as the hosted service keeps a record: ${SERVICE.retainHours} hours after upload, or up to ${SERVICE.retainMaxDays} days if the Provider asks for longer at upload, or sooner on request. Nothing is kept beyond that`, g('4.6'))}
       ${opt('4.6', 'purpose', 'Until the purposes in Section 2 are complete, then every copy is deleted', g('4.6'))}
       ${opt('4.6', 'date', 'Until this date, then every copy is deleted:', { ...g('4.6'), other: true, otherW: 140 })}
       ${opt('4.6', 'term', 'For the term of this agreement, then every copy is deleted', g('4.6'))}
-      ${opt('4.6', 'corpus', 'In the Oxynet research corpus on the terms in Section 5, for this period:', { ...g('4.6'), other: true, otherW: 120 })}`)}
+      ${opt('4.6', 'corpus', 'In the Oxynet research corpus on the terms in Section 5, for this period:', { ...g('4.6'), other: true, otherW: 120, note: 'Tier 3 only.' })}`)}
     ${item('4.7', 'Deletion', 'many', `
       ${opt('4.7', 'confirm', 'The Recipient confirms deletion in writing when it takes place')}
       ${opt('4.7', 'ondemand', 'The Provider may require deletion at any time, carried out within 30 days, with the effect set out in 5.6')}`)}
     ${item('4.8', 'What is kept whatever is chosen above', 'fixed', `
-      ${clause('For a call to the hosted service: a monthly count of analyses against the Provider\u2019s API key, with the key\u2019s name and a timestamp, and a log line holding the record id, the detected format and the file size. Neither holds anything from a recording, and neither is used for model development.')}
+      ${clause(`For a call to the hosted service: per API key, a monthly count of analyses with the key\u2019s name and a timestamp, and hourly counts of requests by kind, analysis, client, detected format and outcome, kept per key for ${SERVICE.usageDetailMonths} months and then only as totals across all keys. Log lines hold the record id, the key\u2019s fingerprint, the detected format, the file size, the number of samples and the duration, and the web server\u2019s access lines hold the path and a network address; logs are deleted after ${SERVICE.logDays} days. None of these holds anything from a recording, and none is used for model development.`)}
       ${clause('Results are returned to the caller and are not stored by the service.')}`)}`
   return page({ id: 'd7b', body: rh('4 Retention') + wide(main) + folio(num(retention)) })
 }
@@ -352,7 +352,7 @@ export function rights() {
     ${item('6.1', 'Who holds what', 'fixed', `
       <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:8px">
         ${who('The Provider keeps', ['The Data as provided, including its own labels and annotations'])}
-        ${who('The Recipient keeps', ['Oxynet software, algorithms and methods', 'Oxynet models and model weights, including those trained or improved using the Data under Section 6', 'General know-how gained from the work'])}
+        ${who('The Recipient keeps', ['Oxynet software, algorithms and methods', 'Oxynet models and model weights, including those trained or improved using the Data under Section 5', 'General know-how gained from the work'])}
         ${who('The Provider receives', ['The outputs, on the terms in 6.3', 'The publication rights in 6.4'])}
       </div>
       ${clause('Neither party acquires any right in the other’s material except as stated here. A model built specifically for the Provider, or any other allocation, requires a separate model development agreement.')}`)}
@@ -414,7 +414,7 @@ export function general() {
       <div style="display:flex;gap:26px">${opt('9.3', '24', '24 hours', g('9.3'))}${opt('9.3', '48', '48 hours', g('9.3'))}${opt('9.3', '72', '72 hours', g('9.3'))}</div>`)}
     ${item('9.4', 'Indirect loss', 'many', opt('9.4', 'exclude', 'Neither party is liable to the other for indirect or consequential loss, including lost profit'))}
     ${item('9.5', 'Governing law and courts', 'one', `
-      ${opt('9.5', 'italy', 'Italian law; courts of Trento', g('9.5'))}
+      ${opt('9.5', 'italy', `Italian law; courts of ${RECIPIENT_CONTACT.courts}`, g('9.5'))}
       ${opt('9.5', 'provider', 'The law and courts of the Provider’s country', g('9.5'))}
       ${opt('9.5', 'other', 'Other:', { ...g('9.5'), other: true, otherW: 330 })}`)}
     ${item('9.6', 'Entire agreement', 'fixed', clause('This agreement, with its annexes, is the whole agreement on the Data. Changes are valid only in writing signed by both parties. Where an item is left unticked, the parties have not agreed it, and it does not apply.'))}`
@@ -515,17 +515,17 @@ export function hosting() {
     ${row('Analysis service', `${HOSTING.compute}, ${HOSTING.region}, reached at app.oxynet.net over HTTPS.`)}
     ${row('Uploaded files', 'Never stored. Parsed in a temporary file on the service instance and discarded.')}
     ${row('Parsed records', `${HOSTING.storage}, ${HOSTING.region}, in a storage area partitioned per API key.`)}
-    ${row('Models and weights', `${HOSTING.storage}, ${HOSTING.region}, loaded by the service at start-up.`)}
-    ${row('Research corpus', `Only where 5.1 allows it. ${HOSTING.storage}, ${HOSTING.region}, pseudonymised, in a storage area separate from the service\u2019s records.`)}
+    ${row('Models and weights', `${HOSTING.storage}, ${HOSTING.region}, loaded by the service when first used, then kept in memory.`)}
+    ${row('Research corpus', `Only where 5.1 allows it. ${HOSTING.storage}, ${HOSTING.region}, pseudonymised, in the same bucket as the service\u2019s records, under separate folders.`)}
     ${row('Model training', `Runs on a workstation controlled by the Recipient, or on the service\u2019s own infrastructure in the region above, reading a copy of the research corpus. No third-party training service is used. Workstation location: ${blank('c_training_loc', { w: 175 })}`)}
     <h3 style="margin:10px 0 0">How it is protected</h3>
     ${row('In transit', 'HTTPS between the Provider and the service. Service and storage run in the same AWS region.')}
     ${row('At rest', `${HOSTING.atRest} on all stored records, models and corpus files.`)}
     ${row('Public access', 'Blocked on the storage bucket: nothing in it can be made public.')}
-    ${row('Access', 'API access by a key issued per caller, which reaches only its own records. Storage and administration only by the people named in 4.3, through their own credentials.')}
-    ${row('Deletion', 'The service deletes a parsed record at expiry (4.2) or on request. The storage keeps a version history of the files written to it; the Recipient purges those versions when deleting a dataset, and confirms it in writing where 4.7 asks for confirmation.')}
-    ${row('Analysis results', 'Returned to the caller and not stored. What persists for a call through the service is a monthly count per API key, holding no data from any recording.')}
-    ${row('Backups and copies', 'No backup, replica or copy of the Data is kept outside the storage described here, other than the training copy above where 5.1 allows it.')}
+    ${row('Access', 'API access by a key issued per caller, which reaches only its own records. Storage and administration only by the people named in 4.4, through their own credentials.')}
+    ${row('Deletion', 'The service deletes a parsed record at expiry (4.6) or on request. The storage keeps a version history of the files written to it: automatic rules remove earlier versions of the service\u2019s records one day after they are replaced or deleted, and the Recipient purges those of a dataset when deleting it, confirming in writing where 4.7 asks for confirmation.')}
+    ${row('Analysis results', 'Returned to the caller and not stored. What persists for a call through the service is set out in 4.8: counts per API key and log lines, none holding data from any recording.')}
+    ${row('Backups and copies', 'No backup, replica or copy of the Data is kept outside the storage described here, other than the training copy above where 5.1 allows it. The service instance keeps a working copy of records it has written or read until it restarts.')}
     ${row('Changes', 'The Recipient notifies the Provider in writing before moving the Data or the models to another provider or outside the EU / EEA.')}
     <p style="font-size:8.5px;line-height:1.5;color:${L.faint};margin:12px 0 0">Taken from the live service configuration for template v${VERSION}, ${DATE}.</p>`
   return page({ id: 'd14', body: rh('Annex C Hosting and security') + wide(main) + folio(num(hosting)) })
