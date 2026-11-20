@@ -7,14 +7,35 @@
  * repository: they name institutions and terms, and belong in oxynet-company.
  */
 
-export const VERSION = '1.6'
-export const DATE = 'September 2026'
+export const VERSION = '1.7'
+export const DATE = 'November 2026'
 
 export const TITLE = 'Data Transfer Agreement'
 
+/**
+ * The Recipient as the site's terms name the provider (src/content/legal.ts,
+ * PROVIDER, decided by the founder on 2026-10-19: self-employed in Verona until the
+ * company exists; Italian law, courts of Verona). Change both together.
+ */
 export const RECIPIENT_CONTACT = {
   name: 'Andrea Zignoli',
   email: 'andrea.zignoli@unitn.it',
+  form: 'self-employed',
+  vat: '04833240239',
+  city: 'Verona',
+  courts: 'Verona',
+}
+
+/**
+ * What the hosted service keeps, as core states it (oxynet-core store.py:
+ * 24 h by default, MAX_RETAIN_HOURS 168 on request; retention.py and the privacy
+ * page: per-key usage detail 13 months, logs 30 days). Read 2026-11-20.
+ */
+export const SERVICE = {
+  retainHours: 24,
+  retainMaxDays: 7,
+  usageDetailMonths: 13,
+  logDays: 30,
 }
 
 /**
@@ -30,11 +51,11 @@ export const HOSTING = {
   storage: 'Amazon S3',
   atRest: 'AES-256 server-side encryption (SSE-S3)',
   /**
-   * No automatic expiry of noncurrent versions is configured: the bucket is
-   * versioned and has no lifecycle rule, so a deleted object's prior versions
-   * persist until they are deleted explicitly. Annex C therefore promises a
-   * purge on deletion, carried out by hand, and states no timetable. Add the
-   * lifecycle rule and this can become a stated period again.
+   * Versioned, with lifecycle rules read 2026-11-20 (get-bucket-lifecycle-configuration):
+   * earlier versions expire 1 day after they are replaced or deleted under the
+   * service's records (cpet/, data_canonical/), the free-key records and telemetry,
+   * and after 30 days under usage/. A contributed dataset's folders have no rule, so
+   * Annex C still promises a purge by hand for those.
    */
 }
 
@@ -44,6 +65,7 @@ export const OUTPUT = {
 }
 
 export const CHANGELOG = [
+  ['1.7', 'November 2026', 'Checked against the service as built in November. The Recipient is named as the site\u2019s terms name the provider (self-employed, Verona) and 9.5 offers the courts of Verona. 4.2: an uploaded file passes through a temporary file, never storage. 4.6: a record is kept 24 hours by default and up to 7 days on request. 4.8 and Annex C list every count and log line the service keeps, and for how long. Annex C: automatic expiry of old versions, models loaded on first use, the corpus in the same bucket under separate folders, the service\u2019s working copy. Cross-references in 2.4, 6.1 and Annex C corrected. Tier 1 no longer promises what its options allow; the kept options in 4.3 are marked Tier 2 and 3 and the corpus option in 4.6 Tier 3 only.'],
   ['1.6', 'September 2026', 'Retention folded into Section 4, so one section now covers the whole life of the Data, and the sections after it renumbered. 4.3 states that it prevails over model development, and Section 5 states what it reaches, so the two cannot contradict each other.'],
   ['1.5', 'September 2026', 'Roles and legal basis removed; everything after it renumbered, so there is no gap. Transfer rebuilt as the chain it actually is: a cloud-drive link the Recipient downloads, then Oxynet storage, then training, with what is kept at analysis time as its own choice (nothing kept, kept without labels, kept with labels). Retention now covers every copy and states what persists regardless. Publication gains the Recipient publishing with the Provider cited as the source of the data and the expert labelling. Pre-submission review, the liability cap and the spare annexes removed.'],
   ['1.4', 'September 2026', 'Checked against the pipeline as built. Section 7 now names every way a contributed recording can be used (label-free representation learning, initialisation only, supervised training, evaluation, generative models behind the published synthetic samples, aggregate reference statistics, figures), separates signals from labels, and adds 7.4 on who a model trained on the Data may be offered to, enforced by the per-key model restriction the service already has. Withdrawal lists the derived artefacts by name. Revenue share added to 9.1. Annex C records where training runs and that only a monthly count per key persists. One page added.'],

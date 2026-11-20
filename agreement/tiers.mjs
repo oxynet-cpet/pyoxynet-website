@@ -16,7 +16,7 @@ export const TIER_NAMES = {
 }
 
 export const TIER_SUMMARY = {
-  1: 'A few recordings, anonymised by the Provider (3.4), analysed and deleted. Nothing is kept beyond the hosted service, nothing is used for models.',
+  1: 'A few recordings, anonymised by the Provider (3.4), analysed and deleted on the timetable in 4.6. Nothing is used for models.',
   2: 'A defined dataset for a project: validation against the Provider’s labels, an integration, a study. Kept for the project; models may be evaluated on it, never trained.',
   3: 'Data that joins the Oxynet research corpus, or trains models. Every item applies.',
 }
