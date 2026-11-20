@@ -1,12 +1,24 @@
 {
  "schema": 1,
- "updated": "2026-11-19",
+ "updated": "2026-11-20",
  "counts": {
   "experiments": 7,
   "labs": 12,
   "recordings": 1770
  },
  "findings": [
+  {
+   "id": "2026-11-20-ceiling-read-early",
+   "date": "2026-11-20",
+   "grade": "exploratory",
+   "scope": [
+    "Across labs"
+   ],
+   "title": "Most of a person's VO2max is already written in the submaximal response",
+   "summary": "We asked whether a test stopped early, at an objective submaximal point, still tells the person's ceiling. Stopped when the respiratory exchange ratio first holds 1.00, about three minutes before the usual end and at about 85% of the peak oxygen uptake, a small tree model predicted VO2max to within about 290 mL/min, roughly 10% of a typical value, against about 1,500 mL/min for a cohort-typical guess and about 340 mL/min for a simple proportion of the oxygen uptake at the stop. Stopping earlier, at 0.95, lost accuracy (about 400 mL/min); stopping later, at 1.05, gained it (about 210 mL/min). The last minutes of the curves added nothing beyond a handful of numbers read at the stop, and in the most regular labs the simple proportion was as good as the model. A shorter, safer test may be enough to estimate fitness; one check is still pending.",
+   "method": "Each test cut where its smoothed exchange ratio first held a set level for 30 seconds; gradient-boosted trees on 14 numbers at the cut, alone and with the last six minutes of six signals; each lab held out in turn, three random seeds averaged; criteria fixed in advance, compared test by test with a cohort-typical guess and a proportional rule fitted on the training labs only.",
+   "task": "method"
+  },
   {
    "id": "2026-11-19-recovery-forgets",
    "date": "2026-11-19",
