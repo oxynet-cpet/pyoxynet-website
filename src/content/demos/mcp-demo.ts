@@ -262,7 +262,7 @@ export const mcpDemo: DemoScript = {
       chapter: 'Thresholds',
       title: 'Ventilatory thresholds',
       caption:
-        'Returned by analyze_vt. Every breath is coloured by the domain the model assigned it. The zone probabilities below run independently, so their crossings are the thresholds.',
+        'Returned by analyze_vt: VT1 and VT2. Every breath is coloured by the domain they bound; the curves beneath are illustrative and cross at the thresholds.',
       metrics: [
         {
           label: 'VT1',

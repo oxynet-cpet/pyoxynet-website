@@ -51,9 +51,15 @@ const BODY = `# Oxynet
 Oxynet is reached three ways: a REST API, a remote MCP server for AI assistants, and
 the web app at ${LINKS.app}. All three use the same file parsers.
 
-Results carry no confidence score, because nothing is calibrated against clinical
-outcomes. Oscillatory ventilation analysis is beta: it was developed on one heart
-failure cohort and its transportability to other populations is untested.
+Results carry no numeric confidence, because nothing is calibrated against clinical
+outcomes. Each answer's \`confidence\` is a category instead, low or normal, set by
+stated rules and never a number; \`quality\` describes the recording. Oscillatory
+ventilation analysis is beta: it was developed on one heart failure cohort and its
+transportability to other populations is untested.
+
+With no model named, the API, the MCP server and the web app return the same routed
+answer for the thresholds: the method with the best measured record on that kind of
+test, and the response says which method answered and why.
 
 ## If you are an AI agent
 

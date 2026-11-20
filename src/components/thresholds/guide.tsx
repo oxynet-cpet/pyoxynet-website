@@ -72,8 +72,9 @@ export function RunIt({ fileNoun = 'the export' }: { fileNoun?: string }) {
           <Prose className="text-sm">
             <p>
               Drop {fileNoun} on <a href={LINKS.app}>app.oxynet.net</a>. No account is needed. The app
-              shows what the file contains, then offers thresholds, oscillation and substrate analysis,
-              with the intensity domains drawn on the chart.
+              shows what the file contains, then offers thresholds, substrate analysis and oscillation
+              (beta), with the intensity domains drawn on the chart. The thresholds are the same answer
+              the API and assistants get.
             </p>
           </Prose>
         </Card>
@@ -98,8 +99,8 @@ export function WhatComesBack() {
     <Section id="results" title="What comes back">
       <Facts
         rows={[
-          ['Ventilatory thresholds', 'VT1 and VT2, each as a time from the start of the test and an oxygen uptake in mL/min, with the model and version that produced them.'],
-          ['Intensity domains', 'Moderate, heavy and severe, second by second, drawn in the web app. The thresholds are where they cross.'],
+          ['Ventilatory thresholds', 'VT1 and VT2, each as a time from the start of the test and an oxygen uptake in mL/min, with the method and version that produced them and why that method answered. VO2, VCO2 and VE are enough; a file without end-tidal gases is still analysed.'],
+          ['Intensity domains', 'Moderate, heavy and severe, the domains VT1 and VT2 bound, drawn breath by breath in the web app.'],
           ['CPET metrics', 'Peak VO2, VE and RER, O2 pulse, the VE/VCO2 slope, test phases and classical landmarks.'],
           ['Substrate use', 'Fat and carbohydrate oxidation, FATMAX, the crossover and gross efficiency.'],
           ['Signal quality', 'Whether the gas analysis, the sampling and the clock can support a measurement at all.'],
@@ -108,8 +109,10 @@ export function WhatComesBack() {
       />
       <Prose className="mt-5">
         <p className="text-sm">
-          No result carries a confidence score. The agreement with expert raters is published; nothing is
-          calibrated against clinical outcomes. Every analysis and its limits are in the{' '}
+          No result carries a confidence score: nothing is calibrated against clinical outcomes, so no
+          number says how sure an answer is. Each answer is marked low or normal by stated rules (a
+          threshold placed while the subject was at rest is marked low, and the reason given). The
+          agreement with expert raters is published. Every analysis and its limits are in the{' '}
           <Link href="/developers/analyses">analysis catalogue</Link>.
         </p>
       </Prose>

@@ -13,8 +13,12 @@ import type { DemoScript } from './types'
  * inventing one would be inventing a product. What is shown is the real `/v1`
  * surface from `oxynet/api/v1.py`, callable from anything that speaks HTTP.
  * The response is shaped the way `analyze` really answers: `cpet_id` and one
- * envelope per analysis, each with its own status, findings and quality. The
- * values are invented, as the disclosure says.
+ * envelope per analysis, with the envelope's own field names (findings in
+ * seconds and mL/min, quality, confidence, notes, provenance), abridged to fit
+ * the window. With no model named the committee answers, so provenance.model
+ * is "fellowship" and the first note is the committee's. The key goes in
+ * X-API-Key, the only header the API reads. The values are invented, as the
+ * disclosure says.
  */
 export const apiDemo: DemoScript = {
   slug: 'api',
@@ -25,7 +29,7 @@ export const apiDemo: DemoScript = {
   blurb:
     'Twenty lines against the REST API. Post the recording, read the measurements back, keep them in your own product.',
   disclosure:
-    'Simulated run. The endpoint, the payload and the response shape are the live Oxynet REST API. The values are representative, not measured.',
+    'Simulated run. The endpoint, the payload and the response fields are the live Oxynet REST API, abridged. The values are representative, not measured.',
 
   // Unused by this demo: there is no MCP server in the story. The shape is
   // required by the script type and only the connect and tool-list events read
@@ -73,7 +77,10 @@ const res = await fetch(
   \`\${BASE}/cpet/\${cpet_id}/analyze\`,
   {
     method: 'POST',
-    headers: { Authorization: \`Bearer \${KEY}\` },
+    headers: {
+      'X-API-Key': KEY,
+      'Content-Type': 'application/json',
+    },
     body: JSON.stringify({ analyses: ['vt'] }),
   },
 )`,
@@ -89,7 +96,7 @@ const res = await fetch(
       command: 'node analyze.js',
       request: `{ "analyses": ["vt"] }`,
       endpoint: '/v1/cpet/{cpet_id}/analyze',
-      inference: 'oxynet-vt',
+      inference: 'fellowship',
       runMs: 3800,
       response: `{
   "cpet_id": "cpet_8f3a91c4",
@@ -98,12 +105,15 @@ const res = await fetch(
       "analysis": "vt",
       "status": "ok",
       "findings": {
-        "vt1": { "vo2": 1.42, "hr": 128 },
-        "vt2": { "vo2": 2.31, "hr": 161 },
-        "vo2peak": { "vo2": 3.18, "hr": 184 }
+        "vt1_time_s": 418.0,
+        "vt2_time_s": 652.0,
+        "vt1_vo2_ml_min": 1420.0,
+        "vt2_vo2_ml_min": 2310.0
       },
       "quality": "good",
-      "provenance": { "model": "oxynet-vt" }
+      "confidence": { "level": "normal", "reasons": [] },
+      "notes": ["Thresholds combine 4 models ..."],
+      "provenance": { "model": "fellowship", ... }
     }
   ]
 }`,

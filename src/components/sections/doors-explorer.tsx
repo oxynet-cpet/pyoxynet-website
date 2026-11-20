@@ -134,7 +134,7 @@ function makeDoors(formats: number, retentionHours: number): Door[] {
           </p>
         </div>
       ),
-      note: 'No result carries a confidence score, and an assistant should not invent one. Where a recording cannot support an analysis, the server says so and says why: that refusal is the correct thing to report. The integration guide is also served as plain text at /llms.txt, so an agent can read it in one request.',
+      note: 'No result carries a numeric confidence, and an assistant should not invent one: an answer is marked low or normal by stated rules, with the reason. Oscillatory ventilation is beta, developed on one heart-failure cohort with transportability untested. Where a recording cannot support an analysis, the server says so and says why: that refusal is the correct thing to report. The integration guide is also served as plain text at /llms.txt, so an agent can read it in one request.',
       ctas: [
         { label: 'Connect an assistant', href: '/developers/mcp', primary: true },
         { label: 'Open the demo on its own page', href: '/demo' },
