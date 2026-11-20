@@ -24,7 +24,8 @@ out = requests.post(f"{BASE}/v1/cpet/{rec['cpet_id']}/analyze",
                     headers=H, json={"analyses": ["vt"]}).json()
 print(out["results"][0]["findings"])`
 
-const ERRORS = `r = requests.post(f"{BASE}/v1/cpet/{cpet_id}/analyze", headers=H,
+const ERRORS = `# eov is beta: one heart-failure cohort, transportability untested
+r = requests.post(f"{BASE}/v1/cpet/{cpet_id}/analyze", headers=H,
                   json={"analyses": ["vt", "eov"]})
 
 if r.status_code == 429:

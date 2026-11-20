@@ -88,7 +88,8 @@ export default function PatternsPage() {
           <p>
             The vendor file goes in unchanged. The <code>cpet_id</code> is the unit of work. Results
             come back in one envelope shape with provenance, input quality and notes. A refusal is
-            kept, not retried into submission. Nothing carries a confidence score.
+            kept, not retried into submission. Nothing carries a confidence score: an answer is
+            marked low or normal by stated rules, never given a number.
           </p>
         </Prose>
       </Section>

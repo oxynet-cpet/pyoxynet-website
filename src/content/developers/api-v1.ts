@@ -12,6 +12,8 @@
  * When v2 exists it gets its own file, api-v2.ts, and its own page.
  */
 
+import { RETENTION_HOURS } from '../facts'
+
 /** Guidance keyed by "METHOD /path", shown under the schema's own summary. */
 export const ENDPOINT_NOTES: Record<string, string> = {
   'POST /v1/uploads':
@@ -19,12 +21,14 @@ export const ENDPOINT_NOTES: Record<string, string> = {
   'POST /v1/cpet/content':
     'JSON upload for callers that cannot send multipart (GPT Actions, function calling). Body: filename (keep the real extension), content (text) or content_base64 (XLS/XLSX), optional retain_hours.',
   'GET /v1/cpet/{cpet_id}':
-    'The upload summary again: detected format, channels with coverage and the reason for any that are absent, sampling, external load, parser flags, and thresholds the metabolimeter itself embedded, where present.',
+    'The upload summary again: detected format, channels with coverage and the reason for any that are absent, sampling, external load, parser flags, and thresholds the metabolimeter itself embedded, where present. Its preprocessing block lists the recording\'s checks, each with its effect per analysis (refused or caution): read them before analysing, because a check that refuses an analysis will refuse it, with the same message.',
   'DELETE /v1/cpet/{cpet_id}': 'Delete the parsed record now rather than at expiry.',
   'GET /v1/cpet/{cpet_id}/series':
     'Downsampled signals for plotting only. Every measurement runs server-side on the full-resolution record; never compute from these.',
   'POST /v1/cpet/{cpet_id}/analyze':
-    'Body: {"analyses": ["vt", "eov", "substrate"]}. Returns {cpet_id, results: [envelope, ...]}, one envelope per analysis. Omit "model" unless you need a specific one; the default matches the web application. Unknown fields are a 422.',
+    'Body: {"analyses": ["vt", "eov", "substrate"]} (eov is beta: one heart-failure cohort, transportability untested). Returns {cpet_id, results: [envelope, ...]}, one envelope per analysis. Omit "model" unless you need a specific one: with none named, the thresholds come from the method with the best measured record on that kind of test, the same routed answer the browser and MCP give, and provenance.selection says which and why. Unknown fields are a 422.',
+  'POST /v1/cpet/{cpet_id}/assess':
+    'No body. Everything that applies in one call: thresholds routed as above, oscillatory ventilation when PetCO2 is present (beta: one heart-failure cohort, transportability untested), substrate use when VO2 and VCO2 are, and the derived metrics. Returns test (what kind of test it was), headline (the main numbers, with headline.confidence and headline.eov_status beside them), plan (every part, and why any did not run), results (the envelopes), metrics and preprocessing. Runs only the analyses the key includes; MCP tool assess_cpet.',
   'GET /v1/metrics': 'The derived-quantity registry: each metric with its unit, required channels, minimum duration and reading notes.',
   'POST /v1/cpet/{cpet_id}/compute':
     'Body: {"metrics": ["vo2max", "ve_vco2_slope", "gas_quality"]}. Each metric returns {status: "ok", value} or {status: "unavailable", error, message, context}. Never a bare null.',
@@ -59,11 +63,11 @@ export const LIMITS: [string, string][] = [
   ['Upload size', '25 MB (413 FILE_TOO_LARGE)'],
   ['Samples per recording', '20,000 (413 RECORDING_TOO_LONG)'],
   ['Upload ticket', 'valid 5 minutes, one file each, up to 200 per request'],
-  ['Retention, default', '24 hours after upload'],
+  ['Retention, default', `${RETENTION_HOURS} hours after upload`],
   ['Retention, maximum', '168 hours (7 days), when requested with retain_hours'],
   ['Rate limiting', 'per key; a 429 RATE_LIMITED carries a Retry-After header'],
   ['Monthly quota', 'set per key, reported in capabilities.limits.monthly_limit (429 QUOTA_EXCEEDED)'],
-  ['Billing units', 'one per analysis that returns status "ok"; one per compute request with any metric ok. Uploads and refusals are not billed'],
+  ['Billing units', 'one per analysis that returns status "ok", on /analyze and /assess alike (the metrics /assess returns are included); one per compute request with any metric ok. Uploads and refusals are not billed'],
 ]
 
 export const ERRORS: { code: string; http: number; meaning: string }[] = [
@@ -93,18 +97,33 @@ export const ERRORS: { code: string; http: number; meaning: string }[] = [
  * status "not_analysable" and one of these, and the others still run.
  */
 export const REFUSALS: [string, string][] = [
-  ['vt', 'INSUFFICIENT_SIGNAL, MISSING_CHANNEL, TIER_INSUFFICIENT, MODEL_NOT_FOUND, INFERENCE_FAILED'],
-  ['eov', 'NO_USABLE_DATA, INSUFFICIENT_DURATION, MISSING_CHANNEL, EOV_FAILED'],
-  ['substrate', 'MISSING_CHANNEL, INSUFFICIENT_SIGNAL, SUBSTRATE_FAILED'],
+  ['vt', 'IMPLAUSIBLE_SIGNAL, NO_EXERCISE, INSUFFICIENT_DURATION, NOT_INCREMENTAL, INCONSISTENT_THRESHOLDS, NO_ELIGIBLE_MODEL, INSUFFICIENT_SIGNAL, MISSING_CHANNEL, TIER_INSUFFICIENT, MODEL_NOT_ALLOWED, MODEL_NOT_FOUND, THIN_AXIS, UNBINNABLE, INFERENCE_FAILED'],
+  ['eov', 'IMPLAUSIBLE_SIGNAL, NO_EXERCISE, NO_USABLE_DATA, INSUFFICIENT_DURATION, MISSING_CHANNEL, EOV_FAILED'],
+  ['substrate', 'IMPLAUSIBLE_SIGNAL, NO_EXERCISE, MISSING_CHANNEL, INSUFFICIENT_SIGNAL, SUBSTRATE_FAILED'],
 ]
 
-/** The envelope, field by field, from v1.py. */
+/** What the less obvious refusals mean, restated from llms-full.txt, preprocess.py and v1.py. */
+export const REFUSAL_MEANINGS: [string, string][] = [
+  ['IMPLAUSIBLE_SIGNAL', 'A gas channel cannot be read as gas exchange (negative, or a unit error); the message names it.'],
+  ['NO_EXERCISE', 'VO2 never rises above its resting level (a resting measurement, say), so there is nothing to analyse.'],
+  ['INSUFFICIENT_DURATION', 'For thresholds, under 2 minutes of exercise (an aborted start); for oscillation, too short for the analysis, with the minimum in context.'],
+  ['NOT_INCREMENTAL', 'A constant-load bout, or VO2 flat at an exercise level: a ventilatory threshold is read on a rising load.'],
+  ['INCONSISTENT_THRESHOLDS', 'VT2 came out at or below VT1. A routed call tries another method first.'],
+  ['NO_ELIGIBLE_MODEL', 'No method this key may run can read this recording; the message names each one passed over and why.'],
+  ['THIN_AXIS, UNBINNABLE', 'treebeard, named, cannot place this test on its VO2 axis: the range it covers is too narrow (THIN_AXIS), or there are too few samples or VO2 does not rise (UNBINNABLE). A routed call passes to another method instead.'],
+]
+
+/** The envelope, field by field, from v1.py and answer_checks.py. */
 export const ENVELOPE_FIELDS: [string, string][] = [
   ['analysis', '"vt", "eov" or "substrate".'],
   ['status', '"ok", or "not_analysable" when the recording cannot support it.'],
   ['findings', 'The measurements. Shape depends on the analysis; null when not analysable.'],
-  ['quality', '"good", "acceptable" or "poor". Describes the INPUT recording (coverage of VE, VO2, VCO2 and whether the sampling interval is known). It is not a confidence in the result, and no field is.'],
+  ['quality', '"good", "acceptable" or "poor". Describes the INPUT recording (coverage of VE, VO2, VCO2 and whether the sampling interval is known), not the answer.'],
+  ['confidence', '{level: "low" | "normal", reasons: [{code, applies_to, message}]}, on every ok result. A category set by stated rules, never a number. "low" says a rule found the answer unusual and names it: a threshold placed at rest or in recovery, VT1 already reached in the first minute of exercise, thresholds out of order, a threshold or FATMAX at an unusual fraction of peak VO2, a FATMAX at the edge of what the test measured. "normal" says no rule fired, not that the answer is certain (oscillation has no rule yet, so it always reads normal). Nothing is calibrated against clinical outcomes. Each reason is also in notes.'],
   ['notes', 'Plain-language caveats that must travel with the numbers into any report built on them.'],
   ['error, message, context', 'Present when status is "not_analysable": the code, the reason, and what was needed.'],
   ['provenance', 'analysis_version, schema_version, computed_at, the model that ran and latency_ms; for thresholds also model_version and model_tier.'],
+  ['provenance.selection', 'Thresholds: which method answered and why (the method chosen, the test description it rests on, the reason and the evidence). Present on a routed answer and when the committee is named; absent when a single model is named.'],
+  ['provenance.members', 'When the committee answers (model "fellowship"): each member, with its own thresholds only where the key may name that model, and withheld, saying which tier naming it needs, otherwise.'],
+  ['preprocessing', 'What this analysis read (read, null on a refusal) and which of the recording\'s checks applied to it (checks).'],
 ]

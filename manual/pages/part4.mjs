@@ -17,7 +17,7 @@ export function whatItIsNot() {
   const NOT = [
     ['a medical device', 'Research software. No CE mark, no FDA clearance, not registered as software as a medical device in any jurisdiction, and not to be the basis of a diagnosis or a treatment decision.'],
     ['a diagnosis', 'The engine returns physiological measurements. Interpreting them for a patient is the clinician’s act, and the clinician remains the responsible party.'],
-    ['calibrated against outcomes', 'No output carries a confidence score, because there is nothing to calibrate one against. Agreement with expert labelling is what has been measured, and it is not the same claim.'],
+    ['calibrated against outcomes', 'No output carries a confidence score, because there is nothing to calibrate one against; an answer is marked low or normal by stated rules instead. Agreement with expert labelling is what has been measured, and it is not the same claim.'],
   ]
     .map(
       ([h, b]) => `

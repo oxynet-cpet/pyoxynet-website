@@ -2,11 +2,13 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { DocHeader, Section, Prose, Callout, Facts, NextSteps } from '@/components/developers/doc'
 import { MAILTO, LINKS } from '@/content/developers/meta'
+import { RETENTION_HOURS } from '@/content/facts'
+import { LOG_RETENTION_DAYS } from '@/content/legal'
 
 export const metadata: Metadata = {
   title: 'CPET data handling, retention and security',
   description:
-    'How the Oxynet CPET API handles uploaded exercise test data: uploaded bytes are parsed and discarded, parsed records expire after 24 hours, records are partitioned per API key, and local deployment exists for data that must not leave an institution.',
+    `How the Oxynet CPET API handles uploaded exercise test data: uploaded bytes are parsed and discarded, parsed records expire after ${RETENTION_HOURS} hours, records are partitioned per API key, and local deployment exists for data that must not leave an institution.`,
   alternates: { canonical: '/developers/data-handling' },
 }
 
@@ -29,7 +31,7 @@ export default function DataHandlingPage() {
         <Facts
           rows={[
             ['Uploaded bytes', 'Parsed from a temporary file and discarded. Never written to storage.'],
-            ['Parsed record', 'Kept so later calls can name it by cpet_id. Deleted 24 hours after upload by default, and gone from the storage’s version history within about two days of deletion.'],
+            ['Parsed record', `Kept so later calls can name it by cpet_id. Deleted ${RETENTION_HOURS} hours after upload by default, and gone from the storage’s version history within about two days of deletion.`],
             ['Longer retention', 'Only when the caller asks (retain_hours), up to 168 hours. retain_hours: 0 expires it immediately.'],
             ['Where it lives', 'Amazon Web Services, region eu-central-1 (Frankfurt, Germany): the service on AWS App Runner, parsed records and models in Amazon S3. AWS is the only infrastructure provider that holds uploaded data.'],
             ['Encryption', 'HTTPS in transit. AES-256 server-side encryption at rest. Public access to the storage is blocked.'],
@@ -37,7 +39,7 @@ export default function DataHandlingPage() {
             ['After expiry', <>The record reads back as <code key="n">CPET_NOT_FOUND</code>. Expired records are swept hourly.</>],
             ['Isolation', 'Records are partitioned per API key. One key cannot read another’s uploads.'],
             ['What persists', 'Counts of analyses per API key: per month, to apply its limit, and per hour by analysis, route (API, assistant, skill or browser), file format and outcome. They are tied to a one-way fingerprint of the key and hold nothing from any recording.'],
-            ['Logs', 'The request, the record id, the key’s fingerprint, the detected format, the byte count and the outcome. Never file contents, filenames, keys, key holders’ names or results. Deleted after 30 days.'],
+            ['Logs', `The request, the record id, the key’s fingerprint, the detected format, the byte count and the outcome. Never file contents, filenames, keys, key holders’ names or results. Deleted after ${LOG_RETENTION_DAYS} days.`],
             ['Results', 'Returned to the caller and not stored server-side.'],
             ['Failed parses', 'An unreadable file returns a structural probe (byte and delimiter counts) that carries none of its content.'],
             ['Upload URLs', 'One-shot, valid 5 minutes, carrying their own credential, so a script that posts a file handles no API key.'],

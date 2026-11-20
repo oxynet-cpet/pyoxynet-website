@@ -14,8 +14,8 @@ const FAMILIES = [
     status: null,
     title: 'Thresholds and intensity domains',
     items: [
-      'VT1 and VT2, in time, V̇O₂ and V̇CO₂',
-      'Every breath classified moderate · heavy · severe',
+      'VT1 and VT2, each as a time and a V̇O₂',
+      'Moderate · heavy · severe: the domains the two thresholds bound',
       'Detected consistently across protocols and ergometers',
     ],
     description:
@@ -128,8 +128,9 @@ export function OutputsSection() {
           <div className="glass rounded-2xl p-6 max-w-3xl mx-auto border border-hairline text-center">
             <p className="text-ink-subtle text-sm leading-relaxed">
               No output carries a confidence score. Nothing here is calibrated against clinical
-              outcomes, so a percentage would be a number without a meaning. Where a recording
-              cannot support an analysis, Oxynet says so, and says why.
+              outcomes, so a percentage would be a number without a meaning: an answer is marked low
+              or normal by stated rules instead, with the reason. Where a recording cannot support
+              an analysis, Oxynet says so, and says why.
             </p>
           </div>
         </SectionWrapper>

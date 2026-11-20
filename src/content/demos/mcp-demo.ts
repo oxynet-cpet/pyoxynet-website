@@ -44,6 +44,7 @@ const TOOL_SUMMARIES = {
   create_upload: 'One-shot URL for a file on disk',
   upload_cpet: 'Upload contents already in hand',
   get_cpet: 'Format, channels, sampling, protocol',
+  assess_cpet: 'Everything that applies, in one call',
   list_metrics: 'The derived-quantity registry',
   compute_metrics: 'Phases, gas quality, sampling',
   analyze_vt: 'Ventilatory thresholds',
@@ -262,7 +263,7 @@ export const mcpDemo: DemoScript = {
       chapter: 'Thresholds',
       title: 'Ventilatory thresholds',
       caption:
-        'Returned by analyze_vt. Every breath is coloured by the domain the model assigned it. The zone probabilities below run independently, so their crossings are the thresholds.',
+        'Returned by analyze_vt: VT1 and VT2. Every breath is coloured by the domain they bound; the curves beneath are illustrative and cross at the thresholds.',
       metrics: [
         {
           label: 'VT1',

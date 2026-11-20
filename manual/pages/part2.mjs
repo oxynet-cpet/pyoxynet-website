@@ -54,8 +54,8 @@ export function technology() {
     <p style="font-size:19px;line-height:1.45;font-weight:500;color:${L.strong};margin:0 0 18px;max-width:600px">Signal processing, machine learning and deep learning, applied to a signal that has had comparatively little of it.</p>
     ${layer('Signal processing', 'Conditioning, spectral analysis, phase',
       'Sampling-aware per-channel smoothing, resampling to a common grid, continuous wavelet analysis over the oscillation band, cross-channel coherence and phase. Deterministic arithmetic, and where signal integrity is decided.')}
-    ${layer('Deep learning', 'Convolutional networks over the breath series',
-      'The promoted threshold models are CNNs over the detrended series, trained per cohort. Recurrent (LSTM and GRU), temporal-convolutional and transformer variants are trained and benchmarked against them; what ships is whatever clears the gate on a held-out cohort.')}
+    ${layer('Machine learning', 'Trees and networks, combined',
+      'With no model named, a committee answers: gradient-boosted trees, which need only V̇O₂, V̇CO₂ and V̇E, combined with CNNs over the breath series. Where it cannot run, one method answers and says why. Recurrent and transformer variants are benchmarked against them on held-out cohorts.')}
     ${layer('Representation learning', 'Structure without labels',
       'An unsupervised representation learned from the recordings themselves, in which the intensity domains appear as regions with width. A transition then has an extent that can be measured, instead of being treated as an instant.')}
     ${layer('Ablation', 'Not every channel, every time',
@@ -140,9 +140,9 @@ export function thresholdsLeft() {
     <div style="margin-top:14px">${figThresholds()}</div>
     ${caption('Both panels against oxygen uptake, which is the axis these are read on, breath by breath and unsmoothed. Above, ventilation. Below, the ventilatory equivalents, where the textbook criteria live: VT1 sits at the nadir of the equivalent for oxygen while the one for carbon dioxide is still flat, and VT2 where the carbon dioxide equivalent turns up as well. The equivalents come from the file\'s own columns and the dashed lines are what the model returned, so the reader can judge whether the two agree.', 'max-width:620px')}
     <div style="margin-top:14px;padding-top:12px;border-top:1px solid ${L.line}">
-      <h3 style="margin-bottom:6px">What the network actually emits</h3>
+      <h3 style="margin-bottom:6px">What one network emits</h3>
       ${figProbabilities()}
-      ${caption(`Three class probabilities every second, stacked, straight from the model. The thresholds are a detector run over these curves rather than a separate model, which is why a subject who never leaves the moderate domain simply never produces a crossing. Taken by calling the same model on the breath records directly: that path conditions the file slightly differently from the upload path used opposite, so it places the thresholds at ${preds._provenance.vt1_time_s} and ${preds._provenance.vt2_time_s} seconds against ${api.vt.findings.vt1_time_s} and ${api.vt.findings.vt2_time_s}. Same weights, different conditioning, and both figures are reported.`, 'max-width:620px')}
+      ${caption(`Three class probabilities every second, stacked, from one of Oxynet's networks, gandalf, called on the breath records directly. Its thresholds are a detector run over these curves, which is why a subject who never leaves the moderate domain never produces a crossing: here ${preds._provenance.vt1_time_s} and ${preds._provenance.vt2_time_s} seconds. The answer opposite, given when no model is named, comes from a committee of networks and gradient-boosted trees, which emit no such curves: ${api.vt.findings.vt1_time_s} and ${api.vt.findings.vt2_time_s} seconds.`, 'max-width:620px')}
     </div>`
 
   return page({ id: 'p15', body: rh('2.3 Ventilatory thresholds') + wide(main) + folio('15') })
@@ -162,7 +162,8 @@ export function thresholdsRight() {
     "vt1_vo2_ml_min": ${f.vt1_vo2_ml_min},
     "vt2_vo2_ml_min": ${f.vt2_vo2_ml_min}
   },
-  "quality": "good",
+  "quality": "${api.vt.quality}",
+  "confidence": ${JSON.stringify(api.vt.confidence)},
   "provenance": {
     "model": "${p.model}",
     "model_version": "${p.model_version}",
@@ -170,9 +171,13 @@ export function thresholdsRight() {
     "latency_ms": ${p.latency_ms}
   }
 }`
+  // From the recorded responses, never typed: the thresholds moved when the default
+  // became the committee (v86), and typed rows kept gandalf's.
+  const n = (x) => Math.round(x).toLocaleString('en-GB')
+  const d = (a, b) => { const v = Math.round(b - a); return `${v > 0 ? '+' : v < 0 ? '\u2212' : ''}${Math.abs(v)}` }
   const rows = [
-    ['VT1', '1,540', '1,605', '+65'],
-    ['VT2', '1,940', '2,029', '+89'],
+    ['VT1', n(s.vt1_vo2_ml_min), n(f.vt1_vo2_ml_min), d(s.vt1_vo2_ml_min, f.vt1_vo2_ml_min)],
+    ['VT2', n(s.vt2_vo2_ml_min), n(f.vt2_vo2_ml_min), d(s.vt2_vo2_ml_min, f.vt2_vo2_ml_min)],
   ]
 
   const main = `
@@ -193,7 +198,7 @@ export function thresholdsRight() {
       <h3>A threshold that is not there</h3>
       <p style="font-size:14px;line-height:1.6;margin:0">In a symptom-limited clinical cohort a subject may stop before a threshold is crossed, and a model constrained to return two numbers will place them somewhere. The current generation answers the presence question separately from the location question. In a development cohort of 103 clinical tests, 22 had no threshold at all; reporting them as located would have been the more confident output and the wrong one.</p>
     </div>
-    <div style="margin-top:14px">${callout(`<b style="color:${L.strong}">No result carries a confidence score.</b> Nothing in Oxynet is calibrated against clinical outcomes, so a percentage would be a number without a meaning. The <span class="mono" style="font-size:11.5px">quality</span> field describes the recording, not the certainty of the answer.`)}</div>
+    <div style="margin-top:14px">${callout(`<b style="color:${L.strong}">No result carries a confidence score.</b> Nothing in Oxynet is calibrated against clinical outcomes, so a percentage would be a number without a meaning. Each answer is marked <span class="mono" style="font-size:11.5px">low</span> or <span class="mono" style="font-size:11.5px">normal</span> by stated rules instead, and <span class="mono" style="font-size:11.5px">quality</span> describes the recording.`)}</div>
 `
 
   return page({ id: 'p16', body: rh('2.3 Ventilatory thresholds') + wide(main) + folio('16') })
@@ -263,7 +268,7 @@ export function substrateLeft() {
     ${h1('Which fuel, at which intensity', 'max-width:560px;margin-bottom:14px')}
     ${stand('Fat and carbohydrate oxidation read from gas exchange by indirect calorimetry, so it runs on any test with oxygen uptake and carbon dioxide output, with or without an ergometer channel.', 'max-width:600px;margin-bottom:8px')}
     <div style="margin-top:18px">${figSubstrate()}</div>
-    ${caption(`Twelve 60-second windows from the reference recording, each one a measurement, not a fitted point. FATMAX at ${s.fatmax.pct_vo2peak} per cent of peak oxygen uptake is the turning point of a fitted cubic, not a measured sample. Beyond RER 1.0 the shaded region begins: there the exhaled carbon dioxide includes a non-metabolic part, the stoichiometry stops holding, and the fat figure is an upper bound that reads low and can read negative. Open markers are those bounds, drawn because hiding them would make the curve look better than the measurement is.`, 'max-width:620px')}
+    ${caption(`Twelve 60-second windows from the reference recording, each one a measurement, not a fitted point. FATMAX at ${s.fatmax.pct_vo2peak} per cent of peak oxygen uptake is the turning point of a fitted cubic, not a measured sample. Beyond RER 1.0 the shaded region begins: there the exhaled carbon dioxide includes a non-metabolic part, the stoichiometry stops holding, and the fat figure is an upper bound that reads low and can read negative. Open markers are those bounds, drawn because hiding them would make the curve look better than the measurement is.${s.confidence?.level === 'low' ? ` The answer comes back marked low confidence: ${s.confidence.reasons.map((r) => r.message).join(' ')}` : ''}`, 'max-width:620px')}
     ${tiles([
       ['FATMAX', `${s.fatmax.pct_vo2peak} %`, 'of peak oxygen uptake'],
       ['Peak fat rate', `${s.fatmax.fat_g_min} g/min`, `${s.fatmax.pct_ee_fat} % of energy`],
@@ -291,7 +296,9 @@ export function substrateRight() {
       "reason": "Needs a work rate in watts. This test
                  recorded no external load."
     }
-  }
+  },
+  "confidence": { "level": "${api.substrate.confidence.level}", "reasons": [
+    { "code": "${api.substrate.confidence.reasons[0]?.code ?? ''}", ... } ] }
 }`
 
   const main = `

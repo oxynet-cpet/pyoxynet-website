@@ -47,9 +47,11 @@ const QUESTIONS: [string, React.ReactNode][] = [
   [
     'Is there a confidence score?',
     <>
-      No, and none is invented. Agreement with expert raters is published; nothing is calibrated against
-      clinical outcomes. What the response does describe is the recording: whether the gas analysis,
-      sampling and clock can support a measurement.
+      Not a number, and none is invented: nothing is calibrated against clinical outcomes, and agreement
+      with expert raters is what is published. Each answer is marked low or normal by stated rules
+      instead, and a low one says which rule fired, for example a threshold placed while the subject was
+      still at rest. The response also describes the recording: whether the gas analysis, sampling and
+      clock can support a measurement.
     </>,
   ],
   [

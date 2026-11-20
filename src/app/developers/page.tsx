@@ -87,8 +87,8 @@ export default function DevelopersOverview() {
             </p>
             <p>
               VT1 and VT2 are the entry point, not the ceiling: substrate use, derived quantities,
-              signal integrity and, in research, oscillatory ventilation come back through the same
-              interface. The <Link href="/developers/analyses">analysis catalogue</Link> states
+              signal integrity and, in research, oscillatory ventilation (beta: one heart-failure
+              cohort, transportability untested) come back through the same interface. The <Link href="/developers/analyses">analysis catalogue</Link> states
               the evidence behind each one.
             </p>
           </Prose>
@@ -156,7 +156,7 @@ export default function DevelopersOverview() {
           </Card>
           <Card>
             <h3 className="text-sm font-semibold text-ink-strong mb-2">No confidence scores</h3>
-            <p className="text-sm text-ink-body leading-relaxed">Nothing is calibrated against clinical outcomes. <code className="font-mono text-[12.5px]">quality</code> describes the recording, never the certainty of the answer.</p>
+            <p className="text-sm text-ink-body leading-relaxed">Nothing is calibrated against clinical outcomes, so no number says how sure an answer is. <code className="font-mono text-[12.5px]">confidence</code> is a category, low or normal, set by stated rules; <code className="font-mono text-[12.5px]">quality</code> describes the recording.</p>
           </Card>
           <Card>
             <h3 className="text-sm font-semibold text-ink-strong mb-2">A refusal is a result</h3>

@@ -9,7 +9,7 @@ import results from '../../../../manual/data/api-results.json'
 export const metadata: Metadata = {
   title: 'CPET API outputs: structured measurements with provenance',
   description:
-    'What the Oxynet CPET API returns: ventilatory thresholds, substrate use and oscillation findings as structured JSON, each with provenance (model, version, analysis version, latency), input quality and plain-language notes.',
+    'What the Oxynet CPET API returns: ventilatory thresholds, substrate use and oscillation findings (beta) as structured JSON, each with provenance (model, version, analysis version, latency), input quality, a confidence category set by stated rules and plain-language notes.',
   alternates: { canonical: '/developers/outputs' },
 }
 
@@ -20,7 +20,8 @@ const REFUSAL_SHAPE = `{
   "error": "MISSING_CHANNEL",
   "message": "<why, in words>",
   "context": { "<what was needed and what was present>": "..." },
-  "provenance": { "analysis_version": "...", "schema_version": "...", "computed_at": "..." }
+  "provenance": { "analysis_version": "...", "schema_version": "...", "computed_at": "..." },
+  "preprocessing": { "version": "...", "read": null, "checks": ["<codes that applied>"] }
 }`
 
 export default function OutputsPage() {
@@ -55,11 +56,19 @@ export default function OutputsPage() {
         <div className="grid sm:grid-cols-2 gap-4">
           <Card>
             <h3 className="text-sm font-semibold text-ink-strong mb-2"><code className="font-mono">provenance</code></h3>
-            <p className="text-sm text-ink-body leading-relaxed">A result can always be traced to the model, version and analysis version that produced it, and when. Inference is deterministic: same recording, same model version, same numbers.</p>
+            <p className="text-sm text-ink-body leading-relaxed">A result can always be traced to the model, version and analysis version that produced it, and when. With no model named, <code className="font-mono">selection</code> says which method answered and why, and <code className="font-mono">members</code> lists a committee&apos;s members. Inference is deterministic: same recording, same model version, same numbers.</p>
           </Card>
           <Card>
             <h3 className="text-sm font-semibold text-ink-strong mb-2"><code className="font-mono">quality</code></h3>
-            <p className="text-sm text-ink-body leading-relaxed">Describes the INPUT: coverage of the core gas channels and whether the sampling interval is known. It is not a confidence, and there is no field that is.</p>
+            <p className="text-sm text-ink-body leading-relaxed">Describes the INPUT: coverage of the core gas channels and whether the sampling interval is known. It says nothing about the answer.</p>
+          </Card>
+          <Card>
+            <h3 className="text-sm font-semibold text-ink-strong mb-2"><code className="font-mono">confidence</code></h3>
+            <p className="text-sm text-ink-body leading-relaxed">A category, low or normal, set by stated rules on the answer, never a number. Low names the rule that fired, such as a threshold placed while the subject was at rest; normal means no rule fired, not that the answer is certain. Nothing is calibrated against clinical outcomes.</p>
+          </Card>
+          <Card>
+            <h3 className="text-sm font-semibold text-ink-strong mb-2"><code className="font-mono">preprocessing</code></h3>
+            <p className="text-sm text-ink-body leading-relaxed">What the analysis read, and which of the recording&apos;s checks applied to it. No answer hides what it was computed from.</p>
           </Card>
           <Card>
             <h3 className="text-sm font-semibold text-ink-strong mb-2"><code className="font-mono">notes</code> and flags</h3>
@@ -78,8 +87,9 @@ export default function OutputsPage() {
             Real responses from the live API, recorded on {RECORDED.taken} (analysis version{' '}
             {RECORDED.analysisVersion}) against the de-identified reference recording used in the
             manual. They were stored for the manual, which kept only the fields it prints, and some
-            nesting was flattened; the <Link href="/developers/api/v1#analyses">envelope above</Link>{' '}
-            is the exact live shape. Nothing below was typed by hand.
+            nesting was flattened, so live fields such as <code>confidence</code> and{' '}
+            <code>preprocessing</code> may be missing here; the <Link href="#envelope">envelope above</Link>{' '}
+            lists every field a live response carries. Nothing below was typed by hand.
           </p>
         </Callout>
 

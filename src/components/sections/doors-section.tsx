@@ -40,8 +40,9 @@ export function DoorsSection() {
             </h2>
             <p className="text-ink-body max-w-2xl mx-auto text-lg leading-relaxed">
               Start in the browser. Call the API when it should happen automatically. Connect an
-              assistant over MCP when the question arrives in a conversation. The same models
-              answer behind every door, and one key covers the API and MCP.
+              assistant over MCP when the question arrives in a conversation. Behind every door
+              the same method answers, the one with the best measured record on that kind of test,
+              and one key covers the API and MCP.
             </p>
           </div>
         </SectionWrapper>

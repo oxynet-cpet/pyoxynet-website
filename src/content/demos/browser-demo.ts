@@ -83,7 +83,7 @@ export const browserDemo: DemoScript = {
       from: 'your browser',
       to: 'Oxynet',
       fromGlyph: 'browser',
-      inference: 'oxynet-vt',
+      inference: 'fellowship',
       runMs: 3800,
       captions: {
         out: 'the recording goes up',
@@ -100,7 +100,7 @@ export const browserDemo: DemoScript = {
       chapter: 'Result',
       title: 'Ventilatory thresholds',
       caption:
-        'Every breath coloured by the domain the model assigned it. The zone probabilities below run independently, so their crossings are the thresholds.',
+        'Every breath coloured by the domain VT1 and VT2 bound, as the app draws it from the answer. The curves beneath are illustrative and cross at the thresholds.',
       metrics: [
         {
           label: 'VT1',
