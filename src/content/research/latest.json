@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "updated": "2026-11-21",
+ "updated": "2026-11-22",
  "counts": {
   "experiments": 7,
   "labs": 12,
@@ -8,14 +8,26 @@
  },
  "findings": [
   {
+   "id": "2026-11-22-self-taught-vt1",
+   "date": "2026-11-22",
+   "grade": "robust",
+   "scope": [
+    "Across labs"
+   ],
+   "title": "A detector taught only by a simulator improves by learning from real tests it labelled itself",
+   "summary": "We asked whether a detector that has never seen an expert's mark can get closer to the experts without anyone marking anything. The simulator-taught detector labelled every real test of the training labs; the same kind of model then learned from those real curves and its own labels. On labs it had never seen, it placed VT1 about 5 mL/min closer to the experts than its teacher, in two independent simulations, and about 15 to 20 mL/min closer than a cohort-typical guess, with no human label at all. It is still about 15 to 20 mL/min behind the current production model, which learned from thousands of expert marks. VT2 improved a little too but stays worse than the guess. Real curves carry shape the simulator lacks, and a model can pick it up from its own answers. Further rounds, and letting a lab's own unmarked tests teach the detector, are running.",
+   "method": "Teacher: gradient-boosted trees trained only on simulated tests (two new simulation seeds). Student: the same trees trained on the real tests of the training labs with the teacher's answers as labels, each lab held out in turn, three random seeds averaged; no expert label used anywhere; criteria fixed in advance, compared test by test with the teacher and with a cohort-typical guess.",
+   "task": "labelling"
+  },
+  {
    "id": "2026-11-21-physics-taught-vt1",
    "date": "2026-11-21",
-   "grade": "exploratory",
+   "grade": "robust",
    "scope": [
     "Across labs"
    ],
    "title": "A detector that never saw an expert's mark places VT1 better than a cohort-typical guess",
-   "summary": "We asked whether simulated tests, whose thresholds are known because a simple model of the exercising body writes them, can teach a detector anything about real tests. A tree model trained only on 4,000 simulated tests, with no human label at all, placed VT1 about 10 mL/min closer to the experts than a cohort-typical guess, across labs it had never seen, and was better in 8 of 12 labs. It did best in labs where models trained on expert marks do worst, and worst in others: the simulator defines VT1 as a change of slope, so where it lands shows how far each lab's marking sits from that definition. It did not place VT2 better than the guess. Adding the simulated tests to real labelled ones did not help, with few labels or many. One simulation so far; two more, and a detector that retrains itself on real curves, are running.",
+   "summary": "We asked whether simulated tests, whose thresholds are known because a simple model of the exercising body writes them, can teach a detector anything about real tests. A tree model trained only on 4,000 simulated tests, with no human label at all, placed VT1 about 10 mL/min closer to the experts than a cohort-typical guess, across labs it had never seen, and was better in 8 of 12 labs. It did best in labs where models trained on expert marks do worst, and worst in others: the simulator defines VT1 as a change of slope, so where it lands shows how far each lab's marking sits from that definition. It did not place VT2 better than the guess. Adding the simulated tests to real labelled ones did not help, with few labels or many. Regraded robust on 2026-11-22: two further, independent simulations gave the same result (about 10 to 15 mL/min better than the guess on VT1, worse on VT2), and a simulation four times larger gained only a few mL/min.",
    "method": "A parametric simulator of incremental tests with a widened population (fitness, sampling, duration, slopes, transition widths and noise varied); gradient-boosted trees on the same binned signals as the real-data models, three random seeds averaged; each real lab scored as unseen; criteria fixed in advance, compared test by test with a cohort-typical guess and with the same trees trained on real labels.",
    "task": "labelling"
   },
@@ -338,7 +350,7 @@
  ],
  "benchmarks": {
   "schema": 1,
-  "computed": "2026-11-21",
+  "computed": "2026-11-22",
   "thresholds": {
    "status": "measured",
    "unit": "mL/min",
@@ -385,6 +397,11 @@
     },
     {
      "date": "2026-11-20",
+     "VT1": 213,
+     "VT2": 131
+    },
+    {
+     "date": "2026-11-21",
      "VT1": 213,
      "VT2": 131
     }
@@ -1247,6 +1264,24 @@
      "n_train": 400,
      "VT1": 244,
      "VT2": 151
+    },
+    {
+     "date": "2026-11-21",
+     "kind": "Gradient-boosted trees self-trained on real curves from a simulator-taught teacher",
+     "model_kb": 3788,
+     "train_cpu_min": 0.2,
+     "n_train": 0,
+     "VT1": 249,
+     "VT2": 183
+    },
+    {
+     "date": "2026-11-21",
+     "kind": "Gradient-boosted trees self-trained on real curves from a simulator-taught teacher",
+     "model_kb": 3788,
+     "train_cpu_min": 0.3,
+     "n_train": 0,
+     "VT1": 246,
+     "VT2": 182
     }
    ]
   }
