@@ -420,6 +420,11 @@ A merge here is a release, so the orchestration repo's "Before any release, in a
 applies (its CLAUDE.md loads only when this checkout sits under `~/oxynet`, not from a
 worktree elsewhere). The founder, 2026-11-20: check before, not after.
 
+First, from the orchestration repo: `python3 harness/align.py website` (`--at PATH` for the
+branch checked out here). It runs the registry check, compares the facts copied from core
+(terms version, retention, the agreement's numbers and provider) and `PYOXYNET` with what is
+live, and blocks on a finding that names this repo. The points below are what it cannot read.
+
 1. **The site states only what the API ships.** Read every changed claim about the API, MCP,
    formats, models or retention against core at the commit that is live
    (`https://app.oxynet.net/llms-full.txt`, `/v1/capabilities`), never against a core branch.
