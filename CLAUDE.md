@@ -414,6 +414,26 @@ To deploy:
 git push origin main   # Vercel picks it up automatically
 ```
 
+### Before a merge to `main`: check alignment, not after
+
+A merge here is a release, so the orchestration repo's "Before any release, in any repo"
+applies (its CLAUDE.md loads only when this checkout sits under `~/oxynet`, not from a
+worktree elsewhere). The founder, 2026-11-20: check before, not after.
+
+1. **The site states only what the API ships.** Read every changed claim about the API, MCP,
+   formats, models or retention against core at the commit that is live
+   (`https://app.oxynet.net/llms-full.txt`, `/v1/capabilities`), never against a core branch.
+2. **Facts with one home are imported, never retyped:** provider, VAT, courts and terms
+   version from `src/content/legal.ts`; formats and MCP tools from the generated registry
+   (`python3 harness/registry.py check` in the orchestration repo must pass); pyoxynet's
+   version from `PYOXYNET`, which follows a release only once PyPI has it.
+3. **The agreement and the manual are partner documents.** Before the template changes, and
+   before any copy is filled for a partner, its facts are diffed against `legal.ts` and what
+   core keeps and logs (`store.py`, `retention.py`). A corrected draft sent minutes after the
+   first looks unprofessional. The manual's API numbers are re-recorded on the live API.
+4. **Proportionate:** fix what is false about the service, money, data or terms; minor wording
+   drift is noted once and left.
+
 ## `/llms.txt`
 
 `src/app/llms.txt/route.ts` serves www.oxynet.net/llms.txt as a static text route (added
