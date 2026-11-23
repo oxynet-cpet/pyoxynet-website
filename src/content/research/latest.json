@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "updated": "2026-11-22",
+ "updated": "2026-11-23",
  "counts": {
   "experiments": 7,
   "labs": 12,
@@ -8,14 +8,26 @@
  },
  "findings": [
   {
+   "id": "2026-11-23-reviewers-not-physics",
+   "date": "2026-11-23",
+   "grade": "exploratory",
+   "scope": [
+    "Across labs"
+   ],
+   "title": "Experts do not disagree more where the physics of gas exchange leaves them",
+   "summary": "We asked whether two experts disagree about a threshold on the tests where their marks sit far from what the gas-exchange curves alone would say, as if one of them followed a habit rather than the physiology. On about 220 tests read by two or more experts, in 6 labs, the distance between the experts and a detector taught only by physics was unrelated to how far apart the experts were, for VT1 and VT2. A model trained on expert marks did err more where the experts disagreed, mostly on VT2. What makes a test ambiguous to humans is learned with the marks; it is not a split between physiology and habit. A refuted idea, recorded as a finding.",
+   "method": "Tests read by two or more experts, labs with at least ten such tests; per test, each detector's distance from the experts' mean mark against the spread of their marks; rank correlation within lab, pooled, with a bootstrap over tests; criteria fixed in advance.",
+   "task": "labelling"
+  },
+  {
    "id": "2026-11-22-self-taught-vt1",
    "date": "2026-11-22",
-   "grade": "robust",
+   "grade": "exploratory",
    "scope": [
     "Across labs"
    ],
    "title": "A detector taught only by a simulator improves by learning from real tests it labelled itself",
-   "summary": "We asked whether a detector that has never seen an expert's mark can get closer to the experts without anyone marking anything. The simulator-taught detector labelled every real test of the training labs; the same kind of model then learned from those real curves and its own labels. On labs it had never seen, it placed VT1 about 5 mL/min closer to the experts than its teacher, in two independent simulations, and about 15 to 20 mL/min closer than a cohort-typical guess, with no human label at all. It is still about 15 to 20 mL/min behind the current production model, which learned from thousands of expert marks. VT2 improved a little too but stays worse than the guess. Real curves carry shape the simulator lacks, and a model can pick it up from its own answers. Further rounds, and letting a lab's own unmarked tests teach the detector, are running.",
+   "summary": "We asked whether a detector that has never seen an expert's mark can get closer to the experts without anyone marking anything. The simulator-taught detector labelled every real test of the training labs; the same kind of model then learned from those real curves and its own labels. On labs it had never seen, it placed VT1 about 5 mL/min closer to the experts than its teacher, in two independent simulations, and about 15 to 20 mL/min closer than a cohort-typical guess, with no human label at all. It is still about 15 to 20 mL/min behind the current production model, which learned from thousands of expert marks. VT2 improved a little too but stays worse than the guess. Real curves carry shape the simulator lacks, and a model can pick it up from its own answers. Regraded exploratory on 2026-11-23: in two further simulations the gain was smaller (about 2 to 4 mL/min) and in one of them not clearly above zero; more rounds of self-teaching added nothing on VT1, letting a lab's own unmarked tests teach the detector did not help, and mixing its answers into a model trained on expert marks did not improve that model. The detector itself still beats the guess in every simulation.",
    "method": "Teacher: gradient-boosted trees trained only on simulated tests (two new simulation seeds). Student: the same trees trained on the real tests of the training labs with the teacher's answers as labels, each lab held out in turn, three random seeds averaged; no expert label used anywhere; criteria fixed in advance, compared test by test with the teacher and with a cohort-typical guess.",
    "task": "labelling"
   },
@@ -350,7 +362,7 @@
  ],
  "benchmarks": {
   "schema": 1,
-  "computed": "2026-11-22",
+  "computed": "2026-11-23",
   "thresholds": {
    "status": "measured",
    "unit": "mL/min",
@@ -402,6 +414,11 @@
     },
     {
      "date": "2026-11-21",
+     "VT1": 213,
+     "VT2": 131
+    },
+    {
+     "date": "2026-11-22",
      "VT1": 213,
      "VT2": 131
     }
@@ -1282,6 +1299,24 @@
      "n_train": 0,
      "VT1": 246,
      "VT2": 182
+    },
+    {
+     "date": "2026-11-22",
+     "kind": "Gradient-boosted trees self-trained on real curves from a simulator-taught teacher",
+     "model_kb": 3788,
+     "train_cpu_min": 0.2,
+     "n_train": 0,
+     "VT1": 245,
+     "VT2": 178
+    },
+    {
+     "date": "2026-11-22",
+     "kind": "Gradient-boosted trees self-trained on real curves from a simulator-taught teacher",
+     "model_kb": 3788,
+     "train_cpu_min": 0.2,
+     "n_train": 0,
+     "VT1": 251,
+     "VT2": 176
     }
    ]
   }
