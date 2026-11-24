@@ -7,9 +7,11 @@ import { GradientText } from '@/components/shared/gradient-text'
  * Every step below is what core's training pipeline does today
  * (`docs/pipeline.md`): pretrain on every contributing lab, keep the encoder,
  * retrain the head on one lab's recordings, run the promotion gate, register
- * the model under a name the API and the MCP server accept, and scope keys to
- * it. Cohort codes and the names of the labs that already have one stay out of
- * public copy.
+ * the model under a name the API and the MCP server accept, and serve it to the
+ * client's keys alone: a private model (core v87, `docs/claude/keys-and-web.md`,
+ * "A client's own model") is reached only by the keys that name it, is listed to
+ * no other key, and answers its own keys first when they name no model. Cohort
+ * codes and the names of the labs that already have one stay out of public copy.
  *
  * The gate for a lab model is run against that lab's own labelled tests, so
  * this section does not claim "a cohort it never saw" the way the validation
@@ -34,7 +36,7 @@ const STEPS = [
   },
   {
     k: 'Serve',
-    body: 'A named model, called by name on the API and over MCP, and scoped to your key.',
+    body: 'A named model on the API and over MCP that only your key reaches: no other key can call it or see it. Name no model and it reads your files first.',
   },
 ]
 
