@@ -1,12 +1,24 @@
 {
  "schema": 1,
- "updated": "2026-11-23",
+ "updated": "2026-11-26",
  "counts": {
   "experiments": 7,
   "labs": 12,
   "recordings": 1770
  },
  "findings": [
+  {
+   "id": "2026-11-26-physics-as-starting-point",
+   "date": "2026-11-26",
+   "grade": "robust",
+   "scope": [
+    "Across labs"
+   ],
+   "title": "Starting from what physics says, and learning only the correction, places VT1 better than learning from expert marks alone",
+   "summary": "We asked whether a detector taught only by simulated physiology can help a model trained on expert marks. The model was given the physics answer as its starting point and learned only how far the experts' mark sits from it. On labs it had never seen, it placed VT1 about 10 to 20 mL/min closer to the experts than the same model without the physics, with 400 labelled tests, in three independent samples of labelled tests and simulations; with all labelled tests the gain stayed at about 15 mL/min instead of fading. Physics carries something about VT1 that thousands of expert marks do not teach. Handing the physics answer to the model as one more input helped far less, and adding simulated tests to the training data had not helped at all. On VT2 the same starting point made things worse, so this is a VT1 method. A paired comparison with the current production model is pending.",
+   "method": "Teacher: gradient-boosted trees trained only on simulated tests. Students: the same trees trained on 100, 400 or all real labelled tests, either plain, with the teacher's answer as an input, or learning the expert mark minus the teacher's answer; each lab held out in turn, three random samples of labelled tests and three simulation seeds; criteria fixed in advance, compared test by test with the plain trees trained on the same sample.",
+   "task": "thresholds"
+  },
   {
    "id": "2026-11-23-reviewers-not-physics",
    "date": "2026-11-23",
@@ -362,7 +374,7 @@
  ],
  "benchmarks": {
   "schema": 1,
-  "computed": "2026-11-23",
+  "computed": "2026-11-26",
   "thresholds": {
    "status": "measured",
    "unit": "mL/min",
@@ -419,6 +431,11 @@
     },
     {
      "date": "2026-11-22",
+     "VT1": 213,
+     "VT2": 131
+    },
+    {
+     "date": "2026-11-23",
      "VT1": 213,
      "VT2": 131
     }
@@ -1317,6 +1334,33 @@
      "n_train": 0,
      "VT1": 251,
      "VT2": 176
+    },
+    {
+     "date": "2026-11-23",
+     "kind": "Gradient-boosted trees on a few labels, with a simulator-taught prior",
+     "model_kb": 1279,
+     "train_cpu_min": 0.0,
+     "n_train": 100,
+     "VT1": 261,
+     "VT2": 171
+    },
+    {
+     "date": "2026-11-23",
+     "kind": "Gradient-boosted trees on a few labels, with a simulator-taught prior",
+     "model_kb": 1266,
+     "train_cpu_min": 0.0,
+     "n_train": 100,
+     "VT1": 248,
+     "VT2": 169
+    },
+    {
+     "date": "2026-11-23",
+     "kind": "Gradient-boosted trees on a few labels, with a simulator-taught prior",
+     "model_kb": 1269,
+     "train_cpu_min": 0.0,
+     "n_train": 100,
+     "VT1": 253,
+     "VT2": 172
     }
    ]
   }
