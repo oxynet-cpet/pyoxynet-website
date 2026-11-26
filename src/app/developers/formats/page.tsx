@@ -47,7 +47,8 @@ export default function FormatsPage() {
           <p className="text-sm">
             <strong>Vendor named</strong>: the parser was built on exports from that vendor&apos;s
             software. <strong>Vendor unconfirmed</strong>: the export&apos;s structure is known, its
-            origin is not. <strong>Lab export</strong>: a laboratory&apos;s export profile whose
+            origin is not. <strong>Named by structure</strong>: an export recognised by its layout and
+            read by channel name, whichever software wrote it. <strong>Lab export</strong>: a laboratory&apos;s export profile whose
             metabolimeter the repository does not record. The authenticated{' '}
             <code>GET /v1/formats</code> returns the same ids with the parser&apos;s own labels.
           </p>

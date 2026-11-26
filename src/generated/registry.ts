@@ -47,6 +47,7 @@ export const FORMATS = [
   { id: "generic_table", label: "A table read by its channel names: no known export matched, so each column was identified from its header and checked against the recording's own arithmetic" },
   { id: "oxynet_phase_csv", label: "Oxynet per-subject breath-by-breath CSV with a phase column" },
   { id: "pnoe_csv", label: "PNOE export, semicolon-delimited, clock in seconds" },
+  { id: "prime_units_table", label: "One table opening with V'O2/V'CO2/V'E-notation channel names over a units row, workbook or delimited text, channels read by name in any column order" },
   { id: "sectioned_bxb", label: "Tab-delimited text, stacked named tables (5s AVERAGED / BP / BREATH x BREATH), V'E-notation channels, gases in kPa - vendor unconfirmed" },
   { id: "vintus", label: "Vyntus/Vyaire export, Italian headers ('Polso O2') - vendor unconfirmed" },
   { id: "vyiare", label: "Tab-delimited .txt with a Height/Weight/Gender banner - vendor unconfirmed" },
@@ -54,7 +55,7 @@ export const FORMATS = [
 ] as const
 
 /** The metabolimeter formats /llms.txt counts: every id but the channel-name reader. */
-export const VENDOR_FORMATS = 23
+export const VENDOR_FORMATS = 24
 
 /** The tools app.oxynet.net/oxynet-mcp serves, in declaration order. */
 export const MCP_TOOLS = [

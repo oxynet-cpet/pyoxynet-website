@@ -8,7 +8,7 @@ export interface FormatRow {
   vendor: string
   description: string
   container?: string
-  evidence: 'named' | 'unconfirmed' | 'lab' | 'oxynet' | 'reader'
+  evidence: 'named' | 'unconfirmed' | 'structure' | 'lab' | 'oxynet' | 'reader'
   evidenceLabel: string
   note?: string
 }
@@ -16,6 +16,7 @@ export interface FormatRow {
 const EVIDENCE_CLASS: Record<FormatRow['evidence'], string> = {
   named: 'text-accent border-accent/35 bg-accent/10',
   unconfirmed: 'text-warn border-warn/40 bg-warn/10',
+  structure: 'text-ink-body border-hairline bg-surface',
   lab: 'text-ink-body border-hairline bg-surface',
   oxynet: 'text-sky-500 border-sky-500/40 bg-sky-500/10',
   reader: 'text-sky-500 border-sky-500/40 bg-sky-500/10',
