@@ -20,7 +20,7 @@ export const PARTS = [
       { id: '1.1', title: 'The mission', page: 5 },
       { id: '1.2', title: 'What Oxynet does today', page: 6 },
       { id: '1.3', title: 'Where it sits, and what it is not', page: 7 },
-      { id: '1.4', title: 'Built for the AI era', page: 8 },
+      { id: '1.4', title: 'One engine, three doors', page: 8 },
       { id: '1.5', title: 'Research, development, deployment', page: 9 },
       { id: '1.6', title: 'Why build on Oxynet', page: 10 },
     ],

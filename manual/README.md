@@ -1,6 +1,6 @@
 # The Oxynet manual
 
-A 31-page A4 PDF describing the Oxynet engine, written to be read end to end by
+A 32-page A4 PDF describing the Oxynet engine, written to be read end to end by
 someone deciding whether to build on it, fund it, or run their laboratory's
 tests through it. It is published at `/manual` on the site and is meant to be
 forwarded.
@@ -16,8 +16,7 @@ Output lands in `public/manual/`:
 
 | File | What it is |
 |---|---|
-| `oxynet-manual-v<VERSION>.pdf` | the edition, citable, never overwritten by a later version |
-| `oxynet-manual.pdf` | a copy of the current edition, what `/manual` rewrites to |
+| `oxynet-manual.pdf` | the current edition, overwritten by each build, what `/manual` rewrites to. The version is on the cover and in every folio, so a forwarded copy can be identified; earlier editions are in git history |
 
 **Revising it is a defined process.** One round of review produces one version.
 See [REVISING.md](REVISING.md) before starting a round, and follow its checklist
@@ -74,9 +73,7 @@ The site's rules apply here in full, and three matter most:
 
 The full process is [REVISING.md](REVISING.md). In short: bump `VERSION` and
 `DATE` in `config.mjs`, add one `CHANGELOG` entry for the round,
-`npm run manual`, and commit both the new versioned PDF and the refreshed
-`oxynet-manual.pdf`. Leave previous versioned files in place: links to them are
-already in the wild.
+`npm run manual`, and commit the refreshed `oxynet-manual.pdf`.
 
 `/manual` always resolves to the current edition, so a link shared today keeps
 working. The rewrite is in `next.config.mjs`.
@@ -108,11 +105,11 @@ correct data is all they need.
   resting span the engine excluded, which it does report, but the full
   rest / warm-up / exercise / recovery annotation is not on the MCP surface.
   Draw the bands when the API returns them.
-- **Two paths, two answers, both printed.** `analyze_vt` (upload, parsed and
-  conditioned) puts the thresholds at 619 and 763 s; `predict_cpet` (raw
-  records) puts them at 613 and 768 s. Same model and weights, different
-  conditioning. Section 2.3 states both rather than reconciling them. If the
-  conditioning is ever unified, refresh both data files together.
+- **Two answers, both printed.** With no model named, `analyze_vt` answers
+  with the committee (600 and 761 s on the reference test since v86);
+  `predict_cpet` runs gandalf alone on the raw records (613 and 768 s).
+  Section 2.3 states both. When either changes, refresh both data files
+  together.
 - **Menlo appears in the PDF font table.** A handful of glyphs (`≤ ≥ →`) are
   missing from Geist Mono and fall back. Cosmetically fine, off-brand in
   principle. Fix by drawing those as SVG or substituting characters Geist has.

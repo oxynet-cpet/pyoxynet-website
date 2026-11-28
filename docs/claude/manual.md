@@ -4,7 +4,7 @@ Moved verbatim from CLAUDE.md on 2026-11-23, which now keeps a briefing and poin
 
 ## The manual
 
-`manual/` builds a 31-page A4 PDF describing the engine, published at `/manual`
+`manual/` builds a 32-page A4 PDF describing the engine, published at `/manual`
 and linked from the navbar and the footer. It is a separate pipeline from the
 site: plain ES modules producing HTML strings, printed by the Chrome already on
 the machine, so there is no bundled browser to download.

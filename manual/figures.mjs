@@ -393,7 +393,7 @@ export function figLoop({ W = 670 } = {}) {
   const H = 218
   const NODES = [
     ['Cohort', 'a laboratory\ncontributes tests'],
-    ['Canonicalise', '21 formats into\none representation'],
+    ['Canonicalise', `${CORPUS.formats} formats into\none representation`],
     ['Label', 'experts mark\nthe thresholds'],
     ['Train', 'a model per\ncohort and family'],
     ['Evaluate', 'held-out cohort,\nboth axes'],
@@ -878,7 +878,7 @@ export function figLifecycle({ W = 670 } = {}) {
     defs +
       stage(0, '01', 'Research', ['Cohorts and expert labels', 'Model training and evaluation', 'Manuscript and peer review']) +
       stage(1, '02', 'Development', ['Gate, then promotion', 'Versioned, pinned models', 'Shipped to production']) +
-      stage(2, '03', 'Deployment', ['API, MCP, Python package', 'Cloud, local or embedded', 'A product people use']) +
+      stage(2, '03', 'Deployment', ['API, MCP, Desktop, pyoxynet', 'Hosted or local', 'A product people use']) +
       back)
 }
 
@@ -946,8 +946,7 @@ export function figProbabilities({ W = 670 } = {}) {
 /**
  * How a recording becomes an interpretation: signal, tensor, model, meaning.
  * The point of the last panel is that the interpretation is not the opinion of
- * one algorithm. It carries the judgment of every expert who ever labelled a
- * test in the corpus.
+ * one algorithm. It is trained on thousands of expert-labelled tests.
  */
 export function figCollective({ OUTER = 670, PAD = 16 } = {}) {
   const W = OUTER - PAD * 2
@@ -1020,7 +1019,7 @@ export function figCollective({ OUTER = 670, PAD = 16 } = {}) {
     fan +
     `<circle cx="${fmt(mx)}" cy="${fmt(my)}" r="20" fill="#0d0d0d" stroke="#00dc82" stroke-width="1.4"/>` +
     `<text x="${fmt(mx)}" y="${fmt(my + 3.5)}" text-anchor="middle" font-family="${MONO}" font-size="8" fill="#00dc82">model</text>` +
-    `<text x="${fmt(mx)}" y="${Y + ph - 6}" text-anchor="middle" font-family="${MONO}" font-size="6.5" fill="#6b6b6b">every expert who labelled a test</text>`
+    `<text x="${fmt(mx)}" y="${Y + ph - 6}" text-anchor="middle" font-family="${MONO}" font-size="6.5" fill="#6b6b6b">expert-labelled tests</text>`
 
   // 4 — the interpretation
   const ix = 3 * (pw + gap)
@@ -1044,7 +1043,7 @@ export function figCollective({ OUTER = 670, PAD = 16 } = {}) {
   }
 
   return `<div style="background:#0d0d0d;border-radius:12px;padding:14px ${PAD}px 10px">
-  ${svg(W, H, 'A recording becomes a tensor, the tensor goes to a model carrying the judgment of every expert who labelled a test, and what comes back is an interpretation',
+  ${svg(W, H, 'A recording becomes a tensor, the tensor goes to a model trained on thousands of expert-labelled tests, and what comes back is an interpretation',
     defs +
       frame(0, 'YOUR RECORDING') + signal +
       arrow(0, 'encode') +

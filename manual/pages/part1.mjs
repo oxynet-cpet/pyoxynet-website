@@ -44,8 +44,7 @@ export function mission() {
         <p style="font-family:${MONO};font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:${ACCENT_TEXT};margin:0 0 7px">${h}</p>
         <p style="font-size:12.5px;line-height:1.55;color:${L.body};margin:0">${b}</p>
       </div>`).join('')}
-    </div>
-    <p style="font-size:14.5px;line-height:1.6;color:${L.subtle};margin:16px 0 0;max-width:620px">The mission is to make that content readable by any system that needs it, consistently, wherever and on whatever it was recorded.</p>`
+    </div>`
 
   return page({ id: 'p5', body: rh('1.1 The mission') + wide(main) + folio('5') })
 }
@@ -74,7 +73,7 @@ export function today() {
   const main = `
     ${eyebrow(`Part One ${SEP} 1.2`)}
     ${h1('What Oxynet does today', 'margin-bottom:18px')}
-    ${lead('Everything below answers on the live API now, and the note says what is behind each one.')}
+    ${lead('Every Production and Available row can be used today. Research rows are marked as such, and the note says what is behind each one.')}
     <table style="width:100%;border-collapse:collapse">
       <tr>${th('Capability')}${th('Status')}${th('Note')}</tr>
       ${row('VT1 and VT2 detection', 'production', 'Trees and networks combined. V̇O₂, V̇CO₂ and V̇E suffice')}
@@ -87,10 +86,10 @@ export function today() {
       ${row('MCP endpoint', 'available', 'Native connector for any MCP client')}
       ${row('OpenAPI 3.0 schema', 'available', 'Client generation, agent actions, integration platforms')}
       ${row('Browser application', 'available', `${extlink(LINKS.app)}, for producing results without building`)}
-      ${row('Python package', 'available', 'Open source, local inference')}
+      ${row('Desktop application', 'available', `Oxynet Desktop, offline on one computer, one licence per computer. Preview, see ${xref('3.5')}`)}
+      ${row('Python package', 'available', 'pyoxynet, open source: the research models from the papers, run locally')}
       ${row('Oscillation analysis', 'research', 'Continuous wavelet detector. One cohort, transportability untested')}
       ${row('Self-supervised pretraining', 'research', 'Pretraining on unlabelled recordings. In no promoted model')}
-      ${row('Local and embedded deployment', 'available', `Discussed in ${xref('3.5')}`)}
     </table>`
 
   return page({ id: 'p6', body: rh('1.2 What Oxynet does today') + wide(main) + folio('6') })
@@ -138,10 +137,10 @@ export function aiEra() {
 
   const main = `
     ${eyebrow(`Part One ${SEP} 1.4`)}
-    ${h1('Built for the AI era', 'margin-bottom:14px')}
-    <p style="font-size:17px;line-height:1.5;color:${L.strong};font-weight:500;margin:0 0 18px;max-width:620px">Agents and human operators, in the cloud, on a local network and on the device alike. One engine, reached whichever way the caller works.</p>
+    ${h1('One engine, three doors', 'margin-bottom:14px')}
+    <p style="font-size:17px;line-height:1.5;color:${L.strong};font-weight:500;margin:0 0 18px;max-width:620px">A person in the browser, a product over REST and an AI agent over MCP all reach the same engine, hosted or inside the institution.</p>
     ${figCollective()}
-    ${caption('The recording is encoded as tensors, not read as columns. What comes back carries the judgment of every expert who ever labelled a test in the corpus. The result is reproducible: the same recording, on the same model version, returns the same answer next year and in another country.', 'max-width:620px')}
+    ${caption(`Breath by breath as the cart wrote it, stacked into channels, and read by models trained on ${CORPUS.tests}. With no model named, a committee of networks and gradient-boosted trees answers. The same recording on the same model version returns the same answer, and every response names the version.`, 'max-width:620px')}
     <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:20px">
       ${who('Humans', 'The browser', 'A clinician or a researcher opens a test and reads it. No integration, no build.', false, icons.human)}
       ${who('Software', 'REST and OpenAPI', 'Your product calls the engine and renders the result in your own interface.', false, icons.software)}
@@ -149,11 +148,11 @@ export function aiEra() {
     </div>
     <div style="margin-top:18px">
       ${where('Cloud', 'The hosted API. Nothing to deploy, models always current.', icons.cloud)}
-      ${where('Local', 'Inside the institution, where recordings must not leave the network.', icons.local)}
-      ${where('Device', 'Small convolutional models that export to on-device runtimes, for interpretation during the test rather than after it.', icons.device)}
+      ${where('Local', 'Oxynet Desktop, on a computer inside the institution, for recordings that must not leave it. In preview.', icons.local)}
+      ${where('Device', 'Not a product yet: the convolutional models are small enough for on-device runtimes, so interpretation during the test can be scoped with a partner.', icons.device)}
     </div>`
 
-  return page({ id: 'p8', body: rh('1.4 Built for the AI era') + wide(main) + folio('8') })
+  return page({ id: 'p8', body: rh('1.4 One engine, three doors') + wide(main) + folio('8') })
 }
 
 // ------------------------------------------------------------------ p.9
@@ -161,10 +160,9 @@ export function lifecycle() {
   const main = `
     ${eyebrow(`Part One ${SEP} 1.5`)}
     ${h1('Research, development, deployment', 'margin-bottom:14px')}
-    ${lead('Oxynet is not a set of algorithms written once. It is a platform whose cycle runs continuously, and the cycle is the asset.')}
+    ${lead('Models are retrained as cohorts arrive, and promoted only when they pass on a cohort they never saw.')}
     ${figLifecycle()}
     <div style="margin-top:20px;padding-top:18px;border-top:1px solid ${L.line}">
-      <p style="font-size:16px;line-height:1.55;color:${L.strong};font-weight:500;margin:0 0 12px;max-width:620px">All three stages are Oxynet. The research is not a credential attached to a product; it is where the physiology comes from, and it is maintained rather than cited.</p>
       <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px">
         ${[
           ['Research', 'Cohorts arrive from laboratories that do this work for its own sake. Experts label them. Models are trained and evaluated, and what is learned is written up and put through peer review, which is the part of the process we do not control.'],
@@ -182,7 +180,7 @@ export function lifecycle() {
       ${[
         [`${CORPUS.papers} peer-reviewed papers`, 'on the methods and their evaluation, the first in 2019 and the most recent in 2026.'],
         ['Four continents', 'Cohorts contributed by laboratories in Europe, North and South America and Oceania.'],
-        ['In production today', 'Every capability marked Production on page 6 is answering on a live endpoint.'],
+        ['A gate before production', `Four criteria on a cohort the model never saw, set out in ${xref('2.3')}.`],
       ].map(([h, b]) => `
       <div>
         <p style="font-size:15.5px;font-weight:600;color:${L.strong};margin:0 0 3px">${h}</p>
@@ -209,7 +207,7 @@ export function whyBuildOnIt() {
     ${who('For device manufacturers', 'Computational interpretation, without building a physiology stack',
       'Add advanced interpretation to the product you already ship, with no change to acquisition hardware and no physiology team to hire. The numbers stay comparable across an installed base that spans a dozen markets.')}
     ${who('For clinical software', 'Raw exports become structured, reproducible outputs',
-      'Turn whatever the cart wrote into the same shape every time, in your own interface and your own report. One integration covers twenty-one vendor formats.')}
+      'Turn whatever the cart wrote into the same shape every time, in your own interface and your own report. One integration covers ' + CORPUS.formats + ' vendor formats.')}
     ${who('For laboratories and researchers', 'Heterogeneous data, processed consistently',
       'Pool cohorts across devices, protocols and years without pooling the readers with them. A method section a reviewer can reproduce, and a result that does not shift when the staff do.')}
     ${who('For AI systems', 'Physiological computation an agent can call',

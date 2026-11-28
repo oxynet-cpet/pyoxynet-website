@@ -64,14 +64,14 @@ export function technology() {
       'Pretraining on unlabelled recordings before fine-tuning on the labelled ones. The corpus is far larger than its labelled subset, so this is where the next gain is expected. It is in no promoted model today and nothing here rests on it.')}`
 
   const rail =
-    railBlock('accent', 'Built for the agentic era',
-      rp('CPET interpretation has mostly lived inside desktop software. A general-purpose assistant given a test today will tend to estimate a threshold from the numbers in its context.') +
-      rp(`Through MCP it calls a model that was evaluated against expert labelling instead, and reports what came back, refusals included. See ${xref('3.4')}.`, true)) +
+    railBlock('accent', 'Which method answered',
+      rp('With no model named, the response names the method chosen, the reason, and the evidence the choice rests on.') +
+      rp('A key reaches only the models it holds. A committee member it cannot name is listed with the reason it was withheld.', true)) +
     railBlock('surface', 'Named, versioned, pinned',
       rp('Models carry names rather than architecture strings. Same name at a new version means the same cohort, improved; a new name means a different cohort or family.') +
       rp('The manifest wins: the version pinned server-side is served whatever a client asks for, and the response says which one answered.', true)) +
     railBlock('warn', 'Deterministic by design',
-      rp('The same recording returns the same numbers, on the same model version, indefinitely. There is no sampling, no temperature, and no run-to-run variation.', true))
+      rp('The same recording returns the same numbers on the same model version. There is no sampling, no temperature and no run-to-run variation, and when the served version changes the response names the new one.', true))
 
   return page({ id: 'p12', body: rh('2.1 The technology') + grid(main, rail) + folio('12') })
 }
@@ -123,9 +123,9 @@ export function qualityRight() {
     <div style="margin-top:20px;padding-top:16px;border-top:1px solid ${L.line}">
       <h3>Phase recognition, and the error it carries</h3>
       <p style="font-size:14px;line-height:1.6;margin-bottom:10px">A recording is not all exercise. It contains rest, a warm-up, the test and a recovery, and most measurements are meaningless taken across the wrong one. The engine annotates the phases rather than cropping to them, so a consumer can see what was excluded.</p>
-      <p style="font-size:14px;line-height:1.6;margin:0">The boundaries are estimated and the estimate carries a mean error of about thirty-four seconds. That number is published rather than hidden, and it propagates: peak oxygen uptake is taken over the whole record instead of the detected exercise phase, because the peak sits at the boundary where that error bites.</p>
+      <p style="font-size:14px;line-height:1.6;margin:0">The boundaries are estimated, with a mean error of about thirty-four seconds. That is why peak oxygen uptake is taken over the whole record instead of the detected exercise phase: the peak sits at the boundary, where the error bites.</p>
     </div>
-    <div style="margin-top:14px">${callout(`These describe the recording, not the patient. A file can fail every check and come from a healthy subject. <b style="color:${L.strong}">An absent check is not a passed check:</b> <span class="mono" style="font-size:11.5px">n_checks</span> reports how many were runnable.`)}</div>
+    <div style="margin-top:14px">${callout(`A file can fail every check and come from a healthy subject. <b style="color:${L.strong}">An absent check is not a passed check:</b> <span class="mono" style="font-size:11.5px">n_checks</span> reports how many were runnable.`)}</div>
 `
 
   return page({ id: 'p14', body: rh('2.2 Signal quality') + wide(main) + folio('14') })
@@ -198,7 +198,7 @@ export function thresholdsRight() {
       <h3>A threshold that is not there</h3>
       <p style="font-size:14px;line-height:1.6;margin:0">In a symptom-limited clinical cohort a subject may stop before a threshold is crossed, and a model constrained to return two numbers will place them somewhere. The current generation answers the presence question separately from the location question. In a development cohort of 103 clinical tests, 22 had no threshold at all; reporting them as located would have been the more confident output and the wrong one.</p>
     </div>
-    <div style="margin-top:14px">${callout(`<b style="color:${L.strong}">No result carries a confidence score.</b> Nothing in Oxynet is calibrated against clinical outcomes, so a percentage would be a number without a meaning. Each answer is marked <span class="mono" style="font-size:11.5px">low</span> or <span class="mono" style="font-size:11.5px">normal</span> by stated rules instead, and <span class="mono" style="font-size:11.5px">quality</span> describes the recording.`)}</div>
+    <div style="margin-top:14px">${callout(`<b style="color:${L.strong}">No result carries a confidence percentage.</b> Nothing in Oxynet is calibrated against clinical outcomes, so a percentage would be a number without a meaning. Each answer is marked <span class="mono" style="font-size:11.5px">low</span> or <span class="mono" style="font-size:11.5px">normal</span> by stated rules instead, and <span class="mono" style="font-size:11.5px">quality</span> describes the recording.`)}</div>
 `
 
   return page({ id: 'p16', body: rh('2.3 Ventilatory thresholds') + wide(main) + folio('16') })
@@ -306,11 +306,11 @@ export function substrateRight() {
     ${code(payload, { size: 11 })}
     <div style="margin-top:18px;padding-top:16px;border-top:1px solid ${L.line}">
       <h3>Two refusals</h3>
-      <p style="font-size:14px;line-height:1.6;margin-bottom:10px">The crossover was not found, and the engine says why: carbohydrate was already the larger fuel at the lowest intensity this protocol reached, so the crossover lies below anything the test covered. That is a fact about the protocol, not a missing value, Returning the lowest measured point as the crossover would report something this test cannot support.</p>
+      <p style="font-size:14px;line-height:1.6;margin-bottom:10px">The crossover was not found, and the engine says why: carbohydrate was already the larger fuel at the lowest intensity this protocol reached, so the crossover lies below anything the test covered. That is a fact about the protocol, not a missing value. Returning the lowest measured point as the crossover would report something this test cannot support.</p>
       <p style="font-size:14px;line-height:1.6;margin:0">Gross efficiency was refused outright. It is mechanical work over metabolic energy and this export carries no work rate. Watts could be back-calculated from oxygen uptake, but only by assuming the efficiency the calculation is meant to measure, so the engine declines instead of returning a circular number.</p>
     </div>
-    <div style="margin-top:14px">${callout(`One more caveat rides in the response and belongs in any report built on it: these windows are clock bins on a ramp, not steady-state stages. Nothing settled, so FATMAX reads high and is not comparable with a value from a graded test. Every window in the response is marked <span class="mono" style="font-size:11.5px">settled: false</span>, and the summary metric reports the same thing as <span class="mono" style="font-size:11.5px">steady_state</span>, so the caveat travels with the number.`)}</div>
-    <p class="cap" style="margin-top:12px">Method: fat and carbohydrate rates from Frayn (1983) and Jeukendrup and Wallis (2005), assuming negligible protein oxidation; energy at 9.75 and 4.18 kcal per gram. FATMAX is the peak of a cubic through the origin fitted after Achten and Jeukendrup, a fitted turning point that carries no confidence.</p>
+    <div style="margin-top:14px">${callout(`One more caveat rides in the response and belongs in any report built on it: these windows are clock bins on a ramp, not steady-state stages. Nothing settled, so FATMAX reads high and is not comparable with a value from a graded test. Every window in the response is marked <span class="mono" style="font-size:11.5px">settled: false</span>, and the summary metric reports the same thing as <span class="mono" style="font-size:11.5px">steady_state</span>.`)}</div>
+    <p class="cap" style="margin-top:12px">Method: fat and carbohydrate rates from Frayn (1983) and Jeukendrup and Wallis (2005), assuming negligible protein oxidation; energy at 9.75 and 4.18 kcal per gram. FATMAX is the peak of a cubic through the origin fitted after Achten and Jeukendrup, a fitted turning point that carries no confidence interval.</p>
     `
 
   return page({ id: 'p20', body: rh('2.5 Substrate use and FATMAX') + wide(main) + folio('20') })
