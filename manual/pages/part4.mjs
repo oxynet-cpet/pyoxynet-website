@@ -17,7 +17,7 @@ export function whatItIsNot() {
   const NOT = [
     ['a medical device', 'Research software. No CE mark, no FDA clearance, not registered as software as a medical device in any jurisdiction, and not to be the basis of a diagnosis or a treatment decision.'],
     ['a diagnosis', 'The engine returns physiological measurements. Interpreting them for a patient is the clinician’s act, and the clinician remains the responsible party.'],
-    ['calibrated against outcomes', 'No output carries a confidence score, because there is nothing to calibrate one against; an answer is marked low or normal by stated rules instead. Agreement with expert labelling is what has been measured, and it is not the same claim.'],
+    ['calibrated against outcomes', 'No output carries a confidence percentage, because there is nothing to calibrate one against; an answer is marked low or normal by stated rules instead. Agreement with expert labelling is what has been measured, and it is not the same claim.'],
   ]
     .map(
       ([h, b]) => `
@@ -48,7 +48,7 @@ export function whatItIsNot() {
         </div>
         <div>
           ${chip('Available', BLUE, '#1557991a')}
-          <p style="font-size:12.5px;line-height:1.55;color:${L.body};margin:8px 0 0">Shipped and usable. These are the interfaces and the deployment options; the science behind them sits in the first column.</p>
+          <p style="font-size:12.5px;line-height:1.55;color:${L.body};margin:8px 0 0">Shipped and usable. These are the interfaces, the Python package and the desktop application; the science behind them sits in the first column.</p>
         </div>
         <div>
           ${chip('Research', WARN, '#92400e14')}
@@ -106,7 +106,7 @@ export function evidence() {
         rp('Evaluated on a cohort it never saw, on both axes, and all four must clear:') +
         `<p style="font-family:${MONO};font-size:11.5px;line-height:1.72;color:${L.strong};margin:0">V̇O₂ bias ≤ 120 mL/min<br>V̇O₂ correlation ≥ 0.80<br>time bias ≤ 60 s<br>time correlation ≥ 0.80</p>`)}</div>
     </div>
-    <div style="margin-top:14px">${callout(`The publication list is maintained at <b style="color:${L.strong}">${extlink(LINKS.site)}</b>, and the open-source Python package at <b style="color:${L.strong}">${extlink(LINKS.pypi)}</b> covers local inference and synthetic data generation.`)}</div>`
+    <div style="margin-top:14px">${callout(`The publication list is maintained at <b style="color:${L.strong}">${extlink(LINKS.site)}</b>, and the open-source Python package, pyoxynet, at <b style="color:${L.strong}">${extlink(LINKS.pypi)}</b> runs the research models from the papers locally and generates synthetic tests.`)}</div>`
 
   return page({ id: 'p30', body: rh('4.2 The evidence record') + wide(main) + folio('30') })
 }

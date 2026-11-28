@@ -56,7 +56,7 @@ export function colophon() {
       ${row('Engine described', `API ${ENGINE.api} at ${ENGINE.host}, analysis version ${ENGINE.analysisVersion}`)}
       ${row('Authoritative source', `This manual is not regenerated on every release. The API reference at <b style="color:${L.strong}">${extlink(LINKS.apiDocs)}</b> is generated from the running service and wins wherever the two differ.`)}
       ${row('Status', `Research software. Not a medical device, and not a diagnosis. See ${xref('4.1')}.`)}
-      ${row('Contact', `${CONTACT.credited}, <b style="color:${L.strong}">${CONTACT.email}</b>, in a private capacity. See ${xref('4.3')}.`)}
+      ${row('Contact', `${CONTACT.credited}, <b style="color:${L.strong}">${CONTACT.email}</b>, in a private capacity. See ${xref('4.4')}.`)}
     </div>
 
     <div style="margin-top:28px;border-left:2px solid ${WARN};padding-left:16px;max-width:600px">

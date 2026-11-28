@@ -63,9 +63,7 @@ Then, before calling the round done:
 - [ ] House style holds: no em dashes, no confidence or percentage attached to
       a physiological result, oscillation analysis marked beta with its single
       cohort wherever it is named.
-- [ ] Both `public/manual/oxynet-manual-v<new>.pdf` and the refreshed
-      `oxynet-manual.pdf` are committed. The previous versioned file stays:
-      links to it are already in the wild.
+- [ ] The refreshed `public/manual/oxynet-manual.pdf` is committed.
 
 ## What is allowed to change without a round
 
@@ -97,5 +95,6 @@ the box and its period band, is still the API's.
 ## Giving the document to someone else
 
 `/manual` on the site always resolves to the current edition, so send that link
-rather than a file. If a specific edition has to be citable, send
-`/manual/oxynet-manual-v<version>.pdf`, which never changes once published.
+rather than a file. Only the current edition is published: every page carries
+its version in the folio, so a forwarded copy can be identified, and earlier
+editions are in git history.

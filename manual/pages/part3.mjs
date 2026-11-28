@@ -30,7 +30,7 @@ export function rule() {
         <p style="font-size:13.5px;line-height:1.55;color:${L.body};margin:0">${b}</p>
       </div>`).join('')}
     </div>
-    <p style="margin-top:12px;margin-bottom:8px">The lifecycle is four calls, whether the caller is a hospital integration, a script or an assistant.</p>
+    <p style="margin-top:12px;margin-bottom:8px">The lifecycle is the same whether the caller is a hospital integration, a script or an assistant.</p>
     ${code(`get_capabilities()             # what may this key do
 create_upload()                # -> a one-shot upload URL
 $ curl -F "file=@test.csv" URL # -> cpet_id
@@ -64,8 +64,8 @@ export function inputs() {
     ['V̇O₂', 'mL/min', 'req', 'req', 'req', 'The axis thresholds and substrate use are both reported against'],
     ['V̇CO₂', 'mL/min', 'req', 'req', 'req', 'Without it there is no substrate analysis at all'],
     ['V̇E', 'L/min', 'req', 'req', 'pref', 'The channel the oscillation is measured in'],
-    ['PetO₂', 'mmHg', 'req', 'pref', 'no', 'Half of the end-tidal closure check'],
-    ['PetCO₂', 'mmHg', 'req', 'req', 'no', 'Without it an oscillation cannot be corroborated, and the analysis says so instead of guessing'],
+    ['PetO₂', 'mmHg', 'pref', 'pref', 'no', 'Half of the end-tidal closure check'],
+    ['PetCO₂', 'mmHg', 'pref', 'req', 'no', 'Without it an oscillation cannot be corroborated, and the analysis says so instead of guessing'],
     ['Heart rate', 'bpm', 'opt', 'opt', 'opt', 'Needed for O₂ pulse, and for nothing else'],
     ['Breathing frequency', 'min⁻¹', 'opt', 'pref', 'no', 'Separates a rhythm driven by rate from one driven by volume'],
     ['Work rate', 'W', 'opt', 'opt', 'pref', 'Without it there is no gross efficiency, and FATMAX is an intensity rather than a wattage'],
@@ -110,7 +110,7 @@ export function inputs() {
       <div>
         <h3>What is not inferred</h3>
         <p style="font-size:13px;line-height:1.55;color:${L.body};margin:0 0 8px">A channel that was not recorded is reported as absent, with the reason, and nothing is substituted for it.</p>
-        <p style="font-size:13px;line-height:1.55;color:${L.body};margin:0">Work rate is the case that matters commercially: watts can be back-calculated from oxygen uptake only by assuming the efficiency such a calculation is meant to measure. The engine reports the channel as absent instead.</p>
+        <p style="font-size:13px;line-height:1.55;color:${L.body};margin:0">Work rate is the case that matters most. The engine does not back-calculate watts from oxygen uptake, for the reason given in ${xref('2.5')}, and reports the channel as absent instead.</p>
       </div>
     </div>`
 
@@ -154,7 +154,7 @@ export function rest() {
   const rail =
     railBlock('warn', 'Three fields to read carefully',
       rp(`<span class="mono" style="font-size:11.5px">quality</span> describes the INPUT recording. <span class="mono" style="font-size:11.5px">confidence</span> is low or normal by stated rules, never a number.`) +
-      rp(`<span class="mono" style="font-size:11.5px">notes</span> is not decoration. It carries the caveats that must travel with the numbers.`, true)) +
+      rp(`<span class="mono" style="font-size:11.5px">notes</span> carries the plain-language caveats. Pass them on with the numbers.`, true)) +
     railBlock('surface', 'Machine-readable',
       rp(`OpenAPI 3.0 at <b style="color:${L.strong}">${extlink(LINKS.openapi, '/v1/openapi.json')}</b>, importable into a client generator, an agent action or an integration platform.`) +
       rp(`Plain-text integration guide at <b style="color:${L.strong}">${extlink(LINKS.llms, '/llms.txt')}</b>, so an agent reads the documentation in one request.`, true)) +
@@ -175,12 +175,14 @@ export function mcp() {
       `<span style="display:inline-block;font-family:${MONO};font-size:11.5px;color:${L.strong};background:${L.surface};border:1px solid ${L.line};border-radius:5px;padding:3px 9px">${call}</span>
        <span style="display:block;font-family:${MONO};font-size:11px;line-height:1.6;color:${L.subtle};margin-top:6px;white-space:pre-wrap">${result}</span>`)
 
+  const vt = api.vt.findings
+  const r = (x) => Math.round(x)
   const transcript =
     turn('You', L.faint, `<span style="font-size:14.5px;line-height:1.55;color:${L.strong};font-weight:500">Analyse the test in ~/exports/R5-T3.json. Is there oscillatory ventilation?</span>`) +
     tool('create_upload() &nbsp;→&nbsp; $ curl -F "file=@R5-T3.json"',
       'cpet_id: cpet_7485262aa3f7 · canonical_json (detected)\n353 breaths · 969 s · Work: absent, and nothing is inferred from V̇O₂') +
     tool('analyze_vt(cpet_id) · analyze_eov(cpet_id)',
-      'vt  → VT1 619 s / 1605 mL/min · VT2 763 s / 2029 mL/min · quality good\neov → grade "none" · 1 event flagged, not graded · gas quality confirmed') +
+      `vt  → VT1 ${r(vt.vt1_time_s)} s / ${r(vt.vt1_vo2_ml_min)} mL/min · VT2 ${r(vt.vt2_time_s)} s / ${r(vt.vt2_vo2_ml_min)} mL/min · quality ${api.vt.quality}\neov → grade "none" · 1 event flagged, not graded · gas quality confirmed`) +
     turn('Agent', L.faint,
       `<span style="font-size:14.5px;line-height:1.6;color:${L.body}"><b style="color:${L.strong}">Not by the graded definition, and that is not the whole answer.</b>
        Oxynet found one rhythm, from 9.8 to 10.5 minutes: breathing cycled every 21 seconds, swinging 17 % of ventilation,
@@ -202,7 +204,7 @@ export function mcp() {
       rp('The file goes from disk to Oxynet and only the summary comes back. The signals never travel through the conversation, which is what makes a cohort tractable at all.', true)) +
     railBlock('surface', 'One line to connect',
       `<p style="font-family:${MONO};font-size:10px;line-height:1.75;color:${L.strong};margin:0;overflow-wrap:break-word">claude mcp add --transport http oxynet ${LINKS.mcp} --header "X-API-Key: ..."</p>`) +
-    railBlock('warn', 'Why this matters',
+    railBlock('warn', 'What it prevents',
       rp('A general-purpose assistant given a CPET will tend to estimate a threshold from the numbers in its context. Through MCP it calls the model that was evaluated against expert labelling, and reports what came back.', true)) +
     railBlock('surface', 'When an analysis cannot run',
       rp('Where a recording cannot support an analysis the API says so and says why, and the assistant is instructed to report it. It is also instructed never to turn the low or normal confidence category into a number.', true))
@@ -228,7 +230,7 @@ export function deployment() {
   const main = `
     ${eyebrow(`Part Three ${SEP} 3.5`)}
     ${h1('Cloud, local, embedded', 'margin-bottom:12px')}
-    ${stand('The same engine, deployed three ways. Which one fits is a product, regulatory and infrastructure decision more than a technical one, and one to work through together.', 'margin-bottom:18px')}
+    ${stand('Three places the engine can run. Which one fits is a product, regulatory and infrastructure decision more than a technical one, and one to work through together.', 'margin-bottom:18px')}
     <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px">
       ${option('A', 'Hosted API',
         'your software\n   ↓ HTTPS\nOxynet, hosted\n   ↓ JSON\nyour software',
@@ -239,14 +241,14 @@ export function deployment() {
         'your software\n   ↓\nOxynet, on your\ninfrastructure\n   ↓\nyour software',
         'recordings never leave the institution, low latency, suits restricted clinical environments',
         'you own deployment and update management, and models have to be shipped to you',
-        'The Python package already performs local inference. A packaged server deployment is scoped per partner.', icons.local)}
+        'Available now as Oxynet Desktop, in preview: the analyses run offline on one computer, with one licence per computer. A local server for your own software is scoped per partner.', icons.local)}
       ${option('C', 'Embedded',
         'your product\n ┌─────────────┐\n │   Oxynet    │\n │   engine    │\n └─────────────┘',
         'interpretation inside the product, available during the test rather than after it, no network at all',
         'the tightest coupling, and the longest conversation about versioning and support',
         'Models are small convolutional networks and export to on-device runtimes. Real-time and edge deployment is a direction the architecture supports, and a joint scoping exercise, not a shipping product.', icons.device)}
     </div>
-    <div style="margin-top:20px">${callout(`The engine is the same in all three. What changes is where it runs and who operates it, so a partnership can start on the hosted API and move inward without the interpretation changing underneath the customer.`)}</div>`
+    <div style="margin-top:20px">${callout(`Hosted and local run the same code, with models from the same registry, pinned per release and named in every result. What changes is where it runs and who operates it, so a partnership can start on the hosted API and move inward knowing which model answers at each step.`)}</div>`
 
   return page({ id: 'p26', body: rh('3.5 Cloud, local, embedded') + wide(main) + folio('26') })
 }

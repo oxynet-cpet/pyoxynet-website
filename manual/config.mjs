@@ -15,7 +15,7 @@
 import { groupedPublications } from './publications.mjs'
 import { VENDOR_FORMATS } from './generated/registry.mjs'
 
-export const VERSION = '2.3'
+export const VERSION = '2.4'
 export const DATE = 'November 2026'
 
 export const ENGINE = {
@@ -72,6 +72,8 @@ export const OUTPUT = {
 }
 
 export const CHANGELOG = [
+  ['2.4', 'November 2026',
+    'Corrections from a full read. The format count is read from the registry everywhere, where three different counts were printed. The agent transcript on the MCP page gave the old single-model thresholds and now prints the committee answer recorded on page 16. The channel table marked the end-tidal gases as required for thresholds, when oxygen uptake, carbon dioxide output and ventilation are enough. Embedded deployment was listed as available and is now described only as a direction scoped with a partner. The local option names Oxynet Desktop (preview, one licence per computer) instead of the Python package, which runs the research models from the papers. The contact on page 2 pointed at the references. Section 1.4 is renamed One engine, three doors, and repeated passages were cut. No recorded API response changed.'],
   ['2.3', 'November 2026',
     'The thresholds were re-recorded on v86: with no model named the API now answers with a committee of networks and gradient-boosted trees, so VT1 and VT2 moved, and the comparison with the stored labels is computed from the recorded responses rather than typed. Every result now carries confidence as a category (low or normal with the stated rule), never a number, and the substrate answer on the reference test comes back low because FATMAX sits at the lowest intensity measured. The envelope, the refusals and assess are described as v86 serves them. Oscillation, substrate and metrics were rechecked on v86 and stand as taken.'],
   ['2.2.1', 'November 2026',
