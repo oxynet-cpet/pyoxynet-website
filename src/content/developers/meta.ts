@@ -77,4 +77,5 @@ export const MAILTO = {
   ),
   partnership: mailto('Oxynet partnership enquiry'),
   local: mailto('Oxynet local or embedded deployment'),
+  desktop: mailto('Oxynet Desktop licence', 'Name and lab:\nWindows or Mac:\n'),
 } as const

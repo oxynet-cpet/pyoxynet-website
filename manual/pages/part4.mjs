@@ -118,7 +118,7 @@ export function references() {
   const { peer, preprint, other } = groupedPublications()
 
   const entry = (p, i) => `
-    <div style="display:grid;grid-template-columns:22px 1fr;gap:14px;padding:9px 0;border-top:1px solid ${L.line}">
+    <div style="display:grid;grid-template-columns:22px 1fr;gap:14px;padding:7px 0;border-top:1px solid ${L.line}">
       <span style="font-family:${MONO};font-size:10px;color:${L.faint};padding-top:3px">${String(i + 1).padStart(2, '0')}</span>
       <span>
         <span style="display:block;font-size:13.5px;font-weight:600;color:${L.strong};line-height:1.4">${p.title}</span>

@@ -30,7 +30,7 @@ const MATURITY = [
   {
     state: 'Available',
     tone: 'muted',
-    body: 'Shipped and usable: the API, the MCP endpoint, the schema, the package and the deployment options.',
+    body: 'Shipped and usable: the API, the MCP endpoint, the schema, the package and Oxynet Desktop (preview).',
   },
   {
     state: 'Research',
@@ -42,7 +42,7 @@ const MATURITY = [
 const NOT = [
   'Not a medical device. No CE mark, no FDA clearance, and not registered as software as a medical device in any jurisdiction.',
   'Not a diagnosis. The engine returns physiological measurements; interpreting them for a patient is the clinician’s act.',
-  'Not calibrated against outcomes. No output carries a confidence score, because there is nothing to calibrate one against. An answer is marked low or normal by stated rules instead.',
+  'Not calibrated against outcomes. No output carries a confidence percentage, because there is nothing to calibrate one against. An answer is marked low or normal by stated rules instead.',
 ]
 
 export function ValidationSection() {

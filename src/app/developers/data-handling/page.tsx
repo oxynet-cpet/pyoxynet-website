@@ -83,8 +83,9 @@ export default function DataHandlingPage() {
         <Prose>
           <p>
             The hosted API sends recordings over HTTPS to app.oxynet.net. For environments where that
-            is not acceptable, the same engine can be deployed on the partner&apos;s infrastructure
-            or embedded in a product. That is scoped with each partner, not a self-service option:
+            is not acceptable, Oxynet Desktop runs the analyses offline on one computer (preview,
+            one licence per computer), and nothing leaves the computer through it. A local server
+            on the partner&apos;s infrastructure, or an embedded build, is scoped with each partner:
             see <Link href="/developers/partners#deployment">deployment options</Link> or{' '}
             <a href={MAILTO.local}>ask about it</a>.
           </p>

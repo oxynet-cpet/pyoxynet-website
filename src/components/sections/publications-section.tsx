@@ -48,7 +48,7 @@ export function PublicationsSection() {
               Research
             </p>
             <h2 className="text-4xl sm:text-5xl font-bold mb-5">
-              Scientific <GradientText>Publications</GradientText>
+              Scientific <GradientText>publications</GradientText>
             </h2>
             <p className="text-ink-body max-w-xl mx-auto text-lg">
               Peer-reviewed research, reviews, and articles behind the Oxynet project.

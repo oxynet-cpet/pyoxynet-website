@@ -16,7 +16,7 @@ export const MATURITY: Record<Maturity, { label: string; meaning: string; classN
   available: {
     label: 'Available',
     meaning:
-      'Shipped and usable. These are the interfaces and the deployment options; the science behind them is Production or Research.',
+      'Shipped and usable. These are the interfaces, the package and the desktop application; the science behind them is Production or Research.',
     // Mid-blue reads on both grounds; the brand blue #155799 is too dark on the dark one.
     className: 'text-sky-500 border-sky-500/40 bg-sky-500/10',
   },

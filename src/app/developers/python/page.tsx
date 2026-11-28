@@ -164,8 +164,9 @@ export default function PythonPage() {
         <CodeBlock code={LOCAL} lang="python" filename="from the pyoxynet README" copy />
         <Prose className="mt-5">
           <p>
-            For partners who need the production engine to run locally rather than through the
-            hosted API, see <Link href="/developers/partners#deployment">local and embedded deployment</Link>.
+            To run the production analyses locally rather than through the hosted API, Oxynet
+            Desktop works offline on one computer (preview, one licence per computer). A local
+            server for partners is under <Link href="/developers/partners#deployment">deployment options</Link>.
           </p>
         </Prose>
       </Section>

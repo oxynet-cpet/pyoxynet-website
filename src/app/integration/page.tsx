@@ -10,7 +10,7 @@ import { VENDOR_FORMATS } from '@/content/facts'
 export const metadata: Metadata = {
   title: 'Integration | Oxynet',
   description:
-    'Bring automated CPET interpretation into the data pipeline. Oxynet processes CPET time-series programmatically and returns structured interpretation outputs for clinical, research, and software systems.',
+    'Bring automated CPET interpretation into the data pipeline: your system posts each export to the Oxynet API as the test completes and stores the structured result beside the record.',
 }
 
 // ── Pipeline diagram primitives ────────────────────────────────────────────
@@ -283,23 +283,23 @@ function IntegrationHero() {
       <div className="relative section-container text-center">
         <SectionWrapper>
           <p className="text-accent text-xs font-mono uppercase tracking-[0.25em] mb-6">
-            Pipeline Integration
+            Pipeline integration
           </p>
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight mb-6 max-w-3xl mx-auto leading-tight">
             Bring automated CPET interpretation{' '}
             <GradientText>into the data pipeline</GradientText>
           </h1>
           <p className="text-ink-body text-lg leading-relaxed max-w-2xl mx-auto mb-6">
-            Oxynet is designed to process CPET time-series programmatically and return structured
-            interpretation outputs. The next step is to move automated interpretation closer to
-            where CPET data are acquired, processed, and used.
+            Today someone exports a test, moves the file and uploads it. In a pipeline integration,
+            your system posts each export to the Oxynet API as the test completes and stores the
+            structured result beside the record.
           </p>
           <p className="text-ink-faint text-sm font-mono tracking-wide mb-8">
-            From exported files to continuous data flows.
+            The export stays. The manual handling goes.
           </p>
           <div className="glass rounded-xl px-6 py-4 border border-accent/20 max-w-lg mx-auto">
             <p className="text-ink-strong text-sm font-medium">
-              No manual CSV or XLS transfer required.
+              No CSV or XLS file moved by hand.
             </p>
             <p className="text-ink-subtle text-xs leading-relaxed mt-1">
               A test is recorded, and the interpretation follows, with nobody deciding one file
@@ -319,16 +319,15 @@ function CurrentWorkflowSection() {
         <SectionWrapper>
           <div className="text-center mb-14">
             <p className="text-accent text-xs font-mono uppercase tracking-[0.2em] mb-4">
-              Current State
+              Today
             </p>
             <h2 className="text-4xl sm:text-5xl font-bold mb-5">
               Today: interpretation often starts{' '}
               <GradientText>after export</GradientText>
             </h2>
             <p className="text-ink-body max-w-xl mx-auto text-lg leading-relaxed">
-              File-based analysis is effective for research, validation, and individual testing.
-              At scale, however, export and manual transfer create an unnecessary boundary between
-              CPET acquisition and automated interpretation.
+              Uploading files by hand works for research, validation and individual tests. At
+              scale, every export moved by hand is a step someone has to remember, test after test.
             </p>
           </div>
         </SectionWrapper>
@@ -337,8 +336,8 @@ function CurrentWorkflowSection() {
           <div className="glass rounded-2xl p-8 sm:p-10 border border-hairline max-w-lg mx-auto">
             <CurrentWorkflowDiagram />
             <p className="text-ink-faint text-xs leading-relaxed mt-8 text-center max-w-xs mx-auto">
-              Oxynet currently enters the workflow after data have been exported and manually
-              handled. That is necessary today, but not architecturally required.
+              In this workflow Oxynet sees the file only after someone has exported and moved it.
+              Nothing in the API requires that step to be manual.
             </p>
           </div>
         </SectionWrapper>
@@ -354,15 +353,14 @@ function IntegratedWorkflowSection() {
         <SectionWrapper>
           <div className="text-center mb-14">
             <p className="text-accent text-xs font-mono uppercase tracking-[0.2em] mb-4">
-              The Goal
+              With integration
             </p>
             <h2 className="text-4xl sm:text-5xl font-bold mb-5">
               Interpretation <GradientText>as part of the pipeline</GradientText>
             </h2>
             <p className="text-ink-body max-w-xl mx-auto text-lg leading-relaxed">
-              Existing acquisition and data-management workflows can remain unchanged. Oxynet can
-              operate as an interpretation layer, receiving CPET time-series programmatically
-              and returning structured outputs for downstream systems.
+              Acquisition and data management stay as they are. Your pipeline posts each export to
+              the API and passes the structured result to whatever reads it downstream.
             </p>
           </div>
         </SectionWrapper>
@@ -377,21 +375,20 @@ function IntegratedWorkflowSection() {
           <div className="grid sm:grid-cols-2 gap-5 max-w-2xl mx-auto">
             <div className="glass rounded-xl p-5 border border-hairline">
               <p className="text-ink-strong font-semibold text-sm mb-2">
-                Designed to integrate, not replace.
+                Nothing upstream changes.
               </p>
               <p className="text-ink-subtle text-xs leading-relaxed">
-                Oxynet does not replace acquisition systems, manufacturer software, or existing
-                clinical workflows. It adds an automated interpretation layer that operates on the
-                same CPET time-series.
+                Acquisition systems, manufacturer software and clinical workflows are untouched.
+                Oxynet reads the same export they already produce.
               </p>
             </div>
             <div className="glass rounded-xl p-5 border border-accent/15">
               <p className="text-ink-strong font-semibold text-sm mb-2">
-                No manual CSV or XLS transfer required.
+                The export, posted by your system.
               </p>
               <p className="text-ink-subtle text-xs leading-relaxed">
-                When integrated at the data-pipeline level, CPET time-series reach Oxynet
-                programmatically, without any intermediate export or manual file handling.
+                The pipeline sends the vendor export unchanged, with no one exporting, renaming or
+                uploading it by hand.
               </p>
             </div>
           </div>
@@ -406,7 +403,7 @@ function DataFlowSection() {
     {
       n: '01',
       label: 'CPET time-series in',
-      body: 'Breath-by-breath or other supported CPET time-series are transferred programmatically from an existing data system to the Oxynet API.',
+      body: 'Your system posts the vendor export, unchanged, to the Oxynet API as the test completes. Breath by breath or interval averaged, both are read.',
     },
     {
       n: '02',
@@ -450,8 +447,8 @@ function DataFlowSection() {
         <SectionWrapper delay={0.3} className="mt-10">
           <div className="glass rounded-2xl p-6 max-w-3xl mx-auto border border-hairline text-center">
             <p className="text-ink-subtle text-sm leading-relaxed">
-              Oxynet is reachable over REST, over MCP for AI assistants, or via the Python package
-              for local research pipelines. The{' '}
+              A pipeline calls Oxynet over REST, and an AI assistant reaches the same engine over
+              MCP. The{' '}
               <a
                 href="https://app.oxynet.net/docs"
                 target="_blank"
@@ -474,20 +471,20 @@ function DataFlowSection() {
 function PartnersSection() {
   const contexts = [
     {
-      label: 'Core Laboratories',
+      label: 'Core laboratories',
       desc: 'Exercise testing centres managing continuous or high-volume CPET data flows.',
     },
     {
-      label: 'Clinical Trial Networks',
+      label: 'Clinical trial networks',
       desc: 'Multicentre studies requiring consistent, automated CPET interpretation across sites.',
     },
     {
-      label: 'Software & Device Partners',
+      label: 'Software and device partners',
       desc: 'CPET software providers and device manufacturers exploring interpretation integration.',
     },
     {
-      label: 'Research Infrastructures',
-      desc: 'Academic and clinical networks evaluating automated interpretation in real-world workflows.',
+      label: 'Research infrastructures',
+      desc: 'Academic and clinical networks testing automated interpretation in their own workflows.',
     },
   ]
 
@@ -504,10 +501,8 @@ function PartnersSection() {
               <GradientText>CPET data pipeline?</GradientText>
             </h2>
             <p className="text-ink-body text-lg leading-relaxed">
-              We are interested in working with organisations that acquire, process, or manage CPET
-              data at scale, including exercise testing core laboratories, clinical trial
-              networks, hospitals, research infrastructures, software providers, and CPET
-              technology partners.
+              If your organisation moves CPET exports from carts into a database, Oxynet can sit in
+              that path.
             </p>
           </div>
         </SectionWrapper>
@@ -527,9 +522,8 @@ function PartnersSection() {
             </div>
 
             <p className="text-ink-subtle text-sm leading-relaxed mb-8 max-w-lg mx-auto text-center">
-              We are particularly interested in prospective integration, continuous data flows,
-              multicentre validation, and evaluating automated interpretation within real-world
-              CPET workflows.
+              We are most interested in prospective and multicentre work, where every test needs to
+              be analysed the same way as it arrives.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">

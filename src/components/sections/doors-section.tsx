@@ -62,10 +62,9 @@ export function DoorsSection() {
                 The test happens. The interpretation follows.
               </h3>
               <p className="text-ink-body text-sm leading-relaxed">
-                The unit of work is not a person uploading a file. A testing service that runs
-                thousands of CPETs a year can have every one of them interpreted as it is recorded:
-                no export, no manual transfer, no decision to make per test. That is the
-                integration Oxynet is built for.
+                A testing service that runs thousands of CPETs a year can have its system post
+                every export to the API as each test completes: no file moved by hand, and no
+                decision to make per test.
               </p>
             </div>
             <div className="glass rounded-2xl p-7 border border-hairline">
@@ -77,8 +76,8 @@ export function DoorsSection() {
               </div>
               <p className="text-ink-body text-sm leading-relaxed">
                 Oxynet runs on top of existing CPET systems. It reads CPET time-series and returns
-                structured outputs over the API or, by arrangement, in a local or embedded
-                deployment, without changes to your data capture hardware, clinical workflow, or
+                structured outputs over the API, or offline on one computer with Oxynet Desktop (in
+                preview), without changes to your data capture hardware, clinical workflow, or
                 reporting interface.
               </p>
             </div>
