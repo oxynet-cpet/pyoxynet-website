@@ -32,7 +32,7 @@ const FAMILIES = [
       'Whether the swing damped, held steady or grew',
     ],
     description:
-      'Not a yes/no verdict. The oscillation is measured and located, so a rhythm that fades during exercise is reported as a different finding from one that emerges late.',
+      'The oscillation is measured and located, not reduced to yes or no, so a rhythm that fades during exercise is a different finding from one that emerges late. Beta: developed on one heart-failure cohort, transportability untested.',
   },
   {
     label: 'Metabolism',
@@ -127,7 +127,7 @@ export function OutputsSection() {
         <SectionWrapper delay={0.35} className="mt-10">
           <div className="glass rounded-2xl p-6 max-w-3xl mx-auto border border-hairline text-center">
             <p className="text-ink-subtle text-sm leading-relaxed">
-              No output carries a confidence score. Nothing here is calibrated against clinical
+              No output carries a confidence percentage. Nothing here is calibrated against clinical
               outcomes, so a percentage would be a number without a meaning: an answer is marked low
               or normal by stated rules instead, with the reason. Where a recording cannot support
               an analysis, Oxynet says so, and says why.

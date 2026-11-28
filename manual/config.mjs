@@ -15,7 +15,7 @@
 import { groupedPublications } from './publications.mjs'
 import { VENDOR_FORMATS } from './generated/registry.mjs'
 
-export const VERSION = '2.4'
+export const VERSION = '2.4.1'
 export const DATE = 'November 2026'
 
 export const ENGINE = {
@@ -72,6 +72,8 @@ export const OUTPUT = {
 }
 
 export const CHANGELOG = [
+  ['2.4.1', 'November 2026',
+    'The references now carry the published title of each paper, looked up from its DOI or PubMed record; the list had shortened labels, which this page printed as titles. No other change.'],
   ['2.4', 'November 2026',
     'Corrections from a full read. The format count is read from the registry everywhere, where three different counts were printed. The agent transcript on the MCP page gave the old single-model thresholds and now prints the committee answer recorded on page 16. The channel table marked the end-tidal gases as required for thresholds, when oxygen uptake, carbon dioxide output and ventilation are enough. Embedded deployment was listed as available and is now described only as a direction scoped with a partner. The local option names Oxynet Desktop (preview, one licence per computer) instead of the Python package, which runs the research models from the papers. The contact on page 2 pointed at the references. Section 1.4 is renamed One engine, three doors, and repeated passages were cut. No recorded API response changed.'],
   ['2.3', 'November 2026',

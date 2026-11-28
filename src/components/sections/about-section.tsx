@@ -17,10 +17,10 @@ export function AboutSection() {
         <SectionWrapper>
           <div className="text-center mb-16">
             <p className="text-accent text-xs font-mono uppercase tracking-[0.2em] mb-4">
-              The Problem &amp; Solution
+              Why a measurement layer
             </p>
             <h2 className="text-4xl sm:text-5xl font-bold mb-5">
-              Standardising <GradientText>CPET Interpretation</GradientText>
+              Standardising <GradientText>CPET interpretation</GradientText>
             </h2>
           </div>
         </SectionWrapper>

@@ -106,8 +106,8 @@ export default function PartnersPage() {
           </Card>
           <Card>
             <div className="flex items-center justify-between mb-3"><h3 className="text-sm font-semibold text-ink-strong">Local engine</h3><ArrangementBadge /></div>
-            <p className="text-sm text-ink-body leading-relaxed mb-2">The engine on your infrastructure. Recordings never leave the institution.</p>
-            <p className="text-xs text-ink-subtle leading-relaxed">You own deployment and updates, and models have to be shipped to you. Scoped per partner.</p>
+            <p className="text-sm text-ink-body leading-relaxed mb-2">Available now as Oxynet Desktop, in preview: the analyses run offline on one computer, one licence per computer. Recordings never leave the institution.</p>
+            <p className="text-xs text-ink-subtle leading-relaxed">A local server for your own software is scoped per partner: you own deployment and updates, and models have to be shipped to you.</p>
           </Card>
           <Card>
             <div className="flex items-center justify-between mb-3"><h3 className="text-sm font-semibold text-ink-strong">Embedded</h3><ArrangementBadge /></div>
@@ -117,8 +117,10 @@ export default function PartnersPage() {
         </div>
         <Prose className="mt-5">
           <p className="text-sm">
-            The engine is the same in all three. A partnership can start on the hosted API and move
-            inward without the interpretation changing underneath the customer.
+            Hosted and local run the same code, with models from the same registry, pinned per
+            release and named in every result. A partnership can start on the hosted API and move
+            inward knowing which model answers at each step. For a Desktop licence,{' '}
+            <a href={MAILTO.desktop}>write with your name and lab</a>.
           </p>
         </Prose>
       </Section>

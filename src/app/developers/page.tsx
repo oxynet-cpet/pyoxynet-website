@@ -35,10 +35,10 @@ const PATHS = [
     status: 'available' as const,
   },
   {
-    label: 'Local / embedded',
+    label: 'Desktop and local',
     href: '/developers/partners#deployment',
-    who: 'Partners needing on-premise processing or product integration.',
-    body: 'The same engine on your infrastructure or in your product. Scoped per partner, not self-service.',
+    who: 'Laboratories and partners whose recordings must not leave the institution.',
+    body: 'Oxynet Desktop runs the analyses offline on one computer, one licence per computer, in preview. A local server or an embedded build is scoped per partner.',
     status: 'arrangement' as const,
   },
 ]
@@ -75,8 +75,7 @@ export default function DevelopersOverview() {
         <div className="grid md:grid-cols-[minmax(0,1fr)_17rem] gap-8 items-start">
           <Prose>
             <p>
-              Oxynet is not an application a laboratory installs, and not a single threshold
-              algorithm. It is the computation underneath: it reads the file the metabolimeter
+              Oxynet is the computation underneath: it reads the file the metabolimeter
               exported ({VENDOR_FORMATS} format ids, detected automatically), measures the
               physiology in it, and hands structured results to whatever sits downstream.
             </p>
@@ -130,7 +129,7 @@ export default function DevelopersOverview() {
         </Prose>
         <div className="grid sm:grid-cols-3 gap-4 mb-8">
           <Card><StatusBadge status="production" /><p className="text-sm text-ink-body mt-3 leading-relaxed">Answering on the live API, with the evaluation that let each model ship stored beside it.</p></Card>
-          <Card><StatusBadge status="available" /><p className="text-sm text-ink-body mt-3 leading-relaxed">Shipped and usable: the interfaces and deployment options.</p></Card>
+          <Card><StatusBadge status="available" /><p className="text-sm text-ink-body mt-3 leading-relaxed">Shipped and usable: the interfaces, the package and Oxynet Desktop (preview).</p></Card>
           <Card><StatusBadge status="research" /><p className="text-sm text-ink-body mt-3 leading-relaxed">Running, and not yet shown to transport to a new population.</p></Card>
         </div>
         <div className="rounded-xl border border-hairline overflow-hidden max-w-3xl">
@@ -155,7 +154,7 @@ export default function DevelopersOverview() {
             <p className="text-sm text-ink-body leading-relaxed">Upload the export unchanged. Converting units yourself is where errors of a thousandfold come from. Every later call names the returned <code className="font-mono text-[12.5px]">cpet_id</code>.</p>
           </Card>
           <Card>
-            <h3 className="text-sm font-semibold text-ink-strong mb-2">No confidence scores</h3>
+            <h3 className="text-sm font-semibold text-ink-strong mb-2">No confidence percentages</h3>
             <p className="text-sm text-ink-body leading-relaxed">Nothing is calibrated against clinical outcomes, so no number says how sure an answer is. <code className="font-mono text-[12.5px]">confidence</code> is a category, low or normal, set by stated rules; <code className="font-mono text-[12.5px]">quality</code> describes the recording.</p>
           </Card>
           <Card>

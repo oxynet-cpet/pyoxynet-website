@@ -11,16 +11,16 @@ import { CODE_EXAMPLES } from '@/content/code-examples'
 const MODELS = [
   {
     Icon: IconResearch,
-    title: 'Inference Models',
+    title: 'Inference models',
     description:
       'Two frozen models from the papers: the CNN evaluated in Sports Medicine (2026) and an LSTM. They read VO₂, VCO₂, VE, PetO₂ and PetCO₂ and place VT1 and VT2.',
     badge: 'LiteRT',
   },
   {
     Icon: IconSignal,
-    title: 'Generator Model',
+    title: 'Generator model',
     description:
-      'Creates realistic synthetic CPET data for research and validation using a Conditional GAN (CGAN) architecture.',
+      'Synthetic CPET tests for research and validation, from a conditional GAN (CGAN).',
     badge: 'CGAN',
   },
 ]
@@ -58,7 +58,7 @@ export async function PackageSection() {
               Open Source
             </p>
             <h2 className="text-4xl sm:text-5xl font-bold mb-5">
-              The <GradientText>Pyoxynet</GradientText> Package
+              The <GradientText>pyoxynet</GradientText> package
             </h2>
             <p className="text-ink-body max-w-2xl mx-auto text-lg leading-relaxed">
               The open research side of Oxynet: the models from the papers, in a package you can
@@ -103,7 +103,7 @@ export async function PackageSection() {
           <div id="usage" className="scroll-mt-24 max-w-4xl mx-auto mb-10">
             <p className="text-ink-body text-sm leading-relaxed mb-5">
               Python <strong className="text-ink-strong">3.10 to 3.14</strong> on Windows, Linux
-              and macOS (Apple silicon). Pyoxynet puts second-by-second, breath-by-breath and
+              and macOS (Apple silicon). The package puts second-by-second, breath-by-breath and
               averaged data on a one-second grid itself.
             </p>
             <UsageTabs tabs={tabs} />

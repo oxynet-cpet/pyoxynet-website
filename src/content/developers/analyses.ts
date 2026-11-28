@@ -116,12 +116,13 @@ export const CAPABILITIES: Capability[] = [
   },
 ]
 
-/** The interfaces and deployment options. Their status is about availability, not evidence. */
+/** The interfaces, the desktop application and the deployment options. Their status is about availability, not evidence. */
 export const INTERFACES: { name: string; status: Maturity | 'arrangement'; note: string }[] = [
   { name: 'REST API (v1)', status: 'production', note: 'Key per caller, analyses granted per key.' },
   { name: 'MCP endpoint', status: 'available', note: 'Streamable HTTP at /oxynet-mcp, for any MCP client.' },
   { name: 'OpenAPI 3.0 schema', status: 'available', note: 'Public, for client generation and agent actions.' },
   { name: 'Web application', status: 'available', note: 'app.oxynet.net, for results without building anything.' },
   { name: 'Python package (pyoxynet)', status: 'available', note: 'Open source, local research inference. Not a client for the API.' },
-  { name: 'Local and embedded deployment', status: 'arrangement', note: 'Scoped per partner. Not a self-service product.' },
+  { name: 'Oxynet Desktop', status: 'available', note: 'Offline on one computer, one licence per computer. Preview; licences on request.' },
+  { name: 'Local server and embedded deployment', status: 'arrangement', note: 'Scoped per partner. Not a self-service product.' },
 ]

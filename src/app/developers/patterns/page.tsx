@@ -46,7 +46,7 @@ const PATTERNS = [
       { label: 'Physiological outputs', accent: true },
       { label: 'Manufacturer software', sub: 'your interface, your report' },
     ],
-    body: 'The manufacturer keeps the interface, the reporting and the customer relationship; Oxynet supplies the physiology and keeps it current. A partnership can start on the hosted API and move inward without the interpretation changing underneath the customer.',
+    body: 'The manufacturer keeps the interface, the reporting and the customer relationship; Oxynet supplies the physiology and keeps it current. A partnership can start on the hosted API and move inward; every result names the model and version that produced it, so a change of deployment is visible in the data.',
   },
   {
     id: 'agent',
@@ -88,7 +88,7 @@ export default function PatternsPage() {
           <p>
             The vendor file goes in unchanged. The <code>cpet_id</code> is the unit of work. Results
             come back in one envelope shape with provenance, input quality and notes. A refusal is
-            kept, not retried into submission. Nothing carries a confidence score: an answer is
+            kept, not retried into submission. Nothing carries a confidence percentage: an answer is
             marked low or normal by stated rules, never given a number.
           </p>
         </Prose>
@@ -97,7 +97,7 @@ export default function PatternsPage() {
       <NextSteps
         links={[
           { href: '/developers/partners', label: 'Partner onboarding', note: 'From one file to production.' },
-          { href: '/integration', label: 'Pipeline integration', note: 'Interpretation at acquisition time, not after export.' },
+          { href: '/integration', label: 'Pipeline integration', note: 'Each export posted by your system as the test completes.' },
         ]}
       />
     </>

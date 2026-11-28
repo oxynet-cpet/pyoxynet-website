@@ -109,7 +109,7 @@ export function WhatComesBack() {
       />
       <Prose className="mt-5">
         <p className="text-sm">
-          No result carries a confidence score: nothing is calibrated against clinical outcomes, so no
+          No result carries a confidence percentage: nothing is calibrated against clinical outcomes, so no
           number says how sure an answer is. Each answer is marked low or normal by stated rules (a
           threshold placed while the subject was at rest is marked low, and the reason given). The
           agreement with expert raters is published. Every analysis and its limits are in the{' '}

@@ -29,7 +29,7 @@ export function CompareDemo() {
       </div>
 
       <div className="max-w-sm space-y-5">
-        <h3 className="text-xl font-semibold text-foreground mb-2">Intensity Domains</h3>
+        <h3 className="text-xl font-semibold text-foreground mb-2">Intensity domains</h3>
         <p className="text-ink-subtle text-sm leading-relaxed mb-6">
           Drag the slider to see raw CPET measurements become standardised intensity domains: LT
           and RCP detected automatically, and every breath classified.
@@ -37,19 +37,19 @@ export function CompareDemo() {
         {[
           {
             color: 'bg-emerald-500',
-            label: 'Moderate Domain',
+            label: 'Moderate domain',
             threshold: 'Below LT',
             description: 'VO₂ reaches steady state within minutes. Blood lactate returns to resting levels. Exercise is fully sustainable.',
           },
           {
             color: 'bg-warn',
-            label: 'Heavy Domain',
+            label: 'Heavy domain',
             threshold: 'LT → RCP',
             description: 'A VO₂ slow component emerges. Lactate rises but stabilises above baseline. Prolonged exercise remains possible.',
           },
           {
             color: 'bg-rose-500',
-            label: 'Severe Domain',
+            label: 'Severe domain',
             threshold: 'Above RCP',
             description: 'Respiratory compensation is engaged. Lactate and VO₂ rise continuously toward VO₂max. Exercise tolerance is time-limited.',
           },
